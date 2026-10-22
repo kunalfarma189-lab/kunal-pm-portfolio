@@ -1,0 +1,13 @@
+# Render Blueprint — creates the web service automatically.
+# Deploy via Render dashboard: New → Blueprint → select this repo.
+services:
+  - type: web
+    name: kunal-pm-portfolio
+    runtime: node
+    plan: free
+    buildCommand: npm ci && npm run build
+    startCommand: npm run start
+    healthCheckPath: /
+    envVars:
+      - key: NODE_VERSION
+        value: "24"

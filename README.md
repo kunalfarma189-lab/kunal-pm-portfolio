@@ -1,36 +1,52 @@
-This is a [Next.js](https://nextjs.org) project bootstrapped with [`create-next-app`](https://nextjs.org/docs/app/api-reference/cli/create-next-app).
+# Kunal Farma — Product Manager Portfolio
 
-## Getting Started
+A single-page portfolio built with Next.js, TypeScript, React, and Tailwind CSS.
 
-First, run the development server:
+Sections: Home, Experience, Case Studies (Amazon, Flipkart, Myntra — **hypothetical case studies, labelled as such on the page**), AI Projects, About, Contact.
+
+## Run it locally
 
 ```bash
-npm run dev
-# or
-yarn dev
-# or
-pnpm dev
-# or
-bun dev
+npm install
+npm run dev        # dev server at http://localhost:3000
 ```
 
-Open [http://localhost:3000](http://localhost:3000) with your browser to see the result.
+Production build check:
 
-You can start editing the page by modifying `app/page.tsx`. The page auto-updates as you edit the file.
+```bash
+npm run build
+npm run start      # serves the production build
+```
 
-This project uses [`next/font`](https://nextjs.org/docs/app/building-your-application/optimizing/fonts) to automatically optimize and load [Geist](https://vercel.com/font), a new font family for Vercel.
+## Editing the content
 
-## Learn More
+Almost everything you'd want to change lives in **`lib/content.ts`** — name, tagline, email, LinkedIn URL, experience entries, case studies, and AI project cards. No other file needs touching for content edits.
 
-To learn more about Next.js, take a look at the following resources:
+Two placeholders to replace before sharing the site publicly (marked `TODO` in `lib/content.ts`):
 
-- [Next.js Documentation](https://nextjs.org/docs) - learn about Next.js features and API.
-- [Learn Next.js](https://nextjs.org/learn) - an interactive Next.js tutorial.
+- `email` — currently `your.email@example.com`
+- `linkedin` — currently a placeholder URL
 
-You can check out [the Next.js GitHub repository](https://github.com/vercel/next.js) - your feedback and contributions are welcome!
+## Deploying to Render
 
-## Deploy on Vercel
+The repo includes a `render.yaml` blueprint. Two ways to deploy:
 
-The easiest way to deploy your Next.js app is to use the [Vercel Platform](https://vercel.com/new?utm_medium=default-template&filter=next.js&utm_source=create-next-app&utm_campaign=create-next-app-readme) from the creators of Next.js.
+**Option A — Blueprint (recommended):**
 
-Check out our [Next.js deployment documentation](https://nextjs.org/docs/app/building-your-application/deploying) for more details.
+1. Push this repo to GitHub (already done if you're reading this on GitHub).
+2. On Render: **New → Blueprint**, select this repository. Render reads `render.yaml` and creates the web service.
+3. After the first deploy, the site is live on a free `onrender.com` URL.
+
+**Option B — Manual:**
+
+1. On Render: **New → Web Service**, connect this repository.
+2. Build command: `npm ci && npm run build`
+3. Start command: `npm run start`
+4. Environment: add `NODE_VERSION` = `24`. Render injects `PORT` automatically.
+
+No database, no environment secrets — the site is fully static content.
+
+## Notes
+
+- The Amazon / Flipkart / Myntra case studies are **hypothetical thinking exercises**, not client work. The badge on each card and the footer disclaimer keep this explicit — please keep them.
+- Deployed on Render: add the live URL here once the first deploy succeeds.
