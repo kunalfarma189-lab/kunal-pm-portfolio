@@ -15,9 +15,15 @@ const geistMono = Geist_Mono({
 });
 
 export const metadata: Metadata = {
-  title: "Kunal Farma — Product Manager (E-commerce & Payments)",
+  title: "Kunal Farma — Product Specialist | Product Management, Analytics & AI",
   description:
-    "Portfolio of Kunal Farma, a product manager focused on e-commerce and payments in India. Hypothetical case studies, AI-assisted projects, and experience.",
+    "Portfolio of Kunal Farma — 4+ years in product management and analytics. PRDs, SQL & GA4, Jira/Agile delivery, and AI-assisted workflows. Hypothetical case studies clearly labelled.",
+  openGraph: {
+    title: "Kunal Farma — Product Specialist",
+    description:
+      "Product management, analytics & AI-assisted delivery. Case studies (hypothetical, clearly labelled), experience, and AI projects.",
+    type: "website",
+  },
 };
 
 export default function RootLayout({ children }: LayoutProps<"/">) {
@@ -26,7 +32,7 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       lang="en"
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
-      <body className="flex min-h-full flex-col bg-white text-slate-900">
+      <body className="flex min-h-full flex-col bg-background text-zinc-200">
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

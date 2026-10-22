@@ -20,12 +20,11 @@ npm run start      # serves the production build
 
 ## Editing the content
 
-Almost everything you'd want to change lives in **`lib/content.ts`** — name, tagline, email, LinkedIn URL, experience entries, case studies, and AI project cards. No other file needs touching for content edits.
+Almost everything you'd want to change lives in **`lib/content.ts`** — name, tagline, email, LinkedIn URL, experience entries, case studies, AI project cards, certifications, and education. No other file needs touching for content edits.
 
-Two placeholders to replace before sharing the site publicly (marked `TODO` in `lib/content.ts`):
+Content is sourced from the master resume — don't add claims that aren't already resume-backed. The Amazon / Flipkart / Myntra case studies are hypothetical independent analyses; keep their labels intact.
 
-- `email` — currently `your.email@example.com`
-- `linkedin` — currently a placeholder URL
+**Live site:** https://kunal-pm-portfolio.onrender.com/ (auto-deploys from `main` via Render)
 
 ## Deploying to Render
 

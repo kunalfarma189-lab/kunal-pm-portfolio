@@ -1,49 +1,62 @@
 "use client";
 
+import Link from "next/link";
 import { useState } from "react";
 import { profile } from "@/lib/content";
 
 const links = [
-  { href: "#home", label: "Home" },
-  { href: "#experience", label: "Experience" },
-  { href: "#case-studies", label: "Case Studies" },
-  { href: "#ai-projects", label: "AI Projects" },
-  { href: "#about", label: "About" },
-  { href: "#contact", label: "Contact" },
+  { href: "/#home", label: "Home" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/case-studies", label: "Case Studies" },
+  { href: "/#ai-projects", label: "AI Projects" },
+  { href: "/#about", label: "About" },
+  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-slate-200 bg-white/80 backdrop-blur">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0c0d10]/80 backdrop-blur">
       <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
-        <a
-          href="#home"
-          className="text-base font-semibold tracking-tight text-slate-900"
+        <Link
+          href="/#home"
+          className="rounded-md text-base font-semibold tracking-tight text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
         >
           {profile.name}
-        </a>
+          <span className="ml-2 hidden text-xs font-medium text-zinc-500 sm:inline">
+            {profile.headline}
+          </span>
+        </Link>
 
         {/* Desktop navigation */}
-        <ul className="hidden items-center gap-7 md:flex">
+        <ul className="hidden items-center gap-6 lg:flex">
           {links.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
-                className="text-sm font-medium text-slate-600 transition-colors hover:text-indigo-600"
+                className="rounded-md text-sm font-medium text-zinc-400 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
           <li>
             <a
-              href="#contact"
-              className="rounded-full bg-indigo-600 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-700"
+              href={profile.resumeUrl}
+              download
+              className="rounded-md text-sm font-medium text-zinc-300 transition-colors hover:text-indigo-300 focus-visible:outline-2 focus-visible:outline-indigo-400"
+            >
+              ↓ Resume
+            </a>
+          </li>
+          <li>
+            <Link
+              href="/#contact"
+              className="rounded-full bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-indigo-400"
             >
               Let&apos;s talk
-            </a>
+            </Link>
           </li>
         </ul>
 
@@ -53,7 +66,7 @@ export default function Navbar() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-slate-700 hover:bg-slate-100 md:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 hover:bg-white/10 lg:hidden"
         >
           <svg
             className="h-5 w-5"
@@ -73,18 +86,28 @@ export default function Navbar() {
 
       {/* Mobile menu panel */}
       {open && (
-        <ul className="border-t border-slate-200 bg-white px-4 pb-4 pt-2 md:hidden">
+        <ul className="border-t border-white/10 bg-[#0c0d10] px-4 pb-4 pt-2 lg:hidden">
           {links.map((link) => (
             <li key={link.href}>
-              <a
+              <Link
                 href={link.href}
                 onClick={() => setOpen(false)}
-                className="block rounded-md px-3 py-2.5 text-sm font-medium text-slate-700 hover:bg-slate-50 hover:text-indigo-600"
+                className="block rounded-md px-3 py-2.5 text-sm font-medium text-zinc-300 hover:bg-white/5 hover:text-white"
               >
                 {link.label}
-              </a>
+              </Link>
             </li>
           ))}
+          <li>
+            <a
+              href={profile.resumeUrl}
+              download
+              onClick={() => setOpen(false)}
+              className="block rounded-md px-3 py-2.5 text-sm font-medium text-indigo-300 hover:bg-white/5"
+            >
+              ↓ Download Resume
+            </a>
+          </li>
         </ul>
       )}
     </header>
