@@ -10,27 +10,23 @@ const links = [
   { href: "/case-studies", label: "Case Studies" },
   { href: "/#ai-projects", label: "AI Projects" },
   { href: "/#about", label: "About" },
-  { href: "/#contact", label: "Contact" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0c0d10]/80 backdrop-blur">
-      <nav className="mx-auto flex h-16 max-w-6xl items-center justify-between px-4 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0d12]/80 backdrop-blur">
+      <nav className="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
         <Link
           href="/#home"
-          className="rounded-md text-base font-semibold tracking-tight text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
+          className="justify-self-start rounded-md text-base font-semibold tracking-tight text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
         >
-          {profile.name}
-          <span className="ml-2 hidden text-xs font-medium text-zinc-500 sm:inline">
-            {profile.headline}
-          </span>
+          Kunal<span className="text-indigo-400">.</span>
         </Link>
 
-        {/* Desktop navigation */}
-        <ul className="hidden items-center gap-6 lg:flex">
+        {/* Desktop navigation — centered */}
+        <ul className="hidden items-center gap-7 lg:flex">
           {links.map((link) => (
             <li key={link.href}>
               <Link
@@ -41,24 +37,16 @@ export default function Navbar() {
               </Link>
             </li>
           ))}
-          <li>
-            <a
-              href={profile.resumeUrl}
-              download
-              className="rounded-md text-sm font-medium text-zinc-300 transition-colors hover:text-indigo-300 focus-visible:outline-2 focus-visible:outline-indigo-400"
-            >
-              ↓ Resume
-            </a>
-          </li>
-          <li>
-            <Link
-              href="/#contact"
-              className="rounded-full bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-indigo-400 hover:shadow-lg hover:shadow-indigo-500/25 focus-visible:outline-2 focus-visible:outline-indigo-400"
-            >
-              Let&apos;s talk
-            </Link>
-          </li>
         </ul>
+
+        <div className="justify-self-end hidden lg:block">
+          <Link
+            href="/#contact"
+            className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0a0d12] transition-all duration-300 hover:scale-[1.03] hover:bg-zinc-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-indigo-400"
+          >
+            Get In Touch →
+          </Link>
+        </div>
 
         {/* Mobile menu button */}
         <button
@@ -93,7 +81,7 @@ export default function Navbar() {
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <ul className="border-t border-white/10 bg-[#0c0d10] px-4 pb-4 pt-2">
+          <ul className="border-t border-white/10 bg-[#0a0d12] px-4 pb-4 pt-2">
             {links.map((link) => (
               <li key={link.href}>
                 <Link
@@ -105,6 +93,15 @@ export default function Navbar() {
                 </Link>
               </li>
             ))}
+            <li>
+              <Link
+                href="/#contact"
+                onClick={() => setOpen(false)}
+                className="block rounded-md px-3 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
+              >
+                Contact
+              </Link>
+            </li>
             <li>
               <a
                 href={profile.resumeUrl}

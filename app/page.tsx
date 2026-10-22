@@ -2,13 +2,239 @@ import Link from "next/link";
 import Reveal from "@/components/Reveal";
 import {
   profile,
-  heroChips,
+  heroBlock,
+  heroStats,
+  journeyCards,
   experience,
   caseStudies,
   aiProjects,
   certifications,
   education,
 } from "@/lib/content";
+
+/* ---------------------------------- icons --------------------------------- */
+
+const icons: Record<string, React.ReactNode> = {
+  person: (
+    <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <circle cx="12" cy="8" r="3.5" strokeLinecap="round" />
+      <path d="M5 20c1.5-3.5 4-5 7-5s5.5 1.5 7 5" strokeLinecap="round" />
+    </svg>
+  ),
+  folder: (
+    <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path d="M4 7a2 2 0 0 1 2-2h4l2 2.5h6a2 2 0 0 1 2 2V17a2 2 0 0 1-2 2H6a2 2 0 0 1-2-2V7Z" strokeLinecap="round" />
+    </svg>
+  ),
+  briefcase: (
+    <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <rect x="4" y="8" width="16" height="11" rx="2" />
+      <path d="M9 8V6.5A1.5 1.5 0 0 1 10.5 5h3A1.5 1.5 0 0 1 15 6.5V8" strokeLinecap="round" />
+    </svg>
+  ),
+  bolt: (
+    <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path d="M13 3 5 13.5h5L10.5 21 19 10.5h-5L13 3Z" strokeLinejoin="round" />
+    </svg>
+  ),
+  doc: (
+    <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path d="M7 3h7l4 4v14a1 1 0 0 1-1 1H7a1 1 0 0 1-1-1V4a1 1 0 0 1 1-1Z" strokeLinejoin="round" />
+      <path d="M14 3v4h4M9.5 12h5M9.5 16h5" strokeLinecap="round" />
+    </svg>
+  ),
+  send: (
+    <svg className="h-[18px] w-[18px]" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={1.8}>
+      <path d="M4 11.5 20 4l-7.5 16-2-6.5L4 11.5Z" strokeLinejoin="round" />
+    </svg>
+  ),
+};
+
+/* ---------------------------------- hero ---------------------------------- */
+
+function HeadlineLine({ line, gradient }: { line: string; gradient?: string }) {
+  if (!gradient || !line.includes(gradient)) {
+    return <span className="block">{line}</span>;
+  }
+  const [before, after] = line.split(gradient);
+  return (
+    <span className="block">
+      {before}
+      <span className="bg-gradient-to-r from-[#A5C8F0] via-[#C6D0F1] to-[#D8CFF5] bg-clip-text text-transparent">
+        {gradient}
+      </span>
+      {after}
+    </span>
+  );
+}
+
+function Portrait() {
+  return (
+    <div className="hero-fade hero-delay-3 relative mx-auto h-52 w-40 sm:h-64 sm:w-52 lg:h-80 lg:w-64">
+      {/* ambient purple glow */}
+      <div
+        aria-hidden
+        className="absolute inset-0 -z-10 scale-125 rounded-full bg-violet-500/25 blur-3xl"
+      />
+      {/* amber orbit arc */}
+      <svg
+        aria-hidden
+        className="absolute -inset-7 h-[calc(100%+3.5rem)] w-[calc(100%+3.5rem)]"
+        viewBox="0 0 100 100"
+        fill="none"
+      >
+        <ellipse
+          cx="50"
+          cy="50"
+          rx="49"
+          ry="49"
+          stroke="url(#amberArc)"
+          strokeWidth="0.5"
+          strokeDasharray="55 252"
+          strokeLinecap="round"
+          transform="rotate(-115 50 50)"
+        />
+        <defs>
+          <linearGradient id="amberArc" x1="0" y1="0" x2="100" y2="100">
+            <stop stopColor="#F59E0B" />
+            <stop offset="1" stopColor="#FCD34D" />
+          </linearGradient>
+        </defs>
+      </svg>
+      {/* Portrait slot — swap the monogram for <Image src="/portrait.jpg" />
+          once a real photo is available (drop the file in public/). */}
+      <div className="flex h-full w-full items-center justify-center rounded-full border border-white/10 bg-gradient-to-b from-[#1a1f2b] to-[#0d1117] shadow-[inset_0_1px_0_rgba(255,255,255,0.06)]">
+        <span className="text-4xl font-bold tracking-tight text-white/75 sm:text-5xl">
+          KF
+        </span>
+      </div>
+    </div>
+  );
+}
+
+function Hero() {
+  return (
+    <section id="home" className="relative scroll-mt-20 overflow-hidden">
+      {/* subtle gradient glows */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -top-32 left-1/3 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-indigo-500/15 blur-3xl"
+      />
+      <div
+        aria-hidden
+        className="pointer-events-none absolute -right-24 top-24 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
+      />
+      <div className="relative mx-auto max-w-6xl px-4 pb-24 pt-16 sm:px-6 sm:pt-24">
+        <div className="grid items-center gap-12 lg:grid-cols-[minmax(0,1fr)_auto] xl:grid-cols-[minmax(0,1fr)_auto_auto]">
+          {/* text block */}
+          <div>
+            <p className="hero-fade hero-delay-1 inline-flex items-center gap-2 rounded-full border border-white/10 bg-white/5 px-3.5 py-1.5 text-xs font-medium text-zinc-300">
+              <span className="pulse-dot h-1.5 w-1.5 rounded-full bg-teal-400" />
+              {heroBlock.badge}
+            </p>
+            <h1 className="hero-fade hero-delay-2 mt-6 text-balance text-5xl font-bold leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-7xl">
+              {heroBlock.headlineLines.map((line, i) => (
+                <HeadlineLine
+                  key={line}
+                  line={line}
+                  gradient={heroBlock.gradientWords[i - 1]}
+                />
+              ))}
+            </h1>
+            <p className="hero-fade hero-delay-4 mt-6 max-w-xl text-pretty text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
+              {heroBlock.subtitle}
+            </p>
+            <div className="hero-fade hero-delay-4 mt-9 flex flex-wrap gap-4">
+              <Link
+                href="/case-studies"
+                className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0a0d12] transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-200 active:scale-[0.98]"
+              >
+                View Case Studies →
+              </Link>
+              <a
+                href={profile.resumeUrl}
+                download
+                className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-zinc-200 transition-all duration-300 hover:scale-[1.02] hover:border-indigo-400/50 hover:text-white active:scale-[0.98]"
+              >
+                ↓ Download Resume
+              </a>
+            </div>
+          </div>
+
+          {/* portrait */}
+          <Portrait />
+
+          {/* stats column */}
+          <div className="hero-fade hero-delay-5 hidden flex-col gap-8 border-l border-white/10 pl-8 xl:flex">
+            {heroStats.map((stat) => (
+              <div key={stat.label}>
+                <p className="bg-gradient-to-r from-[#A5C8F0] to-[#D8CFF5] bg-clip-text text-2xl font-bold text-transparent">
+                  {stat.value}
+                </p>
+                <p className="mt-1 text-xs uppercase tracking-widest text-zinc-500">
+                  {stat.label}
+                </p>
+              </div>
+            ))}
+          </div>
+        </div>
+
+        {/* scroll hint */}
+        <div className="hero-fade hero-delay-6 pointer-events-none absolute bottom-6 left-1/2 hidden -translate-x-1/2 flex-col items-center gap-2 sm:flex">
+          <div className="flex h-9 w-[22px] items-start justify-center rounded-full border border-white/20 p-1.5">
+            <span className="scroll-dot h-1.5 w-1.5 rounded-full bg-zinc-400" />
+          </div>
+          <span className="text-[11px] tracking-wide text-zinc-600">
+            Scroll to explore
+          </span>
+        </div>
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ journey cards ----------------------------- */
+
+function JourneyCards() {
+  return (
+    <section className="mx-auto max-w-6xl px-4 pb-20 sm:px-6">
+      <div className="grid grid-cols-1 gap-4 min-[420px]:grid-cols-2 lg:grid-cols-3 xl:grid-cols-6">
+        {journeyCards.map((card, i) => (
+          <Reveal key={card.n} delay={i * 70} className="h-full">
+            <Link
+              href={card.href}
+              {...("download" in card && card.download ? { download: true } : {})}
+              className="group flex h-full flex-col rounded-xl border border-[#232830] bg-[#10141A] p-5 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/40 hover:shadow-[0_12px_40px_-12px_rgba(99,102,241,0.3)]"
+            >
+              <div className="flex items-center justify-between">
+                <span className="flex h-10 w-10 items-center justify-center rounded-lg border border-white/10 bg-white/5 text-zinc-300 transition-colors duration-300 group-hover:border-indigo-400/40 group-hover:text-indigo-300">
+                  {icons[card.icon]}
+                </span>
+                <span className="font-mono text-xs text-zinc-600">
+                  {card.n}
+                </span>
+              </div>
+              <h3 className="mt-4 text-base font-semibold text-white">
+                {card.title}
+              </h3>
+              <p className="mt-1 text-sm leading-6 text-zinc-500">
+                {card.description}
+              </p>
+              <span
+                aria-hidden
+                className="mt-auto translate-y-1 pt-3 text-indigo-300 opacity-0 transition-all duration-300 group-hover:translate-y-0 group-hover:opacity-100"
+              >
+                →
+              </span>
+            </Link>
+          </Reveal>
+        ))}
+      </div>
+    </section>
+  );
+}
+
+/* ------------------------------ other sections ----------------------------- */
 
 function SectionHeading({
   eyebrow,
@@ -36,64 +262,9 @@ function SectionHeading({
   );
 }
 
-function Hero() {
-  return (
-    <section id="home" className="relative scroll-mt-20 overflow-hidden">
-      {/* subtle gradient glows */}
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -top-32 left-1/2 h-72 w-[42rem] -translate-x-1/2 rounded-full bg-indigo-500/15 blur-3xl"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute -right-24 top-24 h-56 w-56 rounded-full bg-violet-500/10 blur-3xl"
-      />
-      <div className="relative mx-auto max-w-6xl px-4 pb-20 pt-20 sm:px-6 sm:pt-28">
-        <p className="hero-fade hero-delay-1 text-xs font-semibold uppercase tracking-widest text-indigo-400">
-          {profile.headline} · {profile.location}
-        </p>
-        <h1 className="hero-fade hero-delay-2 mt-4 text-balance text-4xl font-bold tracking-tight text-white sm:text-6xl">
-          {profile.name}
-        </h1>
-        <p className="hero-fade hero-delay-2 mt-4 bg-gradient-to-r from-indigo-300 via-violet-300 to-indigo-300 bg-clip-text text-xl font-semibold tracking-tight text-transparent sm:text-2xl">
-          Clear requirements → shipped products → honest metrics.
-        </p>
-        <p className="hero-fade hero-delay-3 mt-6 max-w-2xl text-pretty text-base leading-7 text-zinc-400 sm:text-lg sm:leading-8">
-          {profile.tagline}
-        </p>
-        <div className="hero-fade hero-delay-3 mt-10 flex flex-wrap gap-4">
-          <Link
-            href="/case-studies"
-            className="rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:scale-[1.02] hover:bg-indigo-400 active:scale-[0.98]"
-          >
-            View Case Studies
-          </Link>
-          <a
-            href={profile.resumeUrl}
-            download
-            className="rounded-full border border-white/15 bg-white/5 px-6 py-3 text-sm font-semibold text-zinc-200 transition-all duration-300 hover:scale-[1.02] hover:border-indigo-400/50 hover:text-white active:scale-[0.98]"
-          >
-            ↓ Download Resume
-          </a>
-        </div>
-        <div className="hero-fade hero-delay-4 mt-12 flex flex-wrap gap-2">
-          {heroChips.map((chip) => (
-            <span
-              key={chip}
-              className="rounded-full border border-white/10 bg-white/5 px-3 py-1 text-xs font-medium text-zinc-400 transition-colors duration-300 hover:border-indigo-400/40 hover:text-zinc-200"
-            >
-              {chip}
-            </span>
-          ))}
-        </div>
-      </div>
-    </section>
-  );
-}
-
 function Experience() {
   return (
-    <section id="experience" className="scroll-mt-20 py-20">
+    <section id="experience" className="scroll-mt-20 border-t border-white/5 py-20">
       <div className="mx-auto max-w-6xl px-4 sm:px-6">
         <SectionHeading
           eyebrow="Experience"
@@ -151,7 +322,7 @@ function CaseStudiesPreview() {
             <Reveal key={cs.slug} delay={i * 100} className="h-full">
               <Link
                 href={`/case-studies/${cs.slug}`}
-                className="group flex h-full flex-col rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/50 hover:shadow-[0_12px_40px_-12px_rgba(99,102,241,0.35)]"
+                className="group flex h-full flex-col rounded-2xl border border-[#232830] bg-[#10141A] p-6 transition-all duration-300 hover:-translate-y-1 hover:border-indigo-400/50 hover:shadow-[0_12px_40px_-12px_rgba(99,102,241,0.35)]"
               >
                 <div className="flex items-center justify-between gap-3">
                   <span className="text-base font-bold tracking-tight text-white">
@@ -199,7 +370,7 @@ function AiProjects() {
         <div className="space-y-6">
           {aiProjects.map((project, i) => (
             <Reveal key={project.title} delay={i * 80}>
-              <article className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-all duration-300 hover:border-indigo-400/40 hover:shadow-[0_12px_40px_-16px_rgba(99,102,241,0.3)] sm:p-8">
+              <article className="rounded-2xl border border-[#232830] bg-[#10141A] p-6 transition-all duration-300 hover:border-indigo-400/40 hover:shadow-[0_12px_40px_-16px_rgba(99,102,241,0.3)] sm:p-8">
                 <div className="flex flex-wrap items-center justify-between gap-3">
                   <h3 className="text-lg font-semibold text-white">
                     {project.title}
@@ -282,7 +453,7 @@ function About() {
           </Reveal>
         </div>
         <Reveal delay={120} className="h-fit space-y-6">
-          <aside className="h-fit rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors duration-300 hover:border-indigo-400/30">
+          <aside className="h-fit rounded-2xl border border-[#232830] bg-[#10141A] p-6 transition-colors duration-300 hover:border-indigo-400/30">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
               Quick facts
             </h3>
@@ -309,7 +480,7 @@ function About() {
               ))}
             </ul>
           </aside>
-          <aside className="rounded-2xl border border-white/10 bg-white/[0.03] p-6 transition-colors duration-300 hover:border-indigo-400/30">
+          <aside className="rounded-2xl border border-[#232830] bg-[#10141A] p-6 transition-colors duration-300 hover:border-indigo-400/30">
             <h3 className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
               Certifications
             </h3>
@@ -353,7 +524,7 @@ function Contact() {
         <div className="mt-8 flex flex-wrap justify-center gap-4">
           <a
             href={`mailto:${profile.email}`}
-            className="rounded-full bg-indigo-500 px-6 py-3 text-sm font-semibold text-white shadow-lg shadow-indigo-500/25 transition-all duration-300 hover:scale-[1.02] hover:bg-indigo-400 active:scale-[0.98]"
+            className="rounded-full bg-white px-6 py-3 text-sm font-semibold text-[#0a0d12] transition-all duration-300 hover:scale-[1.02] hover:bg-zinc-200 active:scale-[0.98]"
           >
             Contact Me
           </a>
@@ -382,6 +553,7 @@ export default function Home() {
   return (
     <>
       <Hero />
+      <JourneyCards />
       <Experience />
       <CaseStudiesPreview />
       <AiProjects />

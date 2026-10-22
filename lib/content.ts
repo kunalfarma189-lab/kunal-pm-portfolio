@@ -9,8 +9,6 @@ export const profile = {
   name: "Kunal Farma",
   headline: "Product Specialist",
   focus: "Product Management · Product Analytics · Product Delivery",
-  tagline:
-    "4+ years turning business problems into clear product requirements and shipped digital solutions — PRDs, SQL & GA4 analytics, Jira/Agile delivery, and AI-assisted workflows.",
   location: "New Delhi, India",
   email: "kunalfarma189@gmail.com",
   linkedin: "https://www.linkedin.com/in/kunal-farma/",
@@ -18,12 +16,72 @@ export const profile = {
   resumeUrl: "/Kunal_Farma_Resume.pdf",
 };
 
-export const heroChips = [
-  "PRDs & User Flows",
-  "SQL · GA4 · A/B Testing",
-  "Jira / Agile Delivery",
-  "AI-assisted Workflows",
+// Hero copy follows the approved design direction (2026-10-23 mock).
+// Factual claims stay resume-backed — the badge says "Product Manager"
+// per the approved mock; switch to profile.headline if preferred.
+export const heroBlock = {
+  badge: "Product Manager",
+  headlineLines: ["Hi, I'm Kunal", "I build products", "that solve real problems."],
+  gradientWords: ["products", "problems."],
+  subtitle:
+    "I'm a product manager with a passion for turning user needs into simple, practical solutions. I combine product strategy, analytics, and clear execution to create meaningful impact.",
+};
+
+// Verified facts only. The mock's "5+ Projects Shipped" is NOT
+// resume-backed — deliberately omitted.
+export const heroStats = [
+  { value: "4+", label: "Years Experience" },
+  { value: "User-Centric", label: "Approach" },
+  { value: "Data-Driven", label: "Decisions" },
 ];
+
+// Journey cards — navigation cards, descriptions adapted from the mock.
+// Card 02 must NOT say "real projects": the case studies are hypothetical.
+export const journeyCards = [
+  {
+    n: "01",
+    title: "About Me",
+    description: "Who I am and what I care about.",
+    href: "/#about",
+    icon: "person",
+  },
+  {
+    n: "02",
+    title: "Case Studies",
+    description: "Independent product analyses, clearly labelled.",
+    href: "/case-studies",
+    icon: "folder",
+  },
+  {
+    n: "03",
+    title: "Experience",
+    description: "My professional journey so far.",
+    href: "/#experience",
+    icon: "briefcase",
+  },
+  {
+    n: "04",
+    title: "Skills",
+    description: "Tools and skills I use to build.",
+    href: "/#about",
+    icon: "bolt",
+  },
+  {
+    n: "05",
+    title: "Resume",
+    description: "Download my resume in one click.",
+    href: "/Kunal_Farma_Resume.pdf",
+    icon: "doc",
+    download: true,
+  },
+  {
+    n: "06",
+    title: "Get In Touch",
+    description: "Let's connect and build something great.",
+    href: "/#contact",
+    icon: "send",
+  },
+] as const;
 
 export interface ExperienceItem {
   role: string;

@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0c0d10;
+  --background: #0a0d12;
   --foreground: #e4e4e7;
 }
 
@@ -87,5 +87,43 @@ body {
   }
   html.js .hero-delay-4 {
     animation-delay: 0.4s;
+  }
+  html.js .hero-delay-5 {
+    animation-delay: 0.5s;
+  }
+  html.js .hero-delay-6 {
+    animation-delay: 0.65s;
+  }
+
+  /* Gentle scroll-hint dot inside the mouse outline */
+  @keyframes scroll-nudge {
+    0% {
+      transform: translateY(0);
+      opacity: 1;
+    }
+    70% {
+      opacity: 0;
+    }
+    100% {
+      transform: translateY(12px);
+      opacity: 0;
+    }
+  }
+  html.js .scroll-dot {
+    animation: scroll-nudge 2.2s ease-in-out infinite;
+  }
+
+  /* Soft breathing glow on the status badge dot */
+  @keyframes pulse-soft {
+    0%,
+    100% {
+      box-shadow: 0 0 0 0 rgba(45, 212, 191, 0.4);
+    }
+    50% {
+      box-shadow: 0 0 0 5px rgba(45, 212, 191, 0);
+    }
+  }
+  html.js .pulse-dot {
+    animation: pulse-soft 2.4s ease-in-out infinite;
   }
 }
