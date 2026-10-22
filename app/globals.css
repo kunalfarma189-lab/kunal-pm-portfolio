@@ -26,3 +26,66 @@ body {
   background: rgba(129, 140, 248, 0.35);
   color: #ffffff;
 }
+
+/* ------------------------------------------------------------------
+   Motion system — two safety gates for every animation:
+   1. `html.js` — added by a tiny inline script in layout. Without JS
+      the page renders fully visible; nothing is ever hidden.
+   2. `prefers-reduced-motion` — users who request less motion get
+      instant, fully visible content (see the reduce block below).
+   ------------------------------------------------------------------ */
+
+@media (prefers-reduced-motion: reduce) {
+  html {
+    scroll-behavior: auto;
+  }
+  *,
+  *::before,
+  *::after {
+    animation-duration: 0.01ms !important;
+    animation-iteration-count: 1 !important;
+    transition-duration: 0.01ms !important;
+  }
+}
+
+@media (prefers-reduced-motion: no-preference) {
+  /* Scroll reveal: hidden state applies only when JS is active.
+     IntersectionObserver adds .reveal-visible once in view. */
+  html.js .reveal:not(.reveal-visible) {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  html.js .reveal {
+    transition:
+      opacity 0.6s ease-out,
+      transform 0.6s ease-out;
+  }
+
+  /* Hero entrance on first paint */
+  @keyframes hero-fade-up {
+    from {
+      opacity: 0;
+      transform: translateY(16px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  html.js .hero-fade {
+    opacity: 0;
+    animation: hero-fade-up 0.7s ease-out forwards;
+  }
+  html.js .hero-delay-1 {
+    animation-delay: 0.1s;
+  }
+  html.js .hero-delay-2 {
+    animation-delay: 0.2s;
+  }
+  html.js .hero-delay-3 {
+    animation-delay: 0.3s;
+  }
+  html.js .hero-delay-4 {
+    animation-delay: 0.4s;
+  }
+}

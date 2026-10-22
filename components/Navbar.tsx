@@ -35,7 +35,7 @@ export default function Navbar() {
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="rounded-md text-sm font-medium text-zinc-400 transition-colors hover:text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
+                className="relative rounded-md text-sm font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-0 after:-translate-x-1/2 after:bg-indigo-400 after:transition-all after:duration-300 hover:text-white hover:after:w-full focus-visible:outline-2 focus-visible:outline-indigo-400"
               >
                 {link.label}
               </Link>
@@ -53,7 +53,7 @@ export default function Navbar() {
           <li>
             <Link
               href="/#contact"
-              className="rounded-full bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition-colors hover:bg-indigo-400 focus-visible:outline-2 focus-visible:outline-indigo-400"
+              className="rounded-full bg-indigo-500 px-4 py-2 text-sm font-medium text-white transition-all duration-300 hover:bg-indigo-400 hover:shadow-lg hover:shadow-indigo-500/25 focus-visible:outline-2 focus-visible:outline-indigo-400"
             >
               Let&apos;s talk
             </Link>
@@ -66,10 +66,10 @@ export default function Navbar() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 hover:bg-white/10 lg:hidden"
+          className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:bg-white/10 lg:hidden"
         >
           <svg
-            className="h-5 w-5"
+            className={`h-5 w-5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
             fill="none"
             viewBox="0 0 24 24"
             stroke="currentColor"
@@ -84,32 +84,40 @@ export default function Navbar() {
         </button>
       </nav>
 
-      {/* Mobile menu panel */}
-      {open && (
-        <ul className="border-t border-white/10 bg-[#0c0d10] px-4 pb-4 pt-2 lg:hidden">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
+      {/* Mobile menu panel — height + opacity animation via grid rows;
+          inert keeps closed-menu links out of the a11y tree and tab order */}
+      <div
+        inert={!open}
+        className={`grid overflow-hidden transition-[grid-template-rows,opacity] duration-300 ease-in-out lg:hidden ${
+          open ? "grid-rows-[1fr] opacity-100" : "grid-rows-[0fr] opacity-0"
+        }`}
+      >
+        <div className="min-h-0 overflow-hidden">
+          <ul className="border-t border-white/10 bg-[#0c0d10] px-4 pb-4 pt-2">
+            {links.map((link) => (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  onClick={() => setOpen(false)}
+                  className="block rounded-md px-3 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
+                >
+                  {link.label}
+                </Link>
+              </li>
+            ))}
+            <li>
+              <a
+                href={profile.resumeUrl}
+                download
                 onClick={() => setOpen(false)}
-                className="block rounded-md px-3 py-2.5 text-sm font-medium text-zinc-300 hover:bg-white/5 hover:text-white"
+                className="block rounded-md px-3 py-2.5 text-sm font-medium text-indigo-300 transition-colors hover:bg-white/5"
               >
-                {link.label}
-              </Link>
+                ↓ Download Resume
+              </a>
             </li>
-          ))}
-          <li>
-            <a
-              href={profile.resumeUrl}
-              download
-              onClick={() => setOpen(false)}
-              className="block rounded-md px-3 py-2.5 text-sm font-medium text-indigo-300 hover:bg-white/5"
-            >
-              ↓ Download Resume
-            </a>
-          </li>
-        </ul>
-      )}
+          </ul>
+        </div>
+      </div>
     </header>
   );
 }

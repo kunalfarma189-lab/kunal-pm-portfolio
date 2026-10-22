@@ -33,6 +33,13 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
       className={`${geistSans.variable} ${geistMono.variable} h-full antialiased`}
     >
       <body className="flex min-h-full flex-col bg-background text-zinc-200">
+        {/* Progressive-enhancement marker: without JS, reveal animations
+            never hide content (see globals.css motion gates). */}
+        <script
+          dangerouslySetInnerHTML={{
+            __html: "document.documentElement.classList.add('js')",
+          }}
+        />
         <Navbar />
         <main className="flex-1">{children}</main>
         <Footer />

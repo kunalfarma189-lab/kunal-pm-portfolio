@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import Link from "next/link";
 import { notFound } from "next/navigation";
+import Reveal from "@/components/Reveal";
 import { caseStudies } from "@/lib/content";
 
 export function generateStaticParams() {
@@ -31,15 +32,17 @@ function Section({
   children: React.ReactNode;
 }) {
   return (
-    <section className="border-t border-white/5 py-8 first:border-t-0 first:pt-0">
-      <h2 className="flex items-baseline gap-3 text-lg font-semibold text-white">
-        <span className="font-mono text-sm text-indigo-400">
-          {String(n).padStart(2, "0")}
-        </span>
-        {title}
-      </h2>
-      <div className="mt-4">{children}</div>
-    </section>
+    <Reveal className="border-t border-white/5 py-8 first:border-t-0 first:pt-0">
+      <section>
+        <h2 className="flex items-baseline gap-3 text-lg font-semibold text-white">
+          <span className="font-mono text-sm text-indigo-400">
+            {String(n).padStart(2, "0")}
+          </span>
+          {title}
+        </h2>
+        <div className="mt-4">{children}</div>
+      </section>
+    </Reveal>
   );
 }
 
@@ -70,40 +73,53 @@ export default async function CaseStudyPage({
 
   return (
     <div className="mx-auto max-w-3xl px-4 py-16 sm:px-6 sm:py-20">
-      <Link
-        href="/case-studies"
-        className="text-sm font-medium text-indigo-300 hover:text-indigo-200"
-      >
-        ← All case studies
-      </Link>
+      <Reveal>
+        <Link
+          href="/case-studies"
+          className="inline-flex items-center gap-1.5 text-sm font-medium text-indigo-300 transition-colors hover:text-indigo-200"
+        >
+          <span aria-hidden className="transition-transform duration-300 hover:-translate-x-1">
+            ←
+          </span>{" "}
+          All case studies
+        </Link>
+      </Reveal>
 
-      <div className="mt-8 rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm leading-6 text-amber-200">
-        <strong>Hypothetical case study.</strong> An independent product
-        analysis published as a thinking exercise — I have not worked for{" "}
-        {cs.company}, and no internal company data is used.
-      </div>
+      <Reveal delay={80} className="mt-8">
+        <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm leading-6 text-amber-200">
+          <strong>Hypothetical case study.</strong> An independent product
+          analysis published as a thinking exercise — I have not worked for{" "}
+          {cs.company}, and no internal company data is used.
+        </div>
+      </Reveal>
 
-      <div className="mt-8 flex flex-wrap items-center gap-3">
-        <span className="text-sm font-bold uppercase tracking-widest text-indigo-300">
-          {cs.company}
-        </span>
-        {cs.tags.map((tag) => (
-          <span
-            key={tag}
-            className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-zinc-500"
-          >
-            {tag}
+      <Reveal delay={140} className="mt-8">
+        <div className="flex flex-wrap items-center gap-3">
+          <span className="text-sm font-bold uppercase tracking-widest text-indigo-300">
+            {cs.company}
           </span>
-        ))}
-      </div>
-      <h1 className="mt-3 text-3xl font-bold tracking-tight text-white sm:text-4xl">
-        {cs.title}
-      </h1>
-      <p className="mt-4 text-base leading-7 text-zinc-400">{cs.oneLiner}</p>
+          {cs.tags.map((tag) => (
+            <span
+              key={tag}
+              className="rounded-full border border-white/10 bg-white/5 px-2.5 py-1 text-xs font-medium text-zinc-500 transition-colors duration-300 hover:border-indigo-400/40 hover:text-zinc-300"
+            >
+              {tag}
+            </span>
+          ))}
+        </div>
+        <h1 className="mt-3 text-balance text-3xl font-bold tracking-tight text-white sm:text-4xl">
+          {cs.title}
+        </h1>
+        <p className="mt-4 text-pretty text-base leading-7 text-zinc-400">
+          {cs.oneLiner}
+        </p>
+      </Reveal>
 
       <div className="mt-10">
         <Section n={1} title="Problem statement">
-          <p className="text-sm leading-7 text-zinc-400">{cs.problem}</p>
+          <p className="text-pretty text-sm leading-7 text-zinc-400">
+            {cs.problem}
+          </p>
         </Section>
 
         <Section n={2} title="Target users">
@@ -126,7 +142,7 @@ export default async function CaseStudyPage({
           <div className="flex flex-wrap items-center gap-2">
             {cs.flow.map((step, i) => (
               <span key={step} className="flex items-center gap-2">
-                <span className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-zinc-200">
+                <span className="rounded-lg border border-white/10 bg-white/5 px-3 py-1.5 text-sm text-zinc-200 transition-all duration-300 hover:border-indigo-400/40 hover:bg-white/10">
                   {step}
                 </span>
                 {i < cs.flow.length - 1 && (
@@ -144,7 +160,7 @@ export default async function CaseStudyPage({
             {cs.metrics.map((metric) => (
               <span
                 key={metric}
-                className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-sm text-indigo-300"
+                className="rounded-full border border-indigo-400/20 bg-indigo-500/10 px-3 py-1.5 text-sm text-indigo-300 transition-all duration-300 hover:border-indigo-400/50 hover:bg-indigo-500/20"
               >
                 {metric}
               </span>
@@ -163,10 +179,10 @@ export default async function CaseStudyPage({
         </Section>
       </div>
 
-      <div className="mt-12 border-t border-white/10 pt-8">
+      <Reveal className="mt-12 border-t border-white/10 pt-8">
         <Link
           href={`/case-studies/${next.slug}`}
-          className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition hover:border-indigo-400/40"
+          className="group flex items-center justify-between gap-4 rounded-2xl border border-white/10 bg-white/[0.03] p-5 transition-all duration-300 hover:border-indigo-400/50 hover:shadow-[0_12px_40px_-16px_rgba(99,102,241,0.3)]"
         >
           <div>
             <p className="text-xs font-semibold uppercase tracking-widest text-zinc-500">
@@ -176,11 +192,14 @@ export default async function CaseStudyPage({
               {next.company} — {next.title}
             </p>
           </div>
-          <span className="text-indigo-300 transition group-hover:translate-x-0.5">
+          <span
+            aria-hidden
+            className="text-indigo-300 transition-transform duration-300 group-hover:translate-x-1"
+          >
             →
           </span>
         </Link>
-      </div>
+      </Reveal>
     </div>
   );
 }
