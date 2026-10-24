@@ -17,7 +17,7 @@ export default function Navbar() {
 
   return (
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0d12]/80 backdrop-blur">
-      <nav className="mx-auto grid h-16 max-w-6xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
+      <nav className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
         <Link
           href="/#home"
           className="justify-self-start rounded-md text-base font-semibold tracking-tight text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
