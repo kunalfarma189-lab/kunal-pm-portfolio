@@ -213,11 +213,11 @@ footer{width:var(--col);margin:0 auto;padding:30px 0 48px;color:var(--dim);font-
 @keyframes fade{to{opacity:1}}
 /* hero particles */
 #stars{position:absolute;inset:0;width:100%;height:100%;z-index:0;pointer-events:none}
-/* rotating word */
+/* rotating word — sequential fade: old word hides fully before the next appears (no crossfade overlap on slow devices) */
 .rot{display:inline-grid;vertical-align:bottom;text-align:left}
-.rot>span{grid-area:1/1;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;transform:translateY(60%);transition:opacity .45s,transform .45s;white-space:nowrap}
-.rot>span.on{opacity:1;transform:none}
-.rot>span.off{opacity:0;transform:translateY(-60%)}
+.rot>span{grid-area:1/1;background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));-webkit-background-clip:text;background-clip:text;color:transparent;opacity:0;transition:opacity .35s;white-space:nowrap}
+.rot>span.on{opacity:1}
+.rot>span.off{opacity:0}
 /* portrait: animated edge glow + scan + tilt */
 .portrait{perspective:900px}
 .portrait .ph{box-shadow:none}
@@ -633,12 +633,19 @@ h1 span{background:linear-gradient(90deg,var(--cyan),var(--violet),var(--pink));
     draw();
   })();
 
-  /* ---- rotating headline word ---- */
+  /* ---- rotating headline word — sequential: old fades out fully, then next fades in ---- */
   (function(){
     var r = document.getElementById('rot'); if (!r) return; var ws = r.children, i = 0;
-    if (reduce.matches) return;
-    setInterval(function(){ ws[i].className = 'off'; i = (i+1) % ws.length; ws[i].className = 'on';
-      setTimeout(function(){ for (var k = 0; k < ws.length; k++) if (k !== i) ws[k].className = ''; }, 460); }, 2600);
+    if (reduce.matches || ws.length < 2) return;
+    setInterval(function(){
+      var old = ws[i];
+      old.className = 'off';
+      setTimeout(function(){
+        old.className = '';
+        i = (i + 1) % ws.length;
+        ws[i].className = 'on';
+      }, 380);
+    }, 3000);
   })();
 
   /* ---- portrait tilt on mouse (desktop) ---- */
