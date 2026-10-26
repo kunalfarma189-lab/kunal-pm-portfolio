@@ -6,10 +6,10 @@ import { profile } from "@/lib/content";
 
 // Section ids match app/page.tsx.
 const links = [
-  { href: "/#why", label: "Why me" },
+  { href: "/#how", label: "How I work" },
   { href: "/#case-studies", label: "Case studies" },
   { href: "/#experience", label: "Experience" },
-  { href: "/#skills", label: "Skills" },
+  { href: "/#skills", label: "Toolkit" },
 ];
 
 export default function Navbar() {

@@ -17,22 +17,21 @@ export default function CaseStudiesIndex() {
           Case Studies
         </p>
         <h1 className="mt-2 text-balance text-[38px] font-bold leading-tight tracking-tight text-white sm:text-5xl">
-          How I break product problems down
+          How I solve problems.
         </h1>
         <p className="mt-5 max-w-2xl text-pretty text-lg leading-8 text-zinc-400">
-          Each analysis runs the same structure: problem, users, evidence and
-          assumptions, root causes, solution, flow, metrics, risks, and
-          learnings.
+          Each one follows the same four steps as my work: Discover, Define,
+          Deliver, Measure.
         </p>
       </Reveal>
 
       <Reveal delay={120} className="mt-8 max-w-3xl">
         <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm leading-6 text-amber-200">
-          <strong>Hypothetical case studies.</strong> These are independent
-          product analyses published as thinking exercises — I have not worked
-          for Amazon, Flipkart, or Myntra, and no internal company data is
-          used. (I have managed seller-side catalogs on Amazon and Flipkart at
-          VLE Bazaar; that operational familiarity is the only connection.)
+          <strong>One real, three practice.</strong> The Mahattaart study is my own work.
+          I have not worked at Amazon, Flipkart
+          or Myntra — these are my own thinking exercises, with no inside data.
+          (At VLE Bazaar I managed seller catalogs on Amazon and Flipkart; that
+          is the only link.)
         </div>
       </Reveal>
 
@@ -47,12 +46,18 @@ export default function CaseStudiesIndex() {
                 <span className="text-lg font-bold tracking-tight text-white">
                   {cs.company}
                 </span>
-                <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-300">
-                  Hypothetical
-                </span>
+                {cs.kind === "work" ? (
+                  <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-emerald-200">
+                    Real work
+                  </span>
+                ) : (
+                  <span className="rounded-full border border-amber-400/30 bg-amber-400/10 px-2.5 py-1 text-[11px] font-semibold uppercase tracking-wide text-amber-300">
+                    Practice
+                  </span>
+                )}
               </div>
               <h2 className="mt-4 text-xl font-semibold leading-snug text-white">
-                {cs.title}
+                {cs.title.replace(/-/g, "\u2011")}
               </h2>
               <p className="mt-3 text-pretty text-base leading-7 text-zinc-400">
                 {cs.oneLiner}

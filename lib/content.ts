@@ -19,354 +19,495 @@ export const profile = {
   portrait: "/kunal-farma.jpg",
 };
 
-// HYPOTHETICAL case studies — independent product analyses.
-// I have NOT worked for Amazon, Flipkart, or Myntra. The badge, the
-// index-page note, and the detail-page banner all say so — keep them.
+// HYPOTHETICAL case studies — independent product analyses, written in
+// the same four steps as the homepage: Discover → Define → Deliver →
+// Measure, in plain words. I have NOT worked for Amazon, Flipkart or
+// Myntra; every figure is a public benchmark or a stated guess, never
+// internal data. The badge, the index note and the detail-page banner
+// say so — keep them.
 export interface CaseStudy {
   slug: string;
   company: string;
+  // "work" = something I actually did; "practice" = my own thinking exercise
+  kind: "work" | "practice";
   title: string;
   oneLiner: string;
-  problem: string;
-  targetUsers: string[];
-  evidence: string[];
-  rootCauses: string[];
-  solution: string[];
-  flow: string[];
-  metrics: string[];
-  risks: string[];
-  learnings: string[];
   tags: string[];
+  discover: {
+    problem: string;
+    users: string[];
+    evidence: string[];
+    rootCauses: string[];
+  };
+  define: {
+    goal: string;
+    bets: string[]; // in priority order
+    whyFirst: string; // why bets[0] goes first
+  };
+  deliver: {
+    flow: string[];
+    now: string[]; // first release
+    later: string[]; // follow-ups once the first release has data
+    risks: string[];
+  };
+  measure: {
+    metrics: string[]; // metrics[0] is the primary one
+    experiment: string;
+    learnings: string[];
+  };
 }
 
 export const caseStudies: CaseStudy[] = [
+  // Real work at Mahattaart (2024 — now), written from the problem brief.
+  // Details are kept general and no internal numbers are shared; the
+  // metrics are what the work is measured on, not claimed results.
+  {
+    slug: "mahattaart-custom-wall-decor",
+    company: "Mahattaart",
+    kind: "work",
+    title: "Turning a seven-step custom order into one journey",
+    oneLiner:
+      "Custom wall décor needs a design, a wall size, a material, a price, a consultation and installation. I joined the steps into one flow that sells on its own.",
+    tags: ["Customisation", "Pricing", "Conversion"],
+    discover: {
+      problem:
+        "Buying customised wall décor took seven separate steps: design, material, wall measurement, price, consultation, payment, installation. The steps were not connected, so customers repeated their details, waited for staff, or gave up before ordering. And the website explained too little, so even a simple purchase needed a consultation.",
+      users: [
+        "Homeowners decorating a wall for the first time",
+        "Interior designers ordering for clients",
+        "Staff answering the same basic questions on every enquiry",
+      ],
+      evidence: [
+        "The same details were asked more than once, so enquiry-to-order took long",
+        "Visitors browsed but did not buy — price and process were unclear",
+        "Simple orders still needed a consultation, so staff time went to basic questions",
+      ],
+      rootCauses: [
+        "Each step lived in a different place, so nothing carried over",
+        "No price until a person worked it out",
+        "Product pages showed designs, not how to buy them",
+        "Consultation was the default, even for simple orders",
+      ],
+    },
+    define: {
+      goal: "A customer can go from design to confirmed order on their own — and experts stay for complex, high-value projects.",
+      bets: [
+        "One connected journey: design → wall size → material → price → install or consult → details → pay or get a quote → track",
+        "Instant price from size and material, using rule-based pricing",
+        "Product pages that sell: finished installations, material comparisons, size guidance, delivery estimates",
+        "Clear 'Buy now' and 'Book a consultation' on every product",
+      ],
+      whyFirst:
+        "The connected journey first. Every other fix depends on it — a price calculator or a better product page is wasted if the customer still has to start over at the next step.",
+    },
+    deliver: {
+      flow: ["Discover design", "Enter wall size", "Pick material", "See price", "Install or consult", "Pay or get a quote", "Track order"],
+      now: [
+        "Details carried across every step — entered once",
+        "Rule-based price from material, size and wastage",
+        "Buy now and Book a consultation on product pages",
+      ],
+      later: [
+        "Material and surface comparisons on product pages",
+        "Installation availability and charges by location",
+        "Order tracking with clear next steps",
+      ],
+      risks: [
+        "Complex projects still need a person — automate only the simple ones",
+        "A wrong price formula is worse than no price — check it against real quotes",
+        "More self-service means fewer conversations — keep customer feedback flowing",
+      ],
+    },
+    measure: {
+      metrics: [
+        "Enquiry-to-order conversion",
+        "Journey abandonment",
+        "Time to order confirmation",
+        "Self-service order share",
+        "Support contacts per order",
+      ],
+      experiment:
+        "GA4 and GTM tracking on every step of the journey, set up before launch. Compare enquiry-to-order and abandonment before and after, step by step.",
+      learnings: [
+        "Connect the steps before polishing any one of them.",
+        "Let the website answer the basic questions, so people get the hard ones.",
+      ],
+    },
+  },
   {
     slug: "amazon-cart-dropoff",
     company: "Amazon",
-    title: "Cutting cart drop-off for tier-2 shoppers",
-    oneLiner:
-      "Carts fill up but orders don't. A teardown of checkout friction, payment failure handling, and cash-on-delivery trust.",
-    problem:
-      "A shopper on a mid-range Android phone adds a ₹1,200 item to the cart on a tier-2 city connection, starts checkout, and never pays. Multiplied across millions of sessions, the cart-to-order gap is the largest revenue leak in Indian e-commerce. The exercise: locate where the drop happens, rank the causes, and decide what a product team should fix first.",
-    targetUsers: [
-      "Price-conscious tier-2/3 shoppers, often first-generation online buyers",
-      "Mid-range Android users on intermittent 4G connections",
-      "Shoppers who prefer cash-on-delivery while card/UPI trust is still building",
-    ],
-    evidence: [
-      "Assumption: drop-off concentrates between payment initiation and confirmation — failure handling, not purchase intent, is the biggest leak.",
-      "Assumption: address entry is the second leak — long forms with pincode lookups punish one-handed, low-bandwidth use.",
-      "Assumption: COD unavailability revealed late in checkout breaks the trust built on the product page.",
-      "Context: public benchmarks put Indian cart abandonment above 70%, with payment failures a known contributor — figures here are directional, to be validated with funnel data.",
-    ],
-    rootCauses: [
-      "Payment failures surface as dead ends — a failed UPI debit ends the journey instead of routing to a fallback instrument",
-      "Address forms ask for permanent-home fields when a pincode plus map pin would do",
-      "COD eligibility appears only at the last step, so COD-first shoppers abandon when the option vanishes",
-      "Price shifts late — coupons, delivery fees, and GST stack up at checkout, moving the perceived price after the decision was made",
-    ],
-    solution: [
-      "One-tap payment retry with automatic fallback to a second instrument (UPI → card → COD if eligible)",
-      "Progressive address: pincode or map pin first, full details only when needed for delivery",
-      "COD eligibility badge on the product page and cart — visible before the commitment, not after",
-      "Price breakdown locked from the cart onward — no new charges after that point",
-    ],
-    flow: [
-      "Product",
-      "Cart — price locked",
-      "Address (pincode/map first)",
-      "Payment (retry + fallback)",
-      "Confirmation",
-    ],
-    metrics: [
-      "Cart → order conversion",
-      "Payment success rate",
-      "Time from cart to order",
-      "COD share of completed orders",
-      "Checkout support tickets per 1,000 orders",
-    ],
-    risks: [
-      "A COD uplift raises return-to-origin (RTO) risk — confirmation flows must absorb it",
-      "Automatic fallbacks can mask a deeper payment-provider issue and delay the real fix",
-      "Shorter address capture may reduce delivery precision in dense informal-address areas",
-    ],
-    learnings: [
-      "Cart drop-off is rarely one cause — instrument every checkout step before shipping fixes, or you optimize the wrong step.",
-      "Trust features (COD badge, locked price) must be visible before the cart, not after it.",
-    ],
-    tags: ["Conversion", "Payments", "Metrics"],
+    kind: "practice",
+    title: "Why small-city shoppers leave their cart",
+    oneLiner: "They add to cart, start to pay, and leave. Where they give up — and what to fix first.",
+    tags: ["Checkout", "Payments", "Conversion"],
+    discover: {
+      problem:
+        "A shopper in a small city adds a ₹1,200 item on a basic phone, starts to pay, and leaves. Multiply that by millions of sessions and it is one of the biggest leaks in Indian e-commerce. The job: find where people give up, and fix the biggest cause first.",
+      users: [
+        "Small-city shoppers, many buying online for the first time",
+        "Basic Android phones on slow internet",
+        "People who prefer cash on delivery over paying online",
+      ],
+      evidence: [
+        "My guess: most people leave when a payment fails — not because they changed their mind.",
+        "My guess: the long address form is the second leak on a slow phone.",
+        "Public reports: over 70% of carts in India end without an order. I would confirm with real data first.",
+      ],
+      rootCauses: [
+        "A failed payment is a dead end — no other way to pay",
+        "The address form asks for far more than it needs",
+        "'Pay on delivery' appears only at the last step",
+        "Fees and taxes get added after the shopper has decided",
+      ],
+    },
+    define: {
+      goal: "More small-city shoppers finish their order — without more parcels refused at the door.",
+      bets: [
+        "Failed payment? One-tap retry, then another way to pay (UPI → card → cash)",
+        "Show 'pay on delivery available' before the shopper decides",
+        "Lock the price from the cart — no surprises after",
+        "Shorter address form: pincode or map pin first",
+      ],
+      whyFirst:
+        "Payment retry first. The shopper has already decided to buy, so this is the cheapest order to save. No change to products or delivery, and results show in days.",
+    },
+    deliver: {
+      flow: ["Product", "Cart — price locked", "Address", "Payment — retry if it fails", "Order done"],
+      now: [
+        "One-tap retry with the next payment option ready",
+        "'Pay on delivery' label on product and cart pages",
+        "Price locked from the cart",
+      ],
+      later: ["Pincode-first address with a map pin", "Saved payment options, best one first"],
+      risks: [
+        "More cash orders means more parcels refused — a confirm step handles that",
+        "Auto-retry can hide a real payment-provider problem",
+        "A shorter address form can cause wrong deliveries",
+      ],
+    },
+    measure: {
+      metrics: ["Carts that become orders", "Payments that succeed", "Orders paid on delivery", "Checkout complaints per 1,000 orders"],
+      experiment:
+        "Half the shoppers in small-city pincodes get the new checkout for two weeks. Main check: more finished orders. Also: refused parcels and complaints must not rise.",
+      learnings: [
+        "Lost carts never have one cause. Measure every step before fixing any.",
+        "Trust signals belong before the cart, not after.",
+      ],
+    },
   },
   {
     slug: "flipkart-cod-rto",
     company: "Flipkart",
-    title: "Reducing RTO losses on cash-on-delivery orders",
-    oneLiner:
-      "Refused COD parcels travel twice and earn nothing. Re-confirming intent before dispatch, not at the door.",
-    problem:
-      "Cash-on-delivery remains the trust backbone of Indian e-commerce — but when a customer refuses the parcel at the door, the shipment travels twice, earns zero, and often returns unsellable. For a thin-margin marketplace, RTO (return to origin) on COD orders is a structural cost leak. The exercise: reduce COD refusals without punishing genuine buyers.",
-    targetUsers: [
-      "First-time COD buyers with low digital-payment trust",
-      "Impulse purchasers whose intent cools during the 2–4 day fulfilment window",
-      "Buyers purchasing for family members who may not be home to receive",
-    ],
-    evidence: [
-      "Assumption: a large share of refusals is buyer's remorse in the order-to-delivery gap, not inability to pay.",
-      "Assumption: delivery coordination over unknown-number calls goes unanswered and drives a meaningful refusal slice.",
-      "Context: industry commentary consistently places COD RTO rates well above prepaid RTO; exact figures vary by category and are treated as directional.",
-    ],
-    rootCauses: [
-      "Intent is captured once at order and never re-confirmed during fulfilment",
-      "Delivery coordination happens via unknown-number calls that shoppers ignore",
-      "Weak one-line informal addresses make first-attempt failure common",
-      "Cancelling after dispatch is harder than refusing at the door — a perverse incentive",
-    ],
-    solution: [
-      "Day-before-delivery confirmation over WhatsApp/SMS — one tap to confirm or cancel free of charge before dispatch",
-      "Delivery-slot picker at confirmation, so someone is actually home",
-      "Address quality score at order time; low-confidence COD addresses get a quick verify step or a prepaid nudge",
-      "A small prepaid incentive framed as 'skip the cash', never as a COD penalty",
-    ],
-    flow: [
-      "COD order",
-      "Address quality check",
-      "Dispatch",
-      "Day-before WhatsApp confirm",
-      "Slot picked",
-      "Delivered — cash collected",
-    ],
-    metrics: [
-      "COD RTO rate",
-      "Confirmation reply rate",
-      "Pre-dispatch cancellation rate",
-      "First-attempt delivery success",
-      "Margin per COD order",
-    ],
-    risks: [
-      "Every extra step converts away some genuine buyers — the confirm nudge must stay one tap, never a form",
-      "Over-messaging trains users to ignore confirmations entirely",
-      "Risk-scoring by address can systematically disadvantage some regions — it needs bias monitoring",
-    ],
-    learnings: [
-      "The cheapest RTO reduction happens before dispatch, not at the door.",
-      "Re-confirming intent is a feature for customers (control) and for the business (margin) — frame it as both.",
-    ],
-    tags: ["COD", "Unit economics", "Operations"],
+    kind: "practice",
+    title: "Fewer cash-on-delivery parcels refused at the door",
+    oneLiner: "A refused parcel travels twice and earns nothing. Ask the customer before shipping, not at the door.",
+    tags: ["Cash on delivery", "Returns", "Delivery"],
+    discover: {
+      problem:
+        "Cash on delivery is how much of India shops. But when a customer refuses the parcel at the door, it travels both ways, earns nothing, and often cannot be sold again. The job: cut refusals without making cash on delivery harder for honest buyers.",
+      users: [
+        "First-time buyers who do not trust online payment yet",
+        "Impulse buyers who change their mind before delivery",
+        "People ordering for family who may not be home",
+      ],
+      evidence: [
+        "My guess: most refusals are a change of mind, not an inability to pay.",
+        "My guess: delivery calls from unknown numbers go unanswered, so deliveries fail.",
+        "Industry reports: cash parcels are refused far more often than prepaid ones.",
+      ],
+      rootCauses: [
+        "We ask 'do you want this?' once, at order time, and never again",
+        "Delivery calls come from numbers people ignore",
+        "Unclear addresses make the first attempt fail",
+        "Cancelling after shipping is harder than refusing at the door",
+      ],
+    },
+    define: {
+      goal: "Fewer cash-on-delivery parcels refused — and cash on delivery still easy for honest buyers.",
+      bets: [
+        "Day before delivery: 'Still want this?' One tap to confirm, free cancel before it ships",
+        "Pick a delivery time slot when confirming, so someone is home",
+        "Check address quality at order time; unclear ones get a quick confirm",
+        "Small discount to pay online — 'skip the cash', never a penalty",
+      ],
+      whyFirst:
+        "Ask before shipping. The parcel has not moved, so a cancellation costs almost nothing — and the customer gets a choice instead of a surprise.",
+    },
+    deliver: {
+      flow: ["Cash order", "Address check", "'Still want this?'", "Time slot picked", "Shipped", "Delivered — cash paid"],
+      now: [
+        "'Still want this?' message with one-tap confirm and free cancel",
+        "Time slot picker in the same message",
+        "Unconfirmed orders are held, not shipped",
+      ],
+      later: ["Address quality check with a confirm step", "'Skip the cash' discount for repeat buyers"],
+      risks: [
+        "Every extra step loses a few honest buyers — keep it one tap",
+        "Too many messages and people ignore them",
+        "Judging addresses by area could be unfair to some regions",
+      ],
+    },
+    measure: {
+      metrics: ["Cash parcels refused", "Customers who reply", "Orders cancelled before shipping", "First-try delivery success"],
+      experiment:
+        "10% of cash orders in two cities get the message first. Main check: fewer refusals. Also: cancellations before shipping must not exceed the refusals they replace.",
+      learnings: [
+        "The cheapest time to stop a refusal is before shipping.",
+        "'Still want this?' helps the customer and the business. Say both.",
+      ],
+    },
   },
   {
     slug: "myntra-size-fit",
     company: "Myntra",
-    title: "Fewer returns through better size & fit guidance",
-    oneLiner:
-      "Wrong size is the most avoidable reason a fashion order comes back. Fixing the first decision.",
-    problem:
-      "Fashion e-commerce lives and dies on returns. Among return reasons, 'wrong size' is the most predictable — and therefore the most fixable. Every size-driven return costs reverse logistics, refurbishing, and often the customer's next purchase. The exercise: help shoppers pick the right size the first time without turning the product page into a fitting-room quiz.",
-    targetUsers: [
-      "Fashion shoppers aged 18–34 buying across brands with inconsistent sizing",
-      "Shoppers buying for family members with only rough size knowledge",
-      "First-time buyers on the platform with no size history",
-    ],
-    evidence: [
-      "Assumption: most size returns come from brand-to-brand variance, not shopper carelessness — the same 'M' fits three different ways.",
-      "Assumption: size charts are read but not trusted — shoppers default to their habitual size anyway.",
-      "Context: fashion return rates in India are widely reported in the 25–40% band, with size/fit consistently the top reason — directional, to be validated with category data.",
-    ],
-    rootCauses: [
-      "Brand-specific sizing variance with no translation layer ('your M in Brand X ≈ L here')",
-      "Static size charts show garment measurements shoppers can't map to their own bodies",
-      "Reviews aren't size-structured — 'runs small' is buried in prose",
-      "Returns are friction-free but exchanges aren't, so a right-garment-wrong-size becomes a full return",
-    ],
-    solution: [
-      "A lightweight size profile ('usually wears M in shirts') plus a per-brand fit signal computed from return data",
-      "Structured review tags — runs small / true to size / runs large — surfaced next to the size selector",
-      "Exchange-first flow: one tap to swap size, keeping the sale and usually the customer",
-      "Cold start handled honestly: for new brands, borrow sibling-brand signals and label the confidence",
-    ],
-    flow: [
-      "PDP",
-      "Size advisor (profile + brand fit signal)",
-      "Order",
-      "Wrong size?",
-      "One-tap exchange",
-      "Right size kept",
-    ],
-    metrics: [
-      "Size-related return rate",
-      "Exchange-to-return ratio",
-      "Size advisor adoption",
-      "Repeat purchase after exchange",
-      "Refurbishment cost per order",
-    ],
-    risks: [
-      "Cold start for new brands makes early recommendations noisy — confidence labels matter",
-      "The advisor adds friction; anything beyond two taps collapses adoption",
-      "Return-reason data is messy — style dissatisfaction gets mislabelled as size",
-    ],
-    learnings: [
-      "Returns are a data problem wearing a UX costume — the durable fix is the fit-signal data loop.",
-      "An exchange saved is worth more than a return refunded: margin, logistics, and usually the customer.",
-    ],
-    tags: ["Returns", "UX", "Personalization"],
+    kind: "practice",
+    title: "Fewer returns by helping people pick the right size",
+    oneLiner: "Wrong size is the top reason clothes come back. Fix the first choice, not the return.",
+    tags: ["Returns", "Sizing", "Fashion"],
+    discover: {
+      problem:
+        "In online fashion, a big share of orders comes back — and 'wrong size' is the most common reason. Every size return costs shipping, repacking, and often the customer's next order. The job: help people pick the right size first time, without turning the product page into a quiz.",
+      users: [
+        "Shoppers aged 18–34 buying across brands with different sizing",
+        "People buying for family and guessing the size",
+        "New customers with no order history",
+      ],
+      evidence: [
+        "My guess: the same 'M' fits differently in every brand — that, not carelessness, drives most size returns.",
+        "My guess: people see the size chart but pick their usual size anyway.",
+        "Reports: 25–40% of fashion orders in India come back, with size the top reason.",
+      ],
+      rootCauses: [
+        "No way to translate sizes between brands",
+        "Size charts show garment measurements people cannot relate to",
+        "'Runs small' is buried in long review text",
+        "Returning is easy, exchanging is hard",
+      ],
+    },
+    define: {
+      goal: "Fewer size returns — and the ones that still happen become exchanges.",
+      bets: [
+        "Fit tags from reviews — runs small / true to size / runs large — next to the size options",
+        "One-tap exchange: swap the size, keep the order",
+        "Remember each shopper's usual size and show a per-brand fit hint",
+        "For new brands, use similar brands and say how sure we are",
+      ],
+      whyFirst:
+        "Fit tags first. The review data already exists, the shopper does nothing, and it can be live in weeks. Remembering sizes is the bigger win, but it needs data the tags start collecting.",
+    },
+    deliver: {
+      flow: ["Product page", "Fit tag + size hint", "Order", "Wrong size?", "One-tap exchange", "Right size kept"],
+      now: ["Fit tags next to the size options", "One-tap exchange from the order page"],
+      later: ["Remember the shopper's usual size everywhere", "Per-brand fit hint from past returns"],
+      risks: [
+        "New brands have little data — say how sure we are",
+        "More than two taps and people stop using it",
+        "'Did not like the style' often gets logged as 'wrong size'",
+      ],
+    },
+    measure: {
+      metrics: ["Returns because of size", "Exchanges vs returns", "Shoppers using fit tags", "Repeat orders after an exchange"],
+      experiment:
+        "Fit tags on the 200 products with the most size returns, shown to half the shoppers. Main check: fewer size returns. Also: add-to-cart must not drop.",
+      learnings: [
+        "Returns look like a design problem but are a data problem.",
+        "An exchange keeps the sale, the shipping cost, and usually the customer.",
+      ],
+    },
   },
 ];
 
 // ------------------------------------------------------------------
-// HOMEPAGE — copy carried over from the previous homepage and the
-// resume. Every number below already appeared on the site or resume.
+// HOMEPAGE — kept deliberately short: a visitor should know what I do
+// within ~12 seconds. Every number already appears on the resume.
+// `icon` keys map to components/home/Icons.tsx.
 // ------------------------------------------------------------------
 
 export const hero = {
-  eyebrow: "Product Specialist · 4+ years · New Delhi",
+  eyebrow: "Product Management · 4+ years",
   subtitle:
-    "I'm Kunal. I find the problem, prototype the fix with AI, ship it and measure it — across e-commerce discovery, pricing, analytics and delivery.",
+    "I turn customer problems into products that move business numbers.",
 };
 
-// The six nodes that draw in around the portrait as the hero scrolls.
-// `x`/`y` are % positions inside the portrait stage (desktop only).
+// Static icons around the portrait. x/y = % position in the portrait
+// stage (desktop). Order = the loop the dotted arrows follow.
 export const capabilities = [
-  {
-    key: "strategy",
-    label: "Product Strategy",
-    line: "Find the real problem — drop-offs, pricing gaps, unmet needs",
-    x: 18,
-    y: 15,
-  },
-  {
-    key: "research",
-    label: "User Research",
-    line: "Customer feedback turned into product and catalog fixes",
-    x: 14,
-    y: 48,
-  },
-  {
-    key: "data",
-    label: "Data Analysis",
-    line: "SQL cross-checked with GA4 — no blind dashboards",
-    x: 18,
-    y: 81,
-  },
-  {
-    key: "execution",
-    label: "Execution",
-    line: "Jira sprints, acceptance criteria, dependencies to launch",
-    x: 82,
-    y: 81,
-  },
-  {
-    key: "roadmap",
-    label: "Roadmap Planning",
-    line: "Prioritised backlog and PRDs: what to build, why, in which order",
-    x: 87,
-    y: 48,
-  },
-  {
-    key: "ai",
-    label: "AI & Innovation",
-    line: "Working prototypes built with AI coding tools",
-    x: 82,
-    y: 15,
-  },
+  { key: "strategy", label: "Product Strategy", x: 18, y: 15 },
+  { key: "research", label: "User Research", x: 12, y: 48 },
+  { key: "data", label: "Data Analysis", x: 18, y: 81 },
+  { key: "execution", label: "Execution", x: 82, y: 81 },
+  { key: "roadmap", label: "Roadmap Planning", x: 88, y: 48 },
+  { key: "ai", label: "AI & Innovation", x: 82, y: 15 },
 ] as const;
 
-export const differentiators = [
+// "How I work" — the four stations on the homepage spine. Each claim is
+// backed by the resume or the work listed under experience.
+export const stations = [
   {
-    title: "I build the prototype myself.",
-    body: "Most PMs write a spec and wait weeks for a demo. I build the working prototype with AI coding tools — frontend, backend, APIs — deploy it, then hand engineering something real.",
+    id: "discover",
+    icon: "research",
+    step: "Discover",
+    title: "Understand the user and the business.",
+    line: "Research and data show me which problem is worth solving.",
+    proof: ["User research", "SQL + GA4", "Funnel analysis"],
   },
   {
-    title: "I pull the data myself.",
-    body: "SQL cross-checked against GA4 to find the discrepancies, and GA4 / GTM / DataLayer events defined before build — so every filter, preview and price change is measured.",
+    id: "define",
+    icon: "strategy",
+    step: "Define",
+    title: "Decide what to build — and why.",
+    line: "A clear plan: what comes first, what waits, and the reason.",
+    proof: ["Prioritisation", "Roadmaps", "PRDs & user stories"],
   },
   {
-    title: "I started on the floor.",
-    body: "Catalog, listings and customer feedback at HoMafy and VLE Bazaar came first. Now I turn complex configuration and pricing rules into flows customers can self-serve.",
+    id: "deliver",
+    icon: "execution",
+    step: "Deliver",
+    title: "Ship it with the team.",
+    line: "Agile sprints with engineering and business. AI prototypes to test ideas early.",
+    proof: ["Agile / Jira", "Stakeholders", "AI prototypes (Claude, Cursor)"],
+  },
+  {
+    id: "measure",
+    icon: "data",
+    step: "Measure",
+    title: "Prove the impact.",
+    line: "Tracking goes in before launch, so every result has a number.",
   },
 ];
 
 export const proofStats = [
-  { value: "4+", label: "years in product & e-commerce", source: "" },
+  { value: "4+", label: "years in e-commerce" },
   { value: "+11%", label: "organic traffic", source: "VLE Bazaar" },
   { value: "+8%", label: "conversion", source: "VLE Bazaar" },
   { value: "+9%", label: "sales", source: "HoMafy" },
-  { value: "~15%", label: "team productivity", source: "Mahattaart · AI workflows" },
+  { value: "~15%", label: "team productivity", source: "Mahattaart" },
 ];
 
-export interface ExperienceItem {
-  role: string;
-  company: string;
-  period: string;
-  location: string;
-  points: string[];
-}
-
-export const experience: ExperienceItem[] = [
+export const experience = [
   {
-    role: "Growth & Product Specialist",
+    icon: "roadmap",
     company: "Mahattaart",
-    period: "Jan 2024 — Present",
-    location: "New Delhi",
-    points: [
-      "Designed the product discovery journey and trigger logic — results first, preferences (space, size, style, references) captured progressively for personalised recommendations",
-      "Found gaps in the pricing model and defined a rule-based pricing flow around material specifications, consumption and wastage — translated business rules into implementation requirements",
-      "Write PRDs, user stories and acceptance criteria; run backlog and sprints in Jira and track dependencies, timelines and stakeholders to launch",
-      "Use SQL with GA4 data to investigate behaviour, form hypotheses and evaluate UI/UX versions through A/B tests",
-      "Defined GA4 / GTM / DataLayer tracking across listing, customisation and checkout journeys; built AI-assisted workflows that improved team productivity by about 15%",
+    role: "Growth & Product Specialist",
+    period: "2024 — now",
+    highlight: "Product discovery · pricing rules · tracking · A/B tests",
+    solved: [
+      {
+        icon: "strategy",
+        title: "A fragmented customer journey",
+        body: "Seven disconnected steps — design, size, material, price, consultation, payment, tracking — joined into one flow. Details entered once.",
+      },
+      {
+        icon: "doc",
+        title: "A website that did not sell",
+        body: "Product pages that answer the buying questions: previews, materials, size guidance, instant price, Buy now or Book a consultation.",
+      },
     ],
+    focus: "Enquiry-to-order conversion · self-service orders · fewer support contacts",
+    caseStudy: "mahattaart-custom-wall-decor",
   },
   {
-    role: "Product Catalog Specialist",
+    icon: "data",
     company: "VLE Bazaar",
-    period: "Sep 2023 — Dec 2023",
-    location: "New Delhi",
-    points: [
-      "Managed product catalog operations across Amazon and Flipkart marketplaces",
-      "Catalog and search-visibility work contributed to about 11% organic traffic growth and an 8% conversion improvement",
+    role: "Product Catalog Specialist",
+    period: "2023",
+    highlight: "Catalog, orders and support · +11% organic traffic · +8% conversion",
+    // Problems Kunal solved there (his account). Public review stats about
+    // the company are deliberately left out.
+    solved: [
+      {
+        icon: "truck",
+        title: "Orders stuck and not shipped",
+        body: "Listed only real stock, checked suppliers before payment, set shipping deadlines, escalated late orders.",
+      },
+      {
+        icon: "support",
+        title: "Support not fixing issues",
+        body: "One view of order and refund status for agents. Tickets closed only when the problem was really fixed.",
+      },
     ],
+    focus: "Faster shipping · fewer repeat complaints · more trust",
   },
   {
-    role: "Customer Product Experience Executive",
+    icon: "research",
     company: "HoMafy",
-    period: "Jan 2022 — Aug 2023",
-    location: "New Delhi",
-    points: [
-      "Gathered customer product-usage feedback and translated it into catalog, content and listing improvements",
-      "Ran e-commerce product operations that contributed to about 9% sales growth",
+    role: "Customer Product Experience",
+    period: "2022 — 23",
+    highlight: "Custom orders, delivery and catalog · +9% sales",
+    // Problems Kunal solved there (his account). No outcome metrics were
+    // given, so `focus` names what the work was for, not a result.
+    solved: [
+      {
+        icon: "checklist",
+        title: "Mistakes in custom orders",
+        body: "Photos and text from email and chat moved into the order itself, with a checklist before production.",
+      },
+      {
+        icon: "truck",
+        title: "Unclear delivery dates",
+        body: "Promised date saved on every order, each step tracked, late orders flagged early.",
+      },
+      {
+        icon: "box",
+        title: "Messy catalog and suppliers",
+        body: "Product details, stock, options and delivery times kept consistent across the catalog.",
+      },
     ],
+    focus: "Fewer mistakes · clear delivery dates · clear ownership",
   },
 ];
 
-export const education = {
-  degree: "BBA — IP University",
-  detail: "CGPA 8.5",
-  period: "2020 — 2023",
-};
-
-export const certifications = [
-  "IBM Product Manager Professional Certificate",
-  "Microsoft AI Product Manager",
-  "Digital Product Management: Modern Fundamentals — University of Virginia",
-  "Generative AI for Product Strategy, UX & Launch — SkillUp",
-  "Google Data Analytics",
-  "Google Project Management — Professional Certificate",
-  "Microsoft Business Analyst",
-  "IBM UI/UX Designer",
+export const credentials = [
+  "BBA, IP University · CGPA 8.5",
+  "8 certifications · IBM · Microsoft · Google · UVA",
 ];
 
-export const skillGroups = [
+// Toolkit, grouped. AI and PM tools confirmed by Kunal; the rest come
+// from the resume and earlier site.
+export const toolkit = [
+  {
+    title: "AI",
+    icon: "ai",
+    items: [
+      { icon: "ai", label: "Claude / Claude Code" },
+      { icon: "ai", label: "ChatGPT" },
+      { icon: "code", label: "Cursor" },
+      { icon: "design", label: "Lovable / v0 / Bolt" },
+    ],
+  },
   {
     title: "Product",
-    items: ["PRDs & user stories", "Acceptance criteria", "Backlog prioritisation", "Personalisation logic"],
+    icon: "strategy",
+    items: [
+      { icon: "doc", label: "PRDs & user stories" },
+      { icon: "execution", label: "Jira" },
+      { icon: "design", label: "Figma" },
+      { icon: "doc", label: "Notion / Confluence" },
+    ],
   },
   {
     title: "Data & experiments",
-    items: ["SQL", "GA4", "GTM / DataLayer", "Looker Studio", "Statsig A/B tests"],
+    icon: "data",
+    items: [
+      { icon: "data", label: "SQL" },
+      { icon: "chart", label: "GA4" },
+      { icon: "chart", label: "GTM / DataLayer" },
+      { icon: "chart", label: "Looker Studio" },
+      { icon: "split", label: "Statsig A/B tests" },
+    ],
   },
   {
-    title: "Delivery",
-    items: ["Jira", "Agile sprints", "Dependency & stakeholder tracking"],
-  },
-  {
-    title: "Build",
-    items: ["AI coding tools", "GitHub", "Render", "Netlify"],
+    title: "Build & ship",
+    icon: "code",
+    items: [
+      { icon: "code", label: "GitHub" },
+      { icon: "cloud", label: "Render" },
+      { icon: "cloud", label: "Netlify" },
+    ],
   },
 ];
+
+// Set to true to show a "Demo" badge on the homepage cards instead of
+// "Hypothetical" (e.g. while swapping in new studies).
+export const caseStudiesAreDemo = false;

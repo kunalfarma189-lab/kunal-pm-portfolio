@@ -2,7 +2,6 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono, Instrument_Serif } from "next/font/google";
 import Navbar from "@/components/Navbar";
 import Footer from "@/components/Footer";
-import ScrollTopButton from "@/components/ScrollTopButton";
 import "./globals.css";
 
 const geistSans = Geist({
@@ -60,7 +59,6 @@ export default function RootLayout({ children }: LayoutProps<"/">) {
         />
         <Navbar />
         <main className="flex-1">{children}</main>
-        <ScrollTopButton />
         <Footer />
       </body>
     </html>

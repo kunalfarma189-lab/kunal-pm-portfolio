@@ -36,6 +36,12 @@ body {
   mask-composite: intersect;
 }
 
+/* Vertical dotted line for the journey rail. */
+.journey-dots {
+  background-image: linear-gradient(to bottom, #fff 0 2px, transparent 2px);
+  background-size: 1px 8px;
+}
+
 /* Faint scientific dot grid, fading out toward the edges. */
 .dot-grid {
   background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.2px);
@@ -73,14 +79,58 @@ body {
 @media (prefers-reduced-motion: no-preference) {
   /* Scroll reveal: hidden state applies only when JS is active.
      IntersectionObserver adds .reveal-visible once in view. */
+  /* "Gravity" reveal: content drops in from slightly above and settles
+     with a small overshoot, like something landing. Runs once. */
   html.js .reveal:not(.reveal-visible) {
     opacity: 0;
-    transform: translateY(20px);
+    transform: translateY(-26px);
   }
   html.js .reveal {
     transition:
-      opacity 0.6s ease-out,
-      transform 0.6s ease-out;
+      opacity 0.5s ease-out,
+      transform 0.9s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Floating: a slow, weightless bob. Stagger with animation-delay. */
+  @keyframes float {
+    0%,
+    100% {
+      transform: translateY(0);
+    }
+    50% {
+      transform: translateY(-14px);
+    }
+  }
+  .float {
+    animation: float 6.5s ease-in-out infinite;
+  }
+  .float-slow {
+    animation: float 9s ease-in-out infinite;
+  }
+
+  /* Accordion content lands with a small bounce when opened */
+  @keyframes drop-in {
+    from {
+      opacity: 0;
+      transform: translateY(-14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  details[open] > .drop-in {
+    animation: drop-in 0.6s cubic-bezier(0.34, 1.56, 0.64, 1);
+  }
+
+  /* Slow orbit spin for decorative rings */
+  @keyframes spin-slow {
+    to {
+      transform: rotate(360deg);
+    }
+  }
+  .spin-slow {
+    animation: spin-slow 60s linear infinite;
   }
 
   /* Hero copy entrance on first paint — once, no loop */

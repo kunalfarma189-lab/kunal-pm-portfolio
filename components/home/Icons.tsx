@@ -63,6 +63,85 @@ export const capabilityIcons: Record<string, (p: SVGProps<SVGSVGElement>) => Rea
       <path d="M6.3 16.4 10.7 8.6M13.6 8.4l4.1 5" />
     </Icon>
   ),
+  // document — PRDs
+  doc: (p) => (
+    <Icon {...p}>
+      <path d="M7 3h7l4 4v14H7z" />
+      <path d="M14 3v4h4M10 12h5M10 16h5" />
+    </Icon>
+  ),
+  // line chart — analytics tools
+  chart: (p) => (
+    <Icon {...p}>
+      <rect x="3.5" y="4" width="17" height="16" rx="2" />
+      <path d="m7 15 3.5-4 3 2.5L17 9" />
+    </Icon>
+  ),
+  // split — A/B tests
+  split: (p) => (
+    <Icon {...p}>
+      <path d="M12 21v-7M12 14 6 8M12 14l6-6" />
+      <path d="M4 5h4v4M20 5h-4v4" />
+    </Icon>
+  ),
+  // checklist — structured order details
+  checklist: (p) => (
+    <Icon {...p}>
+      <rect x="4" y="3.5" width="16" height="17" rx="2" />
+      <path d="m7.5 8.5 1.5 1.5 2.5-2.5M13.5 9h3M7.5 14.5l1.5 1.5 2.5-2.5M13.5 15h3" />
+    </Icon>
+  ),
+  // truck — delivery tracking
+  truck: (p) => (
+    <Icon {...p}>
+      <path d="M3 6.5h11v9H3zM14 9.5h3.5l3 3v3H14" />
+      <circle cx="7" cy="17.5" r="1.8" />
+      <circle cx="17" cy="17.5" r="1.8" />
+    </Icon>
+  ),
+  // headset — customer support
+  support: (p) => (
+    <Icon {...p}>
+      <path d="M4.5 13v-1.5a7.5 7.5 0 0 1 15 0V13" />
+      <rect x="3.5" y="13" width="4" height="5.5" rx="1.5" />
+      <rect x="16.5" y="13" width="4" height="5.5" rx="1.5" />
+      <path d="M18.5 18.5c0 1.4-1.8 2.5-5 2.5" />
+    </Icon>
+  ),
+  // box — catalogue & stock
+  box: (p) => (
+    <Icon {...p}>
+      <path d="M12 3 20 7v10l-8 4-8-4V7z" />
+      <path d="m4 7 8 4 8-4M12 11v10" />
+    </Icon>
+  ),
+  // brackets — code / dev tools
+  code: (p) => (
+    <Icon {...p}>
+      <path d="m8 8-4 4 4 4M16 8l4 4-4 4M13.5 5.5l-3 13" />
+    </Icon>
+  ),
+  // cloud — hosting
+  cloud: (p) => (
+    <Icon {...p}>
+      <path d="M7 18.5a4.5 4.5 0 0 1-.6-8.96A6 6 0 0 1 18 10a4.25 4.25 0 0 1-.25 8.5z" />
+    </Icon>
+  ),
+  // pen nib — design tools
+  design: (p) => (
+    <Icon {...p}>
+      <path d="M12 3.5 18 10l-3.5 9.5h-5L6 10z" />
+      <circle cx="12" cy="11" r="1.6" />
+      <path d="M12 3.5v6" />
+    </Icon>
+  ),
+  // paper plane — contact
+  send: (p) => (
+    <Icon {...p}>
+      <path d="M4 11.5 20 4l-7.5 16-2-6.5z" />
+      <path d="m10.5 13.5 4-4" />
+    </Icon>
+  ),
   // spark — AI
   ai: (p) => (
     <Icon {...p}>
