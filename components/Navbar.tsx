@@ -4,36 +4,35 @@ import Link from "next/link";
 import { useState } from "react";
 import { profile } from "@/lib/content";
 
-// Section ids match public/home.html, which is what "/" serves.
+// Section ids match app/page.tsx.
 const links = [
-  { href: "/#top", label: "Home" },
-  { href: "/#help", label: "How I help" },
   { href: "/#why", label: "Why me" },
-  { href: "/#work", label: "Work" },
-  { href: "/#journey", label: "Experience" },
-  { href: "/case-studies", label: "Case Studies" },
+  { href: "/#case-studies", label: "Case studies" },
+  { href: "/#experience", label: "Experience" },
+  { href: "/#skills", label: "Skills" },
 ];
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0d12]/80 backdrop-blur">
-      <nav className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#05070c]/75 backdrop-blur-xl">
+      <nav className="mx-auto grid h-16 max-w-[1360px] grid-cols-[1fr_auto_1fr] items-center px-5 sm:px-8">
         <Link
           href="/#top"
-          className="justify-self-start rounded-md text-base font-semibold tracking-tight text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
+          className="flex items-center gap-2.5 justify-self-start rounded-md text-[17px] font-semibold tracking-[-0.02em] text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
         >
-          Kunal<span className="text-indigo-400">.</span>
+          <span aria-hidden className="size-1.5 rounded-full bg-[#a9bcff] shadow-[0_0_10px_#a9bcff]" />
+          Kunal Farma
         </Link>
 
         {/* Desktop navigation — centered */}
-        <ul className="hidden items-center gap-7 lg:flex">
+        <ul className="hidden items-center gap-9 lg:flex">
           {links.map((link) => (
             <li key={link.href}>
               <Link
                 href={link.href}
-                className="relative rounded-md text-sm font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-0 after:-translate-x-1/2 after:bg-indigo-400 after:transition-all after:duration-300 hover:text-white hover:after:w-full focus-visible:outline-2 focus-visible:outline-indigo-400"
+                className="relative rounded-md text-[15px] font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-0 after:-translate-x-1/2 after:bg-white/70 after:transition-all after:duration-300 hover:text-white hover:after:w-full focus-visible:outline-2 focus-visible:outline-indigo-400"
               >
                 {link.label}
               </Link>
@@ -44,9 +43,9 @@ export default function Navbar() {
         <div className="justify-self-end hidden lg:block">
           <Link
             href="/#contact"
-            className="rounded-full bg-white px-4 py-2 text-sm font-semibold text-[#0a0d12] transition-all duration-300 hover:scale-[1.03] hover:bg-zinc-200 active:scale-[0.98] focus-visible:outline-2 focus-visible:outline-indigo-400"
+            className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-300 hover:border-white/50 hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-indigo-400"
           >
-            Get In Touch →
+            Get in touch
           </Link>
         </div>
 
@@ -56,7 +55,7 @@ export default function Navbar() {
           aria-label={open ? "Close menu" : "Open menu"}
           aria-expanded={open}
           onClick={() => setOpen((v) => !v)}
-          className="flex h-10 w-10 items-center justify-center rounded-md text-zinc-300 transition-colors hover:bg-white/10 lg:hidden"
+          className="col-start-3 flex h-10 w-10 items-center justify-center justify-self-end rounded-md text-zinc-300 transition-colors hover:bg-white/10 lg:hidden"
         >
           <svg
             className={`h-5 w-5 transition-transform duration-300 ${open ? "rotate-180" : ""}`}
@@ -83,7 +82,7 @@ export default function Navbar() {
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <ul className="border-t border-white/10 bg-[#0a0d12] px-4 pb-4 pt-2">
+          <ul className="border-t border-white/10 bg-[#05070c] px-5 pb-5 pt-2 sm:px-8">
             {links.map((link) => (
               <li key={link.href}>
                 <Link

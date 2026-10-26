@@ -4,25 +4,34 @@
 
 ## How the site is built
 
-The site has two parts:
+The whole site is one Next.js app (TypeScript, React, Tailwind, [Motion](https://motion.dev) for the scroll-linked animation).
 
-| URL | What serves it | Where to edit |
-| --- | --- | --- |
-| `/` (homepage) | `public/home.html` — a single self-contained HTML page (its own CSS and JS inline) | `public/home.html` |
-| `/case-studies`, `/case-studies/<slug>` | Next.js app (TypeScript, React, Tailwind) | `lib/content.ts` for text, `app/case-studies/` for layout |
+| URL | File |
+| --- | --- |
+| `/` (homepage) | `app/page.tsx` — sections: hero, why me, case studies, experience, skills, contact |
+| `/case-studies`, `/case-studies/<slug>` | `app/case-studies/` |
 
-`next.config.ts` rewrites `/` to `/home.html`, so the homepage is plain HTML while the case studies are Next.js pages with their own navbar (`components/Navbar.tsx`) and footer.
+Shared pieces: `app/layout.tsx` (fonts, search + link-preview metadata), `components/Navbar.tsx`, `components/Footer.tsx`, `components/ScrollTopButton.tsx`.
 
-Other files in `public/`:
+Homepage components live in `components/home/`:
 
-- `Kunal_Farma_Resume.pdf` — the resume both homepage buttons download. Replace this file to update the resume.
-- `kunal-farma.jpg` — the link-preview image (`og:image`) for shares on LinkedIn, WhatsApp, etc. The homepage portrait itself is embedded in `home.html`.
+- `HeroStory.tsx` — the hero and its scroll-linked visual. On wide screens (1280px+) the hero is 210vh tall with a sticky stage; scrolling through it draws the orbit, the six capability nodes, their connectors and arrowheads. Nothing autoplays or loops, and scrolling is never captured. Below 1280px the hero stacks and the six capabilities become a vertical list drawn by its own scroll (`MobileCapabilities`).
+- `useScrollProgress.ts` — measures an element’s 0→1 progress through the viewport and feeds it to Motion. (Motion’s own `useScroll` hands element-targeted progress to the browser’s native ScrollTimeline, which mis-mapped in testing.)
+- `FlowPreview.tsx` — the schematic “proposed flow” beside each case study, built from that study’s `flow` steps.
+- `ScrollLine.tsx` — the experience timeline rule that draws as you scroll.
+- `Icons.tsx` — thin outline icons.
+
+`prefers-reduced-motion`: the hero collapses to normal height and every scroll-linked element is shown in its finished state.
+
+Files in `public/`:
+
+- `Kunal_Farma_Resume.pdf` — the resume every download button serves. Replace this file to update the resume.
+- `kunal-farma.jpg` — the portrait (hero) and the link-preview image (`og:image`).
 
 ## Editing the content
 
-- **Homepage text, sections, contact details:** edit `public/home.html`. Its `<head>` also holds the search description and link-preview tags — keep them in step with the page.
-- **Case studies:** edit `lib/content.ts`.
-- **Links between the two:** the case-study navbar links to homepage sections by id (`#top`, `#help`, `#why`, `#work`, `#journey`, `#contact`). If you rename a section id in `home.html`, update `components/Navbar.tsx` too.
+- **All text** — profile and contact details, hero copy, the six capabilities (labels, one-liners and their positions around the portrait), “why me”, stats, experience, education, certifications, skills and case studies — lives in `lib/content.ts`.
+- **Section ids** used by the navbar: `#top`, `#why`, `#case-studies`, `#experience`, `#skills`, `#contact`. If you rename one in `app/page.tsx`, update `components/Navbar.tsx` too.
 
 Content is sourced from the master resume — don't add claims that aren't already resume-backed. The Amazon / Flipkart / Myntra case studies are **hypothetical independent analyses, not client work**. The badge on each card, the index-page note, the detail-page banner and the footer disclaimer keep this explicit — please keep them.
 

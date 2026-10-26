@@ -1,6 +1,5 @@
 // ------------------------------------------------------------------
-// CASE-STUDY PAGE CONTENT — profile links and the case studies.
-// The homepage copy lives in public/home.html, not here.
+// SITE CONTENT — everything editable lives in this one file.
 // Sourced from the master resume (Kunal_Farma_PM_Resume_V13) — do
 // not add claims that are not already resume-backed. Case studies
 // are HYPOTHETICAL independent analyses; keep their labels.
@@ -14,7 +13,10 @@ export const profile = {
   email: "kunalfarma189@gmail.com",
   linkedin: "https://www.linkedin.com/in/kunal-farma/",
   github: "https://github.com/kunalfarma189-lab",
+  phone: "+91 85058 78277",
+  phoneHref: "tel:+918505878277",
   resumeUrl: "/Kunal_Farma_Resume.pdf",
+  portrait: "/kunal-farma.jpg",
 };
 
 // HYPOTHETICAL case studies — independent product analyses.
@@ -205,5 +207,166 @@ export const caseStudies: CaseStudy[] = [
       "An exchange saved is worth more than a return refunded: margin, logistics, and usually the customer.",
     ],
     tags: ["Returns", "UX", "Personalization"],
+  },
+];
+
+// ------------------------------------------------------------------
+// HOMEPAGE — copy carried over from the previous homepage and the
+// resume. Every number below already appeared on the site or resume.
+// ------------------------------------------------------------------
+
+export const hero = {
+  eyebrow: "Product Specialist · 4+ years · New Delhi",
+  subtitle:
+    "I'm Kunal. I find the problem, prototype the fix with AI, ship it and measure it — across e-commerce discovery, pricing, analytics and delivery.",
+};
+
+// The six nodes that draw in around the portrait as the hero scrolls.
+// `x`/`y` are % positions inside the portrait stage (desktop only).
+export const capabilities = [
+  {
+    key: "strategy",
+    label: "Product Strategy",
+    line: "Find the real problem — drop-offs, pricing gaps, unmet needs",
+    x: 18,
+    y: 15,
+  },
+  {
+    key: "research",
+    label: "User Research",
+    line: "Customer feedback turned into product and catalog fixes",
+    x: 14,
+    y: 48,
+  },
+  {
+    key: "data",
+    label: "Data Analysis",
+    line: "SQL cross-checked with GA4 — no blind dashboards",
+    x: 18,
+    y: 81,
+  },
+  {
+    key: "execution",
+    label: "Execution",
+    line: "Jira sprints, acceptance criteria, dependencies to launch",
+    x: 82,
+    y: 81,
+  },
+  {
+    key: "roadmap",
+    label: "Roadmap Planning",
+    line: "Prioritised backlog and PRDs: what to build, why, in which order",
+    x: 87,
+    y: 48,
+  },
+  {
+    key: "ai",
+    label: "AI & Innovation",
+    line: "Working prototypes built with AI coding tools",
+    x: 82,
+    y: 15,
+  },
+] as const;
+
+export const differentiators = [
+  {
+    title: "I build the prototype myself.",
+    body: "Most PMs write a spec and wait weeks for a demo. I build the working prototype with AI coding tools — frontend, backend, APIs — deploy it, then hand engineering something real.",
+  },
+  {
+    title: "I pull the data myself.",
+    body: "SQL cross-checked against GA4 to find the discrepancies, and GA4 / GTM / DataLayer events defined before build — so every filter, preview and price change is measured.",
+  },
+  {
+    title: "I started on the floor.",
+    body: "Catalog, listings and customer feedback at HoMafy and VLE Bazaar came first. Now I turn complex configuration and pricing rules into flows customers can self-serve.",
+  },
+];
+
+export const proofStats = [
+  { value: "4+", label: "years in product & e-commerce", source: "" },
+  { value: "+11%", label: "organic traffic", source: "VLE Bazaar" },
+  { value: "+8%", label: "conversion", source: "VLE Bazaar" },
+  { value: "+9%", label: "sales", source: "HoMafy" },
+  { value: "~15%", label: "team productivity", source: "Mahattaart · AI workflows" },
+];
+
+export interface ExperienceItem {
+  role: string;
+  company: string;
+  period: string;
+  location: string;
+  points: string[];
+}
+
+export const experience: ExperienceItem[] = [
+  {
+    role: "Growth & Product Specialist",
+    company: "Mahattaart",
+    period: "Jan 2024 — Present",
+    location: "New Delhi",
+    points: [
+      "Designed the product discovery journey and trigger logic — results first, preferences (space, size, style, references) captured progressively for personalised recommendations",
+      "Found gaps in the pricing model and defined a rule-based pricing flow around material specifications, consumption and wastage — translated business rules into implementation requirements",
+      "Write PRDs, user stories and acceptance criteria; run backlog and sprints in Jira and track dependencies, timelines and stakeholders to launch",
+      "Use SQL with GA4 data to investigate behaviour, form hypotheses and evaluate UI/UX versions through A/B tests",
+      "Defined GA4 / GTM / DataLayer tracking across listing, customisation and checkout journeys; built AI-assisted workflows that improved team productivity by about 15%",
+    ],
+  },
+  {
+    role: "Product Catalog Specialist",
+    company: "VLE Bazaar",
+    period: "Sep 2023 — Dec 2023",
+    location: "New Delhi",
+    points: [
+      "Managed product catalog operations across Amazon and Flipkart marketplaces",
+      "Catalog and search-visibility work contributed to about 11% organic traffic growth and an 8% conversion improvement",
+    ],
+  },
+  {
+    role: "Customer Product Experience Executive",
+    company: "HoMafy",
+    period: "Jan 2022 — Aug 2023",
+    location: "New Delhi",
+    points: [
+      "Gathered customer product-usage feedback and translated it into catalog, content and listing improvements",
+      "Ran e-commerce product operations that contributed to about 9% sales growth",
+    ],
+  },
+];
+
+export const education = {
+  degree: "BBA — IP University",
+  detail: "CGPA 8.5",
+  period: "2020 — 2023",
+};
+
+export const certifications = [
+  "IBM Product Manager Professional Certificate",
+  "Microsoft AI Product Manager",
+  "Digital Product Management: Modern Fundamentals — University of Virginia",
+  "Generative AI for Product Strategy, UX & Launch — SkillUp",
+  "Google Data Analytics",
+  "Google Project Management — Professional Certificate",
+  "Microsoft Business Analyst",
+  "IBM UI/UX Designer",
+];
+
+export const skillGroups = [
+  {
+    title: "Product",
+    items: ["PRDs & user stories", "Acceptance criteria", "Backlog prioritisation", "Personalisation logic"],
+  },
+  {
+    title: "Data & experiments",
+    items: ["SQL", "GA4", "GTM / DataLayer", "Looker Studio", "Statsig A/B tests"],
+  },
+  {
+    title: "Delivery",
+    items: ["Jira", "Agile sprints", "Dependency & stakeholder tracking"],
+  },
+  {
+    title: "Build",
+    items: ["AI coding tools", "GitHub", "Render", "Netlify"],
   },
 ];

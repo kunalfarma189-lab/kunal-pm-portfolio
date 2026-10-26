@@ -1,7 +1,7 @@
 @import "tailwindcss";
 
 :root {
-  --background: #0a0d12;
+  --background: #05070c;
   --foreground: #e4e4e7;
 }
 
@@ -10,6 +10,7 @@
   --color-foreground: var(--foreground);
   --font-sans: var(--font-geist-sans);
   --font-mono: var(--font-geist-mono);
+  --font-serif: var(--font-instrument-serif), ui-serif, Georgia, serif;
 }
 
 html {
@@ -20,6 +21,27 @@ body {
   background: var(--background);
   color: var(--foreground);
   font-family: var(--font-geist-sans), ui-sans-serif, system-ui, sans-serif;
+}
+
+/* Homepage portrait: feathered into the background so the photo reads as
+   lit from within the page rather than a pasted rectangle. */
+.portrait-mask {
+  -webkit-mask-image:
+    radial-gradient(ellipse 52% 56% at 50% 40%, #000 42%, rgba(0, 0, 0, 0.6) 64%, transparent 88%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 62%, transparent 96%);
+  -webkit-mask-composite: source-in;
+  mask-image:
+    radial-gradient(ellipse 52% 56% at 50% 40%, #000 42%, rgba(0, 0, 0, 0.6) 64%, transparent 88%),
+    linear-gradient(to bottom, transparent 0%, #000 14%, #000 62%, transparent 96%);
+  mask-composite: intersect;
+}
+
+/* Faint scientific dot grid, fading out toward the edges. */
+.dot-grid {
+  background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.2px);
+  background-size: 26px 26px;
+  -webkit-mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
+  mask-image: radial-gradient(ellipse at center, #000 30%, transparent 72%);
 }
 
 ::selection {
@@ -59,5 +81,32 @@ body {
     transition:
       opacity 0.6s ease-out,
       transform 0.6s ease-out;
+  }
+
+  /* Hero copy entrance on first paint — once, no loop */
+  @keyframes hero-in {
+    from {
+      opacity: 0;
+      transform: translateY(14px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+    }
+  }
+  html.js .hero-in {
+    animation: hero-in 0.8s cubic-bezier(0.2, 0.7, 0.2, 1) both;
+  }
+  html.js .hero-in-2 {
+    animation-delay: 0.08s;
+  }
+  html.js .hero-in-3 {
+    animation-delay: 0.16s;
+  }
+  html.js .hero-in-4 {
+    animation-delay: 0.24s;
+  }
+  html.js .hero-in-5 {
+    animation-delay: 0.32s;
   }
 }
