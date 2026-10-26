@@ -4,12 +4,14 @@ import Link from "next/link";
 import { useState } from "react";
 import { profile } from "@/lib/content";
 
+// Section ids match public/home.html, which is what "/" serves.
 const links = [
-  { href: "/#home", label: "Home" },
-  { href: "/#experience", label: "Experience" },
+  { href: "/#top", label: "Home" },
+  { href: "/#help", label: "How I help" },
+  { href: "/#why", label: "Why me" },
+  { href: "/#work", label: "Work" },
+  { href: "/#journey", label: "Experience" },
   { href: "/case-studies", label: "Case Studies" },
-  { href: "/#ai-projects", label: "AI Projects" },
-  { href: "/#about", label: "About" },
 ];
 
 export default function Navbar() {
@@ -19,7 +21,7 @@ export default function Navbar() {
     <header className="sticky top-0 z-50 border-b border-white/10 bg-[#0a0d12]/80 backdrop-blur">
       <nav className="mx-auto grid h-16 max-w-7xl grid-cols-[1fr_auto_1fr] items-center px-4 sm:px-6">
         <Link
-          href="/#home"
+          href="/#top"
           className="justify-self-start rounded-md text-base font-semibold tracking-tight text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
         >
           Kunal<span className="text-indigo-400">.</span>
