@@ -1,8 +1,30 @@
 # Kunal Farma — Product Manager Portfolio
 
-A single-page portfolio built with Next.js, TypeScript, React, and Tailwind CSS.
+**Live site:** https://kunal-pm-portfolio.onrender.com/ (auto-deploys from `main` via Render)
 
-Sections: Home, Experience, Case Studies (Amazon, Flipkart, Myntra — **hypothetical case studies, labelled as such on the page**), AI Projects, About, Contact.
+## How the site is built
+
+The site has two parts:
+
+| URL | What serves it | Where to edit |
+| --- | --- | --- |
+| `/` (homepage) | `public/home.html` — a single self-contained HTML page (its own CSS and JS inline) | `public/home.html` |
+| `/case-studies`, `/case-studies/<slug>` | Next.js app (TypeScript, React, Tailwind) | `lib/content.ts` for text, `app/case-studies/` for layout |
+
+`next.config.ts` rewrites `/` to `/home.html`, so the homepage is plain HTML while the case studies are Next.js pages with their own navbar (`components/Navbar.tsx`) and footer.
+
+Other files in `public/`:
+
+- `Kunal_Farma_Resume.pdf` — the resume both homepage buttons download. Replace this file to update the resume.
+- `kunal-farma.jpg` — the link-preview image (`og:image`) for shares on LinkedIn, WhatsApp, etc. The homepage portrait itself is embedded in `home.html`.
+
+## Editing the content
+
+- **Homepage text, sections, contact details:** edit `public/home.html`. Its `<head>` also holds the search description and link-preview tags — keep them in step with the page.
+- **Case studies:** edit `lib/content.ts`.
+- **Links between the two:** the case-study navbar links to homepage sections by id (`#top`, `#help`, `#why`, `#work`, `#journey`, `#contact`). If you rename a section id in `home.html`, update `components/Navbar.tsx` too.
+
+Content is sourced from the master resume — don't add claims that aren't already resume-backed. The Amazon / Flipkart / Myntra case studies are **hypothetical independent analyses, not client work**. The badge on each card, the index-page note, the detail-page banner and the footer disclaimer keep this explicit — please keep them.
 
 ## Run it locally
 
@@ -18,34 +40,16 @@ npm run build
 npm run start      # serves the production build
 ```
 
-## Editing the content
-
-Almost everything you'd want to change lives in **`lib/content.ts`** — name, tagline, email, LinkedIn URL, experience entries, case studies, AI project cards, certifications, and education. No other file needs touching for content edits.
-
-Content is sourced from the master resume — don't add claims that aren't already resume-backed. The Amazon / Flipkart / Myntra case studies are hypothetical independent analyses; keep their labels intact.
-
-**Live site:** https://kunal-pm-portfolio.onrender.com/ (auto-deploys from `main` via Render)
-
 ## Deploying to Render
 
-The repo includes a `render.yaml` blueprint. Two ways to deploy:
+The repo includes a `render.yaml` blueprint, and Render redeploys automatically on every push to `main`. To set it up from scratch:
 
-**Option A — Blueprint (recommended):**
+**Option A — Blueprint (recommended):** on Render, **New → Blueprint**, select this repository. Render reads `render.yaml` and creates the web service.
 
-1. Push this repo to GitHub (already done if you're reading this on GitHub).
-2. On Render: **New → Blueprint**, select this repository. Render reads `render.yaml` and creates the web service.
-3. After the first deploy, the site is live on a free `onrender.com` URL.
+**Option B — Manual:** on Render, **New → Web Service**, connect this repository, then set:
 
-**Option B — Manual:**
+- Build command: `npm ci && npm run build`
+- Start command: `npm run start`
+- Environment: `NODE_VERSION` = `24` (Render injects `PORT` automatically)
 
-1. On Render: **New → Web Service**, connect this repository.
-2. Build command: `npm ci && npm run build`
-3. Start command: `npm run start`
-4. Environment: add `NODE_VERSION` = `24`. Render injects `PORT` automatically.
-
-No database, no environment secrets — the site is fully static content.
-
-## Notes
-
-- The Amazon / Flipkart / Myntra case studies are **hypothetical thinking exercises**, not client work. The badge on each card and the footer disclaimer keep this explicit — please keep them.
-- Deployed on Render: add the live URL here once the first deploy succeeds.
+No database and no environment secrets — the site is fully static content.
