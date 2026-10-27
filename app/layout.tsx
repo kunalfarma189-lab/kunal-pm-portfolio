@@ -27,7 +27,7 @@ const description =
   "Kunal Farma — Product Specialist in New Delhi with 4+ years in product and e-commerce. PRDs and Jira delivery, SQL and GA4 analytics, A/B tests, and working prototypes built with AI.";
 
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kunal-pm-portfolio.onrender.com"),
+  metadataBase: new URL("https://kunal-pm-portfolio.vercel.app"),
   title: "Kunal Farma — Product Specialist",
   description,
   alternates: { canonical: "/" },

@@ -1,6 +1,6 @@
 # Kunal Farma — Product Manager Portfolio
 
-**Live site:** https://kunal-pm-portfolio.onrender.com/ (auto-deploys from `main` via Render)
+**Live site:** https://kunal-pm-portfolio.vercel.app/ (auto-deploys from `main` via Vercel — free Hobby plan, no cold starts). The older Render service at https://kunal-pm-portfolio.onrender.com/ still deploys from `main` too, but its free tier sleeps when idle.
 
 ## How the site is built
 
@@ -59,7 +59,11 @@ npm run build
 npm run start      # serves the production build
 ```
 
-## Deploying to Render
+## Deploying
+
+**Vercel (current):** on vercel.com, Add New → Project, import this repository, keep the Next.js preset and defaults, Deploy. Every push to `main` redeploys.
+
+### Render (previous host)
 
 The repo includes a `render.yaml` blueprint, and Render redeploys automatically on every push to `main`. To set it up from scratch:
 
