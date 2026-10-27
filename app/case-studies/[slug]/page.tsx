@@ -18,7 +18,7 @@ export async function generateMetadata({
   const cs = caseStudies.find((c) => c.slug === slug);
   if (!cs) return {};
   return {
-    title: `${cs.company} case study${cs.kind === "work" ? "" : " (hypothetical)"} — Kunal Farma`,
+    title: `${cs.company} case study${cs.kind === "work" ? "" : " (practice)"} — Kunal Farma`,
     description: cs.oneLiner,
   };
 }
@@ -146,10 +146,10 @@ export default async function CaseStudyPage({
             numbers are shared.
           </p>
         ) : (
-          <p className="rounded-2xl border border-amber-300/25 bg-amber-300/[0.06] p-4 text-[15px] leading-6 text-amber-100/90">
-            <strong className="font-semibold text-amber-200">Practice case study.</strong> I have
-            not worked for {cs.company}. My own thinking, no inside data — every number is a public
-            report or marked as my guess.
+          <p className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-[15px] leading-6 text-zinc-300">
+            <strong className="font-semibold text-white">Practice case study.</strong> A real-world
+            problem worked with my full method, so you can see how I think. Not work for{" "}
+            {cs.company}: numbers are public reports or marked as my guess.
           </p>
         )}
       </Reveal>

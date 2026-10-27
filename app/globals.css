@@ -259,10 +259,14 @@ body {
       transform: translate(-12%, -8%) scale(0.95);
     }
   }
-  .aurora-a {
-    animation: aurora-a 26s ease-in-out infinite;
-  }
-  .aurora-b {
-    animation: aurora-b 32s ease-in-out infinite;
+  /* Drifting blurred layers cost GPU time and battery on phones, so the
+     blobs only move on large screens; smaller screens get them static. */
+  @media (min-width: 1024px) {
+    .aurora-a {
+      animation: aurora-a 26s ease-in-out infinite;
+    }
+    .aurora-b {
+      animation: aurora-b 32s ease-in-out infinite;
+    }
   }
 }

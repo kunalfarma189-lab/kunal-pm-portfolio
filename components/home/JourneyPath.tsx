@@ -2,7 +2,7 @@
 
 import { useEffect, useRef, useState, type ReactNode } from "react";
 import {
-  motion,
+  m,
   useMotionValue,
   useReducedMotion,
   useSpring,
@@ -19,8 +19,11 @@ import {
  * each diagonal, overshoots a touch and settles — with a softer comet
  * trail behind it. The travelled part lights up.
  *
- * Below lg: no room for a path beside the content, so the journey is a
- * thin progress bar under the navbar with the current stop's name.
+ * Below lg: the same road as a straight timeline. Content is indented and
+ * every node sits on a rail at the cards' left edge, so the arrow rides
+ * down the edge and never crosses text. A fixed strip under the navbar
+ * mirrors it: a progress bar with a dot per stop and the current stop's
+ * name.
  *
  * Either way, every node the reader has passed gets `data-reached`,
  * which the node styles use to glow and pulse.
@@ -172,9 +175,9 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
 
   return (
     <div ref={wrapRef} className="relative overflow-x-clip">
-      {/* lg+: the zig-zag path */}
+      {/* the road */}
       {ready && (
-        <svg aria-hidden width={geo.w} height={geo.h} className="pointer-events-none absolute left-0 top-0 hidden overflow-visible lg:block">
+        <svg aria-hidden width={geo.w} height={geo.h} className="pointer-events-none absolute left-0 top-0 overflow-visible">
           <defs>
             <linearGradient id="jp-glow" x1="0" y1="0" x2="0" y2="1">
               <stop offset="0" stopColor="#ffffff" />
@@ -182,7 +185,7 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
               <stop offset="1" stopColor="#c4a8ff" />
             </linearGradient>
             <mask id="jp-travelled" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.w} height={geo.h}>
-              <motion.path d={geo.d} fill="none" stroke="#fff" strokeWidth={10} style={{ strokeDasharray: dash }} />
+              <m.path d={geo.d} fill="none" stroke="#fff" strokeWidth={10} style={{ strokeDasharray: dash }} />
             </mask>
           </defs>
           <path ref={pathRef} d={geo.d} fill="none" className="stroke-white/20" strokeWidth={1.5} strokeDasharray="1 8" strokeLinecap="round" strokeLinejoin="round" />
@@ -200,44 +203,53 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
         </svg>
       )}
 
-      <div className="relative">{children}</div>
+      {/* below lg the content is indented so the road has a clear rail at
+          the left edge of every card — the arrow never crosses text */}
+      <div className="relative pl-[22px] lg:pl-0">{children}</div>
 
-      {/* lg+: comet trail, then the arrow */}
+      {/* comet trail, then the arrow (its name label only on lg+, where
+          there is room beside the road; phones show it in the top strip) */}
       {ready && (
         <>
-          <motion.div aria-hidden style={{ x: tx, y: ty }} className="pointer-events-none absolute left-0 top-0 z-20 hidden lg:block">
+          <m.div aria-hidden style={{ x: tx, y: ty }} className="pointer-events-none absolute left-0 top-0 z-20">
             <span className="absolute size-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#a9bcff]/40 blur-[6px]" />
-          </motion.div>
-          <motion.div aria-hidden style={{ x: ax, y: ay }} className="pointer-events-none absolute left-0 top-0 z-30 hidden lg:block">
-            <motion.span
+          </m.div>
+          <m.div aria-hidden style={{ x: ax, y: ay }} className="pointer-events-none absolute left-0 top-0 z-30">
+            <m.span
               style={{ rotate: ar }}
               className="absolute grid size-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#a9bcff] bg-[#05070c] text-white shadow-[0_0_28px_rgba(140,160,255,0.8)]"
             >
               <svg viewBox="0 0 16 16" className="size-4" fill="none" stroke="currentColor" strokeWidth={1.7} strokeLinecap="round" strokeLinejoin="round">
                 <path d="M8 2.5v10M4 9l4 4 4-4" />
               </svg>
-            </motion.span>
+            </m.span>
             {label && (
-              <span className={`absolute top-0 -translate-y-1/2 ${pill} ${onRight ? "right-7" : "left-7"} ${moving ? "opacity-100" : "opacity-0"}`}>
+              <span className={`absolute top-0 hidden -translate-y-1/2 lg:block ${pill} ${onRight ? "right-7" : "left-7"} ${moving ? "opacity-100" : "opacity-0"}`}>
                 {label}
               </span>
             )}
-          </motion.div>
+          </m.div>
         </>
       )}
 
-      {/* below lg: progress bar under the navbar */}
+      {/* below lg: the road in miniature under the navbar — a progress
+          bar with one dot per stop, and the stop you are at */}
       {ready && (
         <div aria-hidden className="pointer-events-none fixed inset-x-0 top-16 z-40 lg:hidden">
-          <div className="h-[3px] w-full bg-white/[0.06]">
-            <motion.div
+          <div className="relative h-[3px] w-full bg-white/[0.08]">
+            <m.div
               style={{ scaleX: progress }}
               className="h-full origin-left bg-gradient-to-r from-white via-[#a9bcff] to-[#c4a8ff] shadow-[0_0_12px_rgba(169,188,255,0.8)]"
             />
+            {geo.lens.slice(1).map((l, i) => (
+              <span
+                key={i}
+                style={{ left: `${(l / geo.total) * 100}%` }}
+                className="absolute top-1/2 size-[7px] -translate-x-1/2 -translate-y-1/2 rounded-full border border-white/40 bg-[#05070c]/60"
+              />
+            ))}
           </div>
-          {label && (
-            <span className={`absolute right-4 top-3 ${pill} ${moving ? "opacity-100" : "opacity-0"}`}>{label}</span>
-          )}
+          <span className={`absolute right-4 top-3 ${pill} ${label ? "opacity-100" : "opacity-0"}`}>{label || " "}</span>
         </div>
       )}
     </div>

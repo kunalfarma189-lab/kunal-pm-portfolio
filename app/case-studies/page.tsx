@@ -6,7 +6,7 @@ import { caseStudies } from "@/lib/content";
 export const metadata: Metadata = {
   title: "Case Studies — Kunal Farma",
   description:
-    "Hypothetical, independent product analyses of Amazon, Flipkart, and Myntra — problem statement to learnings, clearly labelled as exercises.",
+    "One real case study (Mahattaart) and three practice studies across e-commerce, banking (NBFC loans, payments, insurance) and healthcare — problem to learnings, clearly labelled.",
 };
 
 export default function CaseStudiesIndex() {
@@ -26,12 +26,12 @@ export default function CaseStudiesIndex() {
       </Reveal>
 
       <Reveal delay={120} className="mt-8 max-w-3xl">
-        <div className="rounded-xl border border-amber-400/30 bg-amber-400/10 p-4 text-sm leading-6 text-amber-200">
-          <strong>One real, three practice.</strong> The Mahattaart study is my own work.
-          I have not worked at Amazon, Flipkart
-          or Myntra — these are my own thinking exercises, with no inside data.
-          (At VLE Bazaar I managed seller catalogs on Amazon and Flipkart; that
-          is the only link.)
+        <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-6 text-zinc-300">
+          <strong className="text-white">One real, three practice — same method.</strong>{" "}
+          Mahattaart is work I shipped. For e-commerce, banking and healthcare I took a
+          real-world problem and worked it the same way, so you can see how I think before
+          you share your data. Practice studies use public reports and my own reasoning;
+          FinBridge and CareLoop are illustrative companies.
         </div>
       </Reveal>
 

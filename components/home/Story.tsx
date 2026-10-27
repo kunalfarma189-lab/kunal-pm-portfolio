@@ -1,7 +1,7 @@
 "use client";
 
 import type { ReactNode } from "react";
-import { motion, useReducedMotion } from "motion/react";
+import { m, useReducedMotion } from "motion/react";
 import { capabilityIcons } from "./Icons";
 import { Tilt } from "./Motion";
 
@@ -17,8 +17,8 @@ import { Tilt } from "./Motion";
  * StationRow — one "how I work" step. The card slides in from its side
  * of the spine and settles with a bounce, and tilts toward the pointer on
  * desktop. On lg+ the node sits in a centre column and a big outlined
- * step word fills the opposite side; below lg the node sits inside the
- * card's header and the card takes the full width.
+ * step word fills the opposite side; below lg the node sits on a rail at
+ * the card's left edge (a straight timeline) and the card fills the rest.
  */
 
 const spring = { type: "spring", stiffness: 210, damping: 14, mass: 1 } as const;
@@ -42,14 +42,14 @@ export function SpineNode({
   // desktop zig-zag: nodes sit a little left/right of the centre column
   const offset = side === "left" ? "lg:-translate-x-12" : "lg:translate-x-12";
   return (
-    <motion.div
+    <m.div
       initial={reduce ? false : "up"}
       whileInView="down"
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       data-jp-node={label}
       className={`group/node relative z-10 w-fit ${offset} ${className}`}
     >
-      <motion.div
+      <m.div
         variants={{
           up: { y: -120, opacity: 0, scale: 0.8 },
           down: { y: 0, opacity: 1, scale: 1, transition: { ...spring, opacity: { duration: 0.25 } } },
@@ -62,8 +62,8 @@ export function SpineNode({
             {capabilityIcons[icon]({ className: glyph })}
           </span>
         </span>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 }
 
@@ -88,12 +88,12 @@ export function StationRow({
   const tilt = side === "left" ? -2.5 : 2.5;
 
   const card = (
-    <motion.div
+    <m.div
       initial={reduce ? false : "up"}
       whileInView="down"
       viewport={{ once: true, margin: "0px 0px -15% 0px" }}
     >
-      <motion.div
+      <m.div
         variants={{
           up: { x: fromX, rotate: tilt, opacity: 0 },
           down: {
@@ -104,19 +104,14 @@ export function StationRow({
           },
         }}
       >
-        <Tilt className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] p-6 shadow-[0_40px_80px_-50px_rgba(100,110,255,0.6)] backdrop-blur-md sm:p-9">
-          <div className="flex items-center gap-3">
-            <div className="lg:hidden">
-              <SpineNode icon={icon} label={label} side={side} size="sm" />
-            </div>
-            <p className="font-mono text-sm text-[#a9bcff]">
-              {n} <span className="text-zinc-500">· {step}</span>
-            </p>
-          </div>
+        <Tilt className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] p-6 shadow-[0_40px_80px_-50px_rgba(100,110,255,0.6)] sm:p-9 lg:backdrop-blur-md">
+          <p className="font-mono text-sm text-[#a9bcff]">
+            {n} <span className="text-zinc-500">· {step}</span>
+          </p>
           {children}
         </Tilt>
-      </motion.div>
-    </motion.div>
+      </m.div>
+    </m.div>
   );
 
   const ghost = (
@@ -132,7 +127,15 @@ export function StationRow({
   );
 
   return (
-    <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_8rem_minmax(0,1fr)] lg:items-center lg:gap-x-10">
+    <div
+      id={`step-${index}`}
+      className="relative scroll-mt-24 lg:grid lg:grid-cols-[minmax(0,1fr)_8rem_minmax(0,1fr)] lg:items-center lg:gap-x-10"
+    >
+      {/* below lg: the node sits on the rail at the card's left edge
+          (JourneyPath indents the content by 22px to make room) */}
+      <div className="absolute -left-[22px] top-4 lg:hidden">
+        <SpineNode icon={icon} label={label} side={side} size="sm" />
+      </div>
       <div className={side === "left" ? "lg:order-1" : "lg:order-3"}>{card}</div>
       <div className="hidden lg:order-2 lg:block">
         <SpineNode icon={icon} label={label} side={side} className="mx-auto" />

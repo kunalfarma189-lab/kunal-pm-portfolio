@@ -10,7 +10,9 @@ import { ArrowRight, capabilityIcons, contactIcons } from "@/components/home/Ico
 import {
   caseStudies,
   caseStudiesAreDemo,
+  certifications,
   credentials,
+  moreCertifications,
   experience,
   profile,
   proofStats,
@@ -23,8 +25,8 @@ import {
  * hero to contact through every SpineNode. First the four "how I work"
  * stations — Discover → Define → Deliver → Measure — then the proof: case
  * studies, experience, toolkit. On lg+ the stations alternate sides of the
- * spine; on phones everything is full width and the spine becomes a
- * progress bar under the navbar.
+ * spine; on phones every node sits on a left rail (a straight timeline)
+ * mirrored by a progress strip under the navbar.
  */
 
 const serifAccent = "font-serif font-normal italic tracking-[-0.01em] text-[#c3cfff]";
@@ -84,8 +86,10 @@ function HowIWork() {
                           className="bg-[linear-gradient(95deg,#ffffff,#c3cfff)] bg-clip-text text-[2.4rem] font-semibold leading-none tracking-[-0.04em] text-transparent sm:text-[2.6rem]"
                         />
                       </dd>
-                      <dd className="mt-2 text-[15px] text-zinc-300">{s.label}</dd>
-                      <dd className="text-[13px] text-zinc-500">{s.source}</dd>
+                      <dd className="mt-2 text-[15px] font-semibold text-white">{s.metric}</dd>
+                      <dd className="text-[14px] leading-5 text-zinc-400">
+                        {s.label} <span className="text-zinc-600">· {s.source}</span>
+                      </dd>
                     </div>
                   ))}
                 </dl>
@@ -108,7 +112,7 @@ function Work() {
   return (
     <section id="case-studies" className="scroll-mt-16 pt-24 sm:pt-36">
       <div className={wrap}>
-        <SpineNode icon="doc" label="Case studies" side="right" size="md" className="mx-auto" />
+        <SpineNode icon="doc" label="Case studies" side="right" size="md" className="-ml-7 lg:mx-auto" />
         <CenterHead
           eyebrow="Case studies"
           title={
@@ -203,7 +207,7 @@ function Experience() {
   return (
     <section id="experience" className="scroll-mt-16 pt-24 sm:pt-36">
       <div className={wrap}>
-        <SpineNode icon="roadmap" label="Experience" side="left" size="md" className="mx-auto" />
+        <SpineNode icon="roadmap" label="Experience" side="left" size="md" className="-ml-7 lg:mx-auto" />
         <CenterHead
           eyebrow="Experience"
           title={
@@ -271,11 +275,46 @@ function Experience() {
               </li>
             ))}
           </ol>
-          <p className="mt-5 flex flex-wrap justify-center gap-x-8 gap-y-1 text-center text-[15px] text-zinc-500">
-            {credentials.map((c) => (
-              <span key={c}>{c}</span>
-            ))}
-          </p>
+          <ul className="mt-5 grid gap-3 sm:grid-cols-[1fr_auto]">
+            <li className="flex items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3 text-[15px] text-zinc-200">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-white/15 text-[#a9bcff]">
+                {capabilityIcons.doc({ className: "size-4" })}
+              </span>
+              {credentials[0]}
+            </li>
+            <li>
+              <a
+                href={profile.linkedin}
+                target="_blank"
+                rel="noopener noreferrer"
+                className="group flex h-full items-center gap-3 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-3 text-[15px] font-medium text-white transition-colors hover:border-white/30"
+              >
+                <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-white/15 text-[#a9bcff]">
+                  {contactIcons.linkedin({ className: "size-4" })}
+                </span>
+                Verify on LinkedIn
+                <ArrowRight className="size-4 text-zinc-500 transition-transform duration-300 group-hover:translate-x-1 group-hover:text-white" />
+              </a>
+            </li>
+          </ul>
+          <div className="mt-3 rounded-2xl border border-white/10 bg-white/[0.02] px-4 py-4">
+            <p className="flex items-center gap-3 text-[15px] text-zinc-200">
+              <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-white/15 text-[#a9bcff]">
+                {capabilityIcons.checklist({ className: "size-4" })}
+              </span>
+              {certifications.length + moreCertifications} certifications
+            </p>
+            <ul className="mt-3 flex flex-wrap gap-2">
+              {certifications.map((name) => (
+                <li key={name} className="rounded-full border border-white/15 px-3 py-1.5 text-sm text-zinc-200">
+                  {name}
+                </li>
+              ))}
+              <li className="rounded-full border border-dashed border-white/15 px-3 py-1.5 text-sm text-zinc-500">
+                +{moreCertifications} more
+              </li>
+            </ul>
+          </div>
         </Reveal>
       </div>
     </section>
@@ -288,7 +327,7 @@ function Toolkit() {
   return (
     <section id="skills" className="scroll-mt-16 pt-24 sm:pt-36">
       <div className={wrap}>
-        <SpineNode icon="chart" label="Toolkit" side="right" size="md" className="mx-auto" />
+        <SpineNode icon="chart" label="Toolkit" side="right" size="md" className="-ml-7 lg:mx-auto" />
         <CenterHead
           eyebrow="Toolkit"
           title={
@@ -321,7 +360,7 @@ function Contact() {
     <section id="contact" className="relative scroll-mt-16 overflow-hidden pb-24 pt-24 sm:pb-36 sm:pt-36">
       <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-[32rem] w-[60rem] -translate-x-1/2 rounded-full bg-[#5b6bff]/[0.14] blur-[120px]" />
       <div className={`relative ${wrap}`}>
-        <SpineNode icon="send" label="Contact" side="left" size="md" className="mx-auto" />
+        <SpineNode icon="send" label="Contact" side="left" size="md" className="-ml-7 lg:mx-auto" />
         <Reveal className="mt-8 text-center">
           <div className="mask">
             <h2 className="text-[clamp(2.8rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white">
@@ -330,7 +369,9 @@ function Contact() {
               to <span className={serifAccent}>solve?</span>
             </h2>
           </div>
-          <p className="mt-6 text-lg text-zinc-400">Open to Product Manager roles. Let&apos;s talk.</p>
+          <p className="mt-6 text-lg text-zinc-400">
+            Open to Product Manager roles · {profile.location}. Let&apos;s talk.
+          </p>
         </Reveal>
         <Reveal delay={120} className="mx-auto mt-10 max-w-2xl sm:mt-12">
           <ul className="grid gap-3 sm:grid-cols-2">

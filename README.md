@@ -12,19 +12,19 @@ One Next.js app (TypeScript, React, Tailwind, [Motion](https://motion.dev) for t
 | `/case-studies` | `app/case-studies/page.tsx` |
 | `/case-studies/<slug>` | `app/case-studies/[slug]/page.tsx` — one study in four chapters |
 
-Shared pieces: `app/layout.tsx` (fonts, search + link-preview metadata), `components/Navbar.tsx`, `components/Footer.tsx`, `components/Reveal.tsx` (scroll reveal), `components/ScrollTopButton.tsx` (case-study pages only).
+Shared pieces: `app/layout.tsx` (fonts, search + link-preview metadata, theme colour), `app/manifest.ts` + `app/icon.svg` + `app/apple-icon.tsx` (add-to-home-screen name and icon), `components/MotionProvider.tsx` (loads only the Motion features the site uses — components import `m`, not `motion`), `components/Navbar.tsx`, `components/Footer.tsx`, `components/Reveal.tsx` (scroll reveal), `components/ScrollTopButton.tsx` (case-study pages only).
 
 Homepage components live in `components/home/`:
 
-- `Hero.tsx` — headline first on every screen. On xl+ the portrait sits beside it with six floating capability icons that take turns lighting up, dotted arrows joining them, and a comet circling the orbit. Below xl: a smaller portrait with four floating icon orbs and a swipeable row of capability chips. The portrait pops in on load and drifts with parallax.
-- `JourneyPath.tsx` — the journey. It measures every element marked `data-jp-node`. On lg+ it draws a zig-zag dotted path through them; a glowing arrow (with a softer comet trail) rides the path with scroll on a spring, and the travelled part lights up. Below lg it is a progress bar under the navbar with the current stop's name. Nodes the reader has passed get `data-reached`.
+- `Hero.tsx` — headline first on every screen. On xl+ the portrait sits beside it with six floating capability icons that take turns lighting up, dotted arrows joining them, and a comet circling the orbit. Below xl: a smaller portrait with four floating icon orbs, a swipeable row of capability chips, then a roadmap card — the four "how I work" stops on a dotted road (each a link to its step) and the three proof sections. The portrait pops in on load and drifts with parallax.
+- `JourneyPath.tsx` — the journey. It measures every element marked `data-jp-node`. On lg+ it draws a zig-zag dotted path through them; a glowing arrow (with a softer comet trail) rides the path with scroll on a spring, and the travelled part lights up. Below lg the content is indented and every node sits on a rail at the cards' left edge, so the road is a straight timeline the arrow rides without crossing text; a strip under the navbar mirrors it as a progress bar with a dot per stop and the current stop's name. Nodes the reader has passed get `data-reached`.
 - `Story.tsx` — `SpineNode` (an icon on the journey: drops in, floats, glows and pulses once reached) and `StationRow` (a "how I work" step: the card slides in from its side of the spine; on lg+ a big outlined step word fills the other side).
 - `Motion.tsx` — `CountUp` (stats), `GravityChips` (toolkit chips fall into their tray), `Parallax`, `Tilt` (cards lean toward the mouse on desktop) and `Aurora` (colour blobs drifting behind the page).
 - `Spotlight.tsx` — a soft light that follows the mouse (desktop only).
 - `FlowPreview.tsx` — the small zig-zag flow diagram on case-study cards.
 - `Icons.tsx` — thin outline icons, looked up by key.
 
-`prefers-reduced-motion`: every animation is gated — CSS keyframes live inside a `no-preference` media block, and the Motion-driven pieces check `useReducedMotion`. Content is always visible without JavaScript.
+Performance notes: the aurora blobs only drift on screens 1024px and wider, the step cards only use backdrop blur there too, and the hero portrait is preloaded. `prefers-reduced-motion`: every animation is gated — CSS keyframes live inside a `no-preference` media block, and the Motion-driven pieces check `useReducedMotion`. Content is always visible without JavaScript.
 
 Files in `public/`:
 
@@ -38,12 +38,12 @@ Everything lives in `lib/content.ts`:
 - `profile` — name, contact details, links.
 - `hero` and `capabilities` — the headline strap and the six icons around the portrait (`x`/`y` are % positions on desktop).
 - `stations` — the four "how I work" steps (Discover → Define → Deliver → Measure).
-- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `toolkit`.
+- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `certifications` (named ones; `moreCertifications` counts the rest), `toolkit`.
 - `caseStudies` — each has `kind` (`"work"` for real work, `"practice"` for a thinking exercise) and four chapters: `discover`, `define`, `deliver`, `measure`. The homepage features the `work` study above the practice ones. `caseStudiesAreDemo` swaps the practice badge to "Demo".
 
 Section ids used by the navbar: `#top`, `#how`, `#case-studies`, `#experience`, `#skills`, `#contact`. If you rename one in `app/page.tsx`, update `components/Navbar.tsx` too.
 
-Content comes from the master resume and from Kunal's own account of his work — don't add claims or numbers that aren't backed by one of those. The Amazon / Flipkart / Myntra studies are **practice exercises, not client work**; the badge on each card, the index note and the detail-page banner keep this explicit — please keep them.
+Content comes from the master resume and from Kunal's own account of his work — don't add claims or numbers that aren't backed by one of those. The Amazon / FinBridge / CareLoop studies (e-commerce, banking, healthcare) are **practice exercises, not client work** — FinBridge and CareLoop are illustrative, made-up companies; the badge on each card, the index note and the detail-page banner keep this explicit — please keep them.
 
 ## Run it locally
 

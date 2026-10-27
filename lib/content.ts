@@ -21,9 +21,9 @@ export const profile = {
 
 // HYPOTHETICAL case studies — independent product analyses, written in
 // the same four steps as the homepage: Discover → Define → Deliver →
-// Measure, in plain words. I have NOT worked for Amazon, Flipkart or
-// Myntra; every figure is a public benchmark or a stated guess, never
-// internal data. The badge, the index note and the detail-page banner
+// Measure, in plain words. I have NOT worked for Amazon; FinBridge and
+// CareLoop are made-up companies standing in for fintech and healthcare.
+// Every figure is a public benchmark or a stated guess, never internal data. The badge, the index note and the detail-page banner
 // say so — keep them.
 export interface CaseStudy {
   slug: string;
@@ -202,129 +202,138 @@ export const caseStudies: CaseStudy[] = [
       ],
     },
   },
+  // FinBridge is a made-up fintech platform, used as a stand-in for the category.
   {
-    slug: "flipkart-cod-rto",
-    company: "Flipkart",
+    slug: "finbridge-agent-platform",
+    company: "FinBridge (an NBFC loans, payments & insurance platform)",
     kind: "practice",
-    title: "Fewer cash-on-delivery parcels refused at the door",
-    oneLiner: "A refused parcel travels twice and earns nothing. Ask the customer before shipping, not at the door.",
-    tags: ["Cash on delivery", "Returns", "Delivery"],
+    title: "One agent journey for EMIs, wallets, commission and policies",
+    oneLiner: "Field agents collect loan EMIs, top up wallets, earn commission and renew insurance. Today each lives in a different tool. Join them — and fix the biggest leak first.",
+    tags: ["Loans & EMIs", "Payments & commission", "InsurTech"],
     discover: {
       problem:
-        "Cash on delivery is how much of India shops. But when a customer refuses the parcel at the door, it travels both ways, earns nothing, and often cannot be sold again. The job: cut refusals without making cash on delivery harder for honest buyers.",
+        "A field agent visits a small-town customer to collect a loan EMI, tops up their wallet, and offers to renew their insurance. Then the EMI is logged a day late, the commission is argued over on WhatsApp, and the renewal is forgotten. Multiply that across thousands of agents and the lender loses collections, trust and policies. The job: find where the agent journey breaks, and fix the biggest cause first.",
       users: [
-        "First-time buyers who do not trust online payment yet",
-        "Impulse buyers who change their mind before delivery",
-        "People ordering for family who may not be home",
+        "Field agents and partners who collect EMIs and sell policies door to door",
+        "Loan customers who pay in cash and want proof on the spot",
+        "Back-office staff who approve payouts and check policy paperwork",
       ],
       evidence: [
-        "My guess: most refusals are a change of mind, not an inability to pay.",
-        "My guess: delivery calls from unknown numbers go unanswered, so deliveries fail.",
-        "Industry reports: cash parcels are refused far more often than prepaid ones.",
+        "My guess: most late EMIs are collected on time but logged late — not unpaid.",
+        "My guess: payout disputes come from approvals done over WhatsApp and Excel, with no record of who said yes.",
+        "Public reports: NBFC collections and policy renewals leak badly when done by hand. I would confirm with real data first.",
       ],
       rootCauses: [
-        "We ask 'do you want this?' once, at order time, and never again",
-        "Delivery calls come from numbers people ignore",
-        "Unclear addresses make the first attempt fail",
-        "Cancelling after shipping is harder than refusing at the door",
+        "No live EMI schedule, so agents and customers disagree on what is due",
+        "A customer who cannot pay this month has no way to reschedule, so they just skip",
+        "Wallet top-ups, redemptions and commission run on separate sheets",
+        "Renewal dates live with the insurer, so no one reminds the customer in time",
       ],
     },
     define: {
-      goal: "Fewer cash-on-delivery parcels refused — and cash on delivery still easy for honest buyers.",
+      goal: "More EMIs collected on time, payouts no one disputes, and policies that renew — all from one agent app.",
       bets: [
-        "Day before delivery: 'Still want this?' One tap to confirm, free cancel before it ships",
-        "Pick a delivery time slot when confirming, so someone is home",
-        "Check address quality at order time; unclear ones get a quick confirm",
-        "Small discount to pay online — 'skip the cash', never a penalty",
+        "Live EMI tracking with an EMI calculator and a repayment reschedule the customer can ask for in the app",
+        "Wallet top-up and redemption with commission payouts that go through a back-office approval queue",
+        "Renewal reminders 30 and 7 days out, with policy issuance through insurer APIs",
+        "One agent dashboard: today's collections, pending payouts, policies due",
       ],
       whyFirst:
-        "Ask before shipping. The parcel has not moved, so a cancellation costs almost nothing — and the customer gets a choice instead of a surprise.",
+        "EMI tracking first. Collections are the lender's cash flow, the agent is already at the door, and a reschedule turns a skipped EMI into a late but paid one. Results show in one collection cycle.",
     },
     deliver: {
-      flow: ["Cash order", "Address check", "'Still want this?'", "Time slot picked", "Shipped", "Delivered — cash paid"],
+      flow: ["Visit customer", "Collect EMI — receipt on the spot", "Reschedule if needed", "Top up or redeem wallet", "Commission queued for approval", "Policy renewal", "Payout"],
       now: [
-        "'Still want this?' message with one-tap confirm and free cancel",
-        "Time slot picker in the same message",
-        "Unconfirmed orders are held, not shipped",
+        "EMI schedule and calculator in the agent app, receipt sent to the customer",
+        "Reschedule request with new EMI shown before the customer agrees",
+        "Wallet top-up and redemption logged per customer",
+        "Approval queue for commission payouts, with who approved and when",
+        "Insurer API integration tested end to end before any policy goes live",
       ],
-      later: ["Address quality check with a confirm step", "'Skip the cash' discount for repeat buyers"],
+      later: ["Renewal reminders to customer and agent", "Policy issuance in the app, tested per insurer", "Agent dashboard with collections, payouts and renewals due"],
       risks: [
-        "Every extra step loses a few honest buyers — keep it one tap",
-        "Too many messages and people ignore them",
-        "Judging addresses by area could be unfair to some regions",
+        "Easy reschedules can hide real defaults — cap them and flag repeat requests",
+        "An approval queue slows payouts if no one owns it — set a time limit",
+        "Insurer APIs fail in different ways — test issuance with dummy policies first",
+        "Agents work offline — a receipt must not depend on a signal",
       ],
     },
     measure: {
-      metrics: ["Cash parcels refused", "Customers who reply", "Orders cancelled before shipping", "First-try delivery success"],
+      metrics: ["EMIs collected on time", "Commission payouts disputed", "Policies renewed before expiry", "Time from payout request to approval", "Policies issued without a manual fix"],
       experiment: {
-        who: "10% of cash-on-delivery orders in two cities",
-        check: "Fewer parcels refused at the door",
-        guard: "Cancellations before shipping must not exceed the refusals they replace",
+        who: "Agents in two branches, for one full collection cycle",
+        check: "More EMIs collected on time",
+        guard: "Rescheduled EMIs that later default, and payout approval time, must not rise",
       },
       learnings: [
-        "The cheapest time to stop a refusal is before shipping.",
-        "'Still want this?' helps the customer and the business. Say both.",
+        "Most 'late' collections are a logging problem. Fix the record, then the behaviour.",
+        "An approval that no one can trace will always be disputed. Put it in a queue.",
       ],
     },
   },
+  // CareLoop is a made-up clinic-booking app, used as a stand-in for the category.
   {
-    slug: "myntra-size-fit",
-    company: "Myntra",
+    slug: "careloop-missed-consults",
+    company: "CareLoop (a clinic-booking app)",
     kind: "practice",
-    title: "Fewer returns by helping people pick the right size",
-    oneLiner: "Wrong size is the top reason clothes come back. Fix the first choice, not the return.",
-    tags: ["Returns", "Sizing", "Fashion"],
+    title: "Why patients miss the video consult they booked",
+    oneLiner: "They book, they pay, and they never join the call. Where it goes wrong — and what to fix first.",
+    tags: ["Appointments", "Reminders", "Healthcare"],
     discover: {
       problem:
-        "In online fashion, a big share of orders comes back — and 'wrong size' is the most common reason. Every size return costs shipping, repacking, and often the customer's next order. The job: help people pick the right size first time, without turning the product page into a quiz.",
+        "A patient books a video consult, pays, and never joins the call. The doctor waits, the slot is wasted, and the patient still has the problem they booked for. Multiply that across every clinic on the app and it is one of the biggest leaks in telehealth. The job: find why patients miss the call, and fix the biggest cause first.",
       users: [
-        "Shoppers aged 18–34 buying across brands with different sizing",
-        "People buying for family and guessing the size",
-        "New customers with no order history",
+        "Patients booking a doctor online for the first time",
+        "Working people who book during the day and forget by evening",
+        "Family members booking for parents who do not use the app",
       ],
       evidence: [
-        "My guess: the same 'M' fits differently in every brand — that, not carelessness, drives most size returns.",
-        "My guess: people see the size chart but pick their usual size anyway.",
-        "Reports: 25–40% of fashion orders in India come back, with size the top reason.",
+        "My guess: most no-shows forget the time — not because they changed their mind.",
+        "My guess: the second leak is a join link that fails on the first try, so people give up.",
+        "Public reports: a large share of booked telehealth slots go unused. I would confirm with real data first.",
       ],
       rootCauses: [
-        "No way to translate sizes between brands",
-        "Size charts show garment measurements people cannot relate to",
-        "'Runs small' is buried in long review text",
-        "Returning is easy, exchanging is hard",
+        "One reminder, sent the night before, and nothing on the day",
+        "The join link sits deep inside the app, not in the reminder",
+        "A patient who cannot make it has no easy way to move the slot",
+        "The person who booked is not always the person who needs the call",
       ],
     },
     define: {
-      goal: "Fewer size returns — and the ones that still happen become exchanges.",
+      goal: "More booked consults actually happen — without annoying patients with messages.",
       bets: [
-        "Fit tags from reviews — runs small / true to size / runs large — next to the size options",
-        "One-tap exchange: swap the size, keep the order",
-        "Remember each shopper's usual size and show a per-brand fit hint",
-        "For new brands, use similar brands and say how sure we are",
+        "Reminder 15 minutes before, with the join link right in the message",
+        "One-tap 'move my slot' in every reminder, free up to an hour before",
+        "Let the booker add the patient's phone, so the right person gets the link",
+        "Doctor can start the call and the patient gets a ring, like a normal call",
       ],
       whyFirst:
-        "Fit tags first. The review data already exists, the shopper does nothing, and it can be live in weeks. Remembering sizes is the bigger win, but it needs data the tags start collecting.",
+        "The 15-minute reminder with the link first. The patient has already paid, so this is the cheapest consult to save. No change to doctors or booking, and results show in days.",
     },
     deliver: {
-      flow: ["Product page", "Fit tag + size hint", "Order", "Wrong size?", "One-tap exchange", "Right size kept"],
-      now: ["Fit tags next to the size options", "One-tap exchange from the order page"],
-      later: ["Remember the shopper's usual size everywhere", "Per-brand fit hint from past returns"],
+      flow: ["Book", "Pay", "Reminder — day before", "Reminder — 15 min, with link", "Join call", "Consult done"],
+      now: [
+        "15-minute reminder with a one-tap join link",
+        "'Move my slot' in the same message",
+        "Reminder sent to the patient's number, if given",
+      ],
+      later: ["Doctor-started call that rings the patient", "Follow-up reminder for lab reports after the consult"],
       risks: [
-        "New brands have little data — say how sure we are",
-        "More than two taps and people stop using it",
-        "'Did not like the style' often gets logged as 'wrong size'",
+        "Easy rescheduling can create a wave of last-minute moves — cap it at once per booking",
+        "Too many messages and people mute the app",
+        "Health reminders must not reveal the reason for the visit",
       ],
     },
     measure: {
-      metrics: ["Returns because of size", "Exchanges vs returns", "Shoppers using fit tags", "Repeat orders after an exchange"],
+      metrics: ["Booked consults that happen", "Patients joining within five minutes of the slot", "Slots moved vs slots missed", "Patients who book again"],
       experiment: {
-        who: "Half the shoppers, on the 200 products with the most size returns",
-        check: "Fewer size returns",
-        guard: "Add-to-cart must not drop",
+        who: "Half the patients at 20 clinics, for two weeks",
+        check: "More booked consults happen",
+        guard: "Reminder opt-outs and last-minute moves must not rise",
       },
       learnings: [
-        "Returns look like a design problem but are a data problem.",
-        "An exchange keeps the sale, the shipping cost, and usually the customer.",
+        "A missed call is usually a reminder problem, not a patient problem.",
+        "Put the next action inside the message. Do not make people find it.",
       ],
     },
   },
@@ -385,16 +394,19 @@ export const stations = [
     icon: "data",
     step: "Measure",
     title: "Prove the impact.",
-    line: "Tracking goes in before launch, so every result has a number.",
+    line: "Every launch gets a success metric, a baseline and tracking before it ships. Then the numbers decide.",
   },
 ];
 
+// Outcomes, named the way a product team reads them: the metric that
+// moved, what it was in plain words, and where. Numbers come from the
+// resume — never add one without a source.
 export const proofStats = [
-  { value: "4+", label: "years in e-commerce" },
-  { value: "+11%", label: "organic traffic", source: "VLE Bazaar" },
-  { value: "+8%", label: "conversion", source: "VLE Bazaar" },
-  { value: "+9%", label: "sales", source: "HoMafy" },
-  { value: "~15%", label: "team productivity", source: "Mahattaart" },
+  { value: "4+", metric: "Experience", label: "years in product & e-commerce" },
+  { value: "+11%", metric: "Acquisition", label: "organic traffic", source: "VLE Bazaar" },
+  { value: "+8%", metric: "Conversion", label: "visitors who bought", source: "VLE Bazaar" },
+  { value: "+9%", metric: "Revenue", label: "sales after fixing custom orders", source: "HoMafy" },
+  { value: "~15%", metric: "Team velocity", label: "faster delivery", source: "Mahattaart" },
 ];
 
 export const experience = [
@@ -475,11 +487,22 @@ export const credentials = [
   "8 certifications · IBM · Microsoft · Google · UVA",
 ];
 
+// Certifications named on the resume. Five are listed by name; the
+// remaining three are counted but not named there, so they stay "+3".
+export const certifications = [
+  "IBM Product Manager",
+  "Microsoft AI Product Manager",
+  "Google Data Analytics",
+  "Google PM",
+  "UVA Digital Product Management",
+];
+export const moreCertifications = 3;
+
 // Toolkit, grouped. AI and PM tools confirmed by Kunal; the rest come
 // from the resume and earlier site.
 export const toolkit = [
   {
-    title: "AI",
+    title: "AI tools",
     icon: "ai",
     items: [
       { icon: "ai", label: "Claude / Claude Code" },
@@ -489,8 +512,28 @@ export const toolkit = [
     ],
   },
   {
-    title: "Product",
+    title: "AI product management",
+    icon: "bulb",
+    items: [
+      { icon: "ai", label: "LLMs & prompt engineering" },
+      { icon: "doc", label: "RAG" },
+      { icon: "execution", label: "AI agents & tool calling" },
+      { icon: "checklist", label: "AI evals & hallucination testing" },
+    ],
+  },
+  {
+    title: "Product strategy & metrics",
     icon: "strategy",
+    items: [
+      { icon: "bulb", label: "Product-market fit" },
+      { icon: "chart", label: "Pricing & unit economics" },
+      { icon: "data", label: "CAC / LTV" },
+      { icon: "roadmap", label: "Competitive analysis & GTM" },
+    ],
+  },
+  {
+    title: "Product",
+    icon: "roadmap",
     items: [
       { icon: "doc", label: "PRDs & user stories" },
       { icon: "execution", label: "Jira" },
@@ -502,7 +545,8 @@ export const toolkit = [
     title: "Data & experiments",
     icon: "data",
     items: [
-      { icon: "data", label: "SQL" },
+      { icon: "data", label: "Advanced SQL" },
+      { icon: "chart", label: "Product analytics" },
       { icon: "chart", label: "GA4" },
       { icon: "chart", label: "GTM / DataLayer" },
       { icon: "chart", label: "Looker Studio" },
@@ -510,9 +554,11 @@ export const toolkit = [
     ],
   },
   {
-    title: "Build & ship",
+    title: "Build, test & ship",
     icon: "code",
     items: [
+      { icon: "code", label: "APIs & Postman" },
+      { icon: "checklist", label: "Playwright / QA automation" },
       { icon: "code", label: "GitHub" },
       { icon: "cloud", label: "Render" },
       { icon: "cloud", label: "Netlify" },

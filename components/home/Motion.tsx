@@ -2,8 +2,7 @@
 
 import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
 import {
-  animate,
-  motion,
+  m,
   useInView,
   useMotionValue,
   useReducedMotion,
@@ -19,22 +18,27 @@ export function CountUp({ value, className = "" }: { value: string; className?: 
   const ref = useRef<HTMLSpanElement>(null);
   const inView = useInView(ref, { once: true, margin: "0px 0px 120px 0px" });
   const reduce = useReducedMotion();
-  const m = value.match(/^([^\d]*)(\d+)(.*)$/);
-  const [shown, setShown] = useState(m ? Number(m[2]) : null);
+  const parts = value.match(/^([^\d]*)(\d+)(.*)$/);
+  const [shown, setShown] = useState(parts ? Number(parts[2]) : null);
 
   useEffect(() => {
-    if (!m || !inView || reduce) return;
-    const controls = animate(0, Number(m[2]), {
-      duration: 1.4,
-      ease: [0.16, 1, 0.3, 1],
-      onUpdate: (v) => setShown(Math.round(v)),
-    });
-    return () => controls.stop();
+    if (!parts || !inView || reduce) return;
+    // plain rAF ease-out: keeps the standalone animate() out of the bundle
+    const end = Number(parts[2]);
+    const t0 = performance.now();
+    let raf = 0;
+    const tick = (t: number) => {
+      const p = Math.min(1, (t - t0) / 1400);
+      setShown(Math.round(end * (1 - Math.pow(1 - p, 4))));
+      if (p < 1) raf = requestAnimationFrame(tick);
+    };
+    raf = requestAnimationFrame(tick);
+    return () => cancelAnimationFrame(raf);
   }, [inView, reduce]); // eslint-disable-line react-hooks/exhaustive-deps
 
   return (
     <span ref={ref} className={className}>
-      {m ? `${m[1]}${reduce ? m[2] : shown}${m[3]}` : value}
+      {parts ? `${parts[1]}${reduce ? parts[2] : shown}${parts[3]}` : value}
     </span>
   );
 }
@@ -60,7 +64,7 @@ export function GravityChips({
   // fixed pseudo-random tilt/drop per chip so SSR and client agree
   const tilt = [-14, 9, -6, 12, -10, 7, -4, 11];
   return (
-    <motion.div
+    <m.div
       initial={reduce ? false : "up"}
       whileInView="down"
       viewport={{ once: true, margin: "0px 0px -15% 0px" }}
@@ -74,7 +78,7 @@ export function GravityChips({
       )}
       <span aria-hidden className="absolute inset-x-6 bottom-4 h-px bg-gradient-to-r from-transparent via-white/25 to-transparent" />
       {items.map((s, i) => (
-        <motion.span
+        <m.span
           key={s.label}
           variants={{
             up: { y: -180, opacity: 0, rotate: tilt[i % tilt.length] },
@@ -99,9 +103,9 @@ export function GravityChips({
             {capabilityIcons[s.icon]({ className: "size-3.5" })}
           </span>
           {s.label}
-        </motion.span>
+        </m.span>
       ))}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -138,9 +142,9 @@ export function Parallax({
     };
   }, [reduce, speed, max, y]);
   return (
-    <motion.div style={{ y }} className={className}>
+    <m.div style={{ y }} className={className}>
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 
@@ -174,7 +178,7 @@ export function Tilt({
   const active = fine && !reduce;
 
   return (
-    <motion.div
+    <m.div
       style={active ? { rotateX: sx, rotateY: sy, transformPerspective: 1000 } : undefined}
       onPointerMove={
         active
@@ -198,7 +202,7 @@ export function Tilt({
       className={className}
     >
       {children}
-    </motion.div>
+    </m.div>
   );
 }
 

@@ -1,7 +1,7 @@
 "use client";
 
 import { useEffect } from "react";
-import { motion, useMotionValue, useReducedMotion, useSpring } from "motion/react";
+import { m, useMotionValue, useReducedMotion, useSpring } from "motion/react";
 import { useFinePointer } from "./Motion";
 
 /* A soft light that follows the mouse with a little lag — desktop only
@@ -27,7 +27,7 @@ export default function Spotlight() {
 
   if (!active) return null;
   return (
-    <motion.div
+    <m.div
       aria-hidden
       style={{ x: sx, y: sy }}
       className="pointer-events-none fixed left-0 top-0 z-0 size-[44rem] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(circle,rgba(169,188,255,0.09),rgba(169,188,255,0.03)_35%,transparent_65%)]"

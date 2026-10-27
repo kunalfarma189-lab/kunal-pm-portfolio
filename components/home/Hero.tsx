@@ -4,7 +4,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
 import { useReducedMotion } from "motion/react";
-import { capabilities, hero, profile } from "@/lib/content";
+import { capabilities, experience, hero, profile, proofStats, stations } from "@/lib/content";
 import { ArrowRight, capabilityIcons } from "./Icons";
 import { Parallax } from "./Motion";
 
@@ -16,7 +16,10 @@ import { Parallax } from "./Motion";
  * turns lighting up, and dotted arrows join them in a loop.
  *
  * Phones/tablets: a smaller portrait below the headline with four floating
- * icon orbs, then the six capabilities as a swipeable row of chips.
+ * icon orbs, the six capabilities as a swipeable row of chips, then a
+ * roadmap card — the four "how I work" stops on a dotted road (tap to
+ * jump) and the three proof sections — so the whole page is clear before
+ * the first scroll.
  *
  * The portrait pops in once on load and drifts slower than the page
  * (parallax). Nothing else is driven by scroll.
@@ -79,20 +82,44 @@ export default function Hero() {
               See my work
               <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-0.5" />
             </Link>
-            <a
-              href={profile.resumeUrl}
-              download="Kunal_Farma_PM_Resume.pdf"
+            <Link
+              href="#contact"
               className="inline-flex items-center gap-2.5 rounded-full border border-white/20 px-6 py-3.5 text-[15px] font-semibold text-white transition-colors duration-300 hover:border-white/45 hover:bg-white/[0.04]"
             >
-              Download resume
-            </a>
+              Get in touch
+            </Link>
           </div>
+          <Proof />
         </div>
 
         <MobileVisual reduce={!!reduce} />
         <Stage reduce={!!reduce} />
       </div>
     </section>
+  );
+}
+
+/* Real, sourced results and real employers right under the headline, so
+   the first screen already carries proof — nothing here is invented. */
+function Proof() {
+  const results = proofStats.filter((s) => s.source);
+  const companies = experience.map((j) => j.company);
+  return (
+    <div className="hero-in hero-in-5 mt-9 border-t border-white/10 pt-6">
+      <ul className="grid grid-cols-2 gap-x-6 gap-y-4 sm:flex sm:flex-wrap sm:gap-x-7 sm:gap-y-3">
+        {results.map((s) => (
+          <li key={s.label} className="leading-tight">
+            <span className="block text-[1.35rem] font-semibold tracking-[-0.03em] text-white">{s.value}</span>
+            <span className="block text-[13px] text-zinc-400">
+              {s.label} <span className="text-zinc-600">· {s.source}</span>
+            </span>
+          </li>
+        ))}
+      </ul>
+      <p className="mt-4 text-[13px] text-zinc-500">
+        Worked at {companies.slice(0, -1).join(", ")} and {companies[companies.length - 1]} · {profile.location}
+      </p>
+    </div>
   );
 }
 
@@ -103,8 +130,7 @@ function Portrait({ sizes }: { sizes: string }) {
       alt="Portrait of Kunal Farma"
       fill
       sizes={sizes}
-      loading="eager"
-      fetchPriority="high"
+      priority
       className="portrait-mask object-cover object-[50%_20%]"
     />
   );
@@ -158,7 +184,59 @@ function MobileVisual({ reduce }: { reduce: boolean }) {
           </li>
         ))}
       </ul>
+
+      <Roadmap />
     </div>
+  );
+}
+
+/* The page in one glance (below xl): the four stops of "how I work" on a
+   dotted road, each a link to its step, and where the proof lives. */
+function Roadmap() {
+  const proof = [
+    { href: "#case-studies", icon: "doc", label: "Case studies" },
+    { href: "#experience", icon: "roadmap", label: "Experience" },
+    { href: "#skills", icon: "chart", label: "Toolkit" },
+  ];
+  return (
+    <nav aria-label="Page roadmap" className="hero-in hero-in-5 mt-8 rounded-[1.5rem] border border-white/10 bg-[#090c14] p-4 sm:p-5">
+      <p className="flex items-center justify-between text-[12px] font-medium uppercase tracking-[0.2em] text-zinc-500">
+        How I work
+        <span className="font-mono normal-case tracking-normal text-[#a9bcff]">4 steps</span>
+      </p>
+      <ol className="relative mt-4 grid grid-cols-4">
+        <span aria-hidden className="absolute left-[12.5%] right-[12.5%] top-[22px] border-t border-dashed border-white/30" />
+        {stations.map((st, i) => (
+          <li key={st.id} className="relative">
+            <a href={`#step-${i + 1}`} className="group flex flex-col items-center gap-2 text-center">
+              <span className="grid size-11 place-items-center rounded-full border border-white/30 bg-[#0e1220] text-zinc-100 shadow-[0_0_24px_-6px_rgba(120,140,255,0.6)] transition-colors group-hover:border-[#a9bcff]">
+                {capabilityIcons[st.icon]({ className: "size-5" })}
+              </span>
+              <span className="text-[13px] font-medium text-zinc-200">
+                <span className="font-mono text-[11px] text-zinc-500">{i + 1} </span>
+                {st.step}
+              </span>
+            </a>
+          </li>
+        ))}
+      </ol>
+      <div className="mt-4 flex items-center gap-2 border-t border-white/10 pt-4">
+        <span className="shrink-0 text-[12px] font-medium uppercase tracking-[0.2em] text-zinc-500">Then</span>
+        <ul className="no-scrollbar flex gap-2 overflow-x-auto">
+          {proof.map((p) => (
+            <li key={p.href} className="shrink-0">
+              <a
+                href={p.href}
+                className="flex items-center gap-1.5 rounded-full border border-white/15 px-3 py-1.5 text-[13px] font-medium text-zinc-200 transition-colors hover:border-white/40"
+              >
+                {capabilityIcons[p.icon]({ className: "size-3.5 text-[#a9bcff]" })}
+                {p.label}
+              </a>
+            </li>
+          ))}
+        </ul>
+      </div>
+    </nav>
   );
 }
 
