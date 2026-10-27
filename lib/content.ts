@@ -52,7 +52,7 @@ export interface CaseStudy {
   };
   measure: {
     metrics: string[]; // metrics[0] is the primary one
-    experiment: string;
+    experiment: { who: string; check: string; guard: string };
     learnings: string[];
   };
 }
@@ -126,8 +126,11 @@ export const caseStudies: CaseStudy[] = [
         "Self-service order share",
         "Support contacts per order",
       ],
-      experiment:
-        "GA4 and GTM tracking on every step of the journey, set up before launch. Compare enquiry-to-order and abandonment before and after, step by step.",
+      experiment: {
+        who: "Every step of the journey, tracked in GA4 / GTM before launch",
+        check: "Enquiry-to-order up and abandonment down, step by step",
+        guard: "Consultation-to-order, and support contacts per order",
+      },
       learnings: [
         "Connect the steps before polishing any one of them.",
         "Let the website answer the basic questions, so people get the hard ones.",
@@ -188,8 +191,11 @@ export const caseStudies: CaseStudy[] = [
     },
     measure: {
       metrics: ["Carts that become orders", "Payments that succeed", "Orders paid on delivery", "Checkout complaints per 1,000 orders"],
-      experiment:
-        "Half the shoppers in small-city pincodes get the new checkout for two weeks. Main check: more finished orders. Also: refused parcels and complaints must not rise.",
+      experiment: {
+        who: "Half the shoppers in small-city pincodes, for two weeks",
+        check: "More carts become orders",
+        guard: "Refused parcels and complaints must not rise",
+      },
       learnings: [
         "Lost carts never have one cause. Measure every step before fixing any.",
         "Trust signals belong before the cart, not after.",
@@ -250,8 +256,11 @@ export const caseStudies: CaseStudy[] = [
     },
     measure: {
       metrics: ["Cash parcels refused", "Customers who reply", "Orders cancelled before shipping", "First-try delivery success"],
-      experiment:
-        "10% of cash orders in two cities get the message first. Main check: fewer refusals. Also: cancellations before shipping must not exceed the refusals they replace.",
+      experiment: {
+        who: "10% of cash-on-delivery orders in two cities",
+        check: "Fewer parcels refused at the door",
+        guard: "Cancellations before shipping must not exceed the refusals they replace",
+      },
       learnings: [
         "The cheapest time to stop a refusal is before shipping.",
         "'Still want this?' helps the customer and the business. Say both.",
@@ -308,8 +317,11 @@ export const caseStudies: CaseStudy[] = [
     },
     measure: {
       metrics: ["Returns because of size", "Exchanges vs returns", "Shoppers using fit tags", "Repeat orders after an exchange"],
-      experiment:
-        "Fit tags on the 200 products with the most size returns, shown to half the shoppers. Main check: fewer size returns. Also: add-to-cart must not drop.",
+      experiment: {
+        who: "Half the shoppers, on the 200 products with the most size returns",
+        check: "Fewer size returns",
+        guard: "Add-to-cart must not drop",
+      },
       learnings: [
         "Returns look like a design problem but are a data problem.",
         "An exchange keeps the sale, the shipping cost, and usually the customer.",

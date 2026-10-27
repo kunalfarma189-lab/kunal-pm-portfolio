@@ -3,18 +3,22 @@
 import type { ReactNode } from "react";
 import { motion, useReducedMotion } from "motion/react";
 import { capabilityIcons } from "./Icons";
+import { Tilt } from "./Motion";
 
 /*
  * Spine building blocks.
  *
- * SpineNode — the icon on the zig-zag spine. The outer element carries
+ * SpineNode — an icon on the journey. The outer element carries
  * `data-jp-node` and never moves (JourneyPath measures it); inside, the
- * icon drops in with a gravity bounce, then floats. It glows once the
- * journey arrow has reached it (`data-reached`, set by JourneyPath).
+ * icon drops in with a gravity bounce, then floats. Once the journey
+ * arrow reaches it (`data-reached`, set by JourneyPath) it glows and a
+ * ring pulses out of it.
  *
- * StationRow — a node in the middle, a card that drops in with a gravity
- * bounce, and a big outlined step word filling the opposite side. Sides
- * alternate row to row, so the page zig-zags.
+ * StationRow — one "how I work" step. The card slides in from its side
+ * of the spine and settles with a bounce, and tilts toward the pointer on
+ * desktop. On lg+ the node sits in a centre column and a big outlined
+ * step word fills the opposite side; below lg the node sits inside the
+ * card's header and the card takes the full width.
  */
 
 const spring = { type: "spring", stiffness: 210, damping: 14, mass: 1 } as const;
@@ -24,34 +28,36 @@ export function SpineNode({
   label,
   side,
   size = "lg",
+  className = "",
 }: {
   icon: string;
   label: string;
   side: "left" | "right";
-  size?: "lg" | "md";
+  size?: "lg" | "md" | "sm";
+  className?: string;
 }) {
   const reduce = useReducedMotion();
-  const box = size === "lg" ? "size-20" : "size-14";
-  const glyph = size === "lg" ? "size-8" : "size-6";
+  const box = { lg: "size-20", md: "size-14", sm: "size-11" }[size];
+  const glyph = { lg: "size-8", md: "size-6", sm: "size-5" }[size];
+  // desktop zig-zag: nodes sit a little left/right of the centre column
+  const offset = side === "left" ? "lg:-translate-x-12" : "lg:translate-x-12";
   return (
     <motion.div
       initial={reduce ? false : "up"}
       whileInView="down"
       viewport={{ once: true, margin: "0px 0px -10% 0px" }}
       data-jp-node={label}
-      className={`group/node relative z-10 w-fit lg:mx-auto ${
-        side === "left" ? "-translate-x-1.5 lg:-translate-x-12" : "translate-x-1.5 lg:translate-x-12"
-      }`}
+      className={`group/node relative z-10 w-fit ${offset} ${className}`}
     >
       <motion.div
         variants={{
-          up: { y: -140, opacity: 0, scale: 0.8 },
+          up: { y: -120, opacity: 0, scale: 0.8 },
           down: { y: 0, opacity: 1, scale: 1, transition: { ...spring, opacity: { duration: 0.25 } } },
         }}
       >
         <span className="float block" style={{ animationDelay: side === "left" ? "0s" : "1.6s" }}>
           <span
-            className={`relative grid ${box} place-items-center rounded-full border border-white/25 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.16),rgba(120,135,255,0.08)_45%,#070a12_75%)] text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition-[border-color,box-shadow] duration-500 group-data-[reached]/node:border-[#a9bcff] group-data-[reached]/node:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_44px_rgba(140,160,255,0.55)]`}
+            className={`node-ring relative grid ${box} place-items-center rounded-full border border-white/25 bg-[radial-gradient(circle_at_30%_25%,rgba(255,255,255,0.16),rgba(120,135,255,0.08)_45%,#070a12_75%)] text-zinc-100 shadow-[inset_0_1px_0_rgba(255,255,255,0.14)] transition-[border-color,box-shadow] duration-500 group-data-[reached]/node:border-[#a9bcff] group-data-[reached]/node:shadow-[inset_0_1px_0_rgba(255,255,255,0.14),0_0_44px_rgba(140,160,255,0.55)]`}
           >
             {capabilityIcons[icon]({ className: glyph })}
           </span>
@@ -75,7 +81,10 @@ export function StationRow({
   children: ReactNode;
 }) {
   const reduce = useReducedMotion();
-  // cards drop in from above with a slight tilt and settle with a bounce
+  const n = String(index).padStart(2, "0");
+  const label = `${n} ${step}`;
+  // arrive from the card's own side, slightly tilted, and settle
+  const fromX = side === "left" ? -80 : 80;
   const tilt = side === "left" ? -2.5 : 2.5;
 
   const card = (
@@ -86,21 +95,27 @@ export function StationRow({
     >
       <motion.div
         variants={{
-          up: { y: -70, rotate: tilt, opacity: 0 },
+          up: { x: fromX, rotate: tilt, opacity: 0 },
           down: {
-            y: 0,
+            x: 0,
             rotate: 0,
             opacity: 1,
             transition: { ...spring, delay: 0.1, opacity: { duration: 0.4, delay: 0.1 } },
           },
         }}
-        className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] p-7 shadow-[0_40px_80px_-50px_rgba(100,110,255,0.6)] backdrop-blur-md sm:p-9"
       >
-        <p className="font-mono text-sm text-[#a9bcff]">
-          {String(index).padStart(2, "0")} <span className="text-zinc-500">· {step}</span>
-        </p>
-        {children}
-    </motion.div>
+        <Tilt className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] p-6 shadow-[0_40px_80px_-50px_rgba(100,110,255,0.6)] backdrop-blur-md sm:p-9">
+          <div className="flex items-center gap-3">
+            <div className="lg:hidden">
+              <SpineNode icon={icon} label={label} side={side} size="sm" />
+            </div>
+            <p className="font-mono text-sm text-[#a9bcff]">
+              {n} <span className="text-zinc-500">· {step}</span>
+            </p>
+          </div>
+          {children}
+        </Tilt>
+      </motion.div>
     </motion.div>
   );
 
@@ -117,13 +132,10 @@ export function StationRow({
   );
 
   return (
-    <div className="grid grid-cols-[3rem_minmax(0,1fr)] items-center gap-x-4 lg:grid-cols-[minmax(0,1fr)_8rem_minmax(0,1fr)] lg:gap-x-10">
-      <div className="lg:hidden">
-        <SpineNode icon={icon} label={`${String(index).padStart(2, "0")} ${step}`} side={side} size="md" />
-      </div>
+    <div className="lg:grid lg:grid-cols-[minmax(0,1fr)_8rem_minmax(0,1fr)] lg:items-center lg:gap-x-10">
       <div className={side === "left" ? "lg:order-1" : "lg:order-3"}>{card}</div>
       <div className="hidden lg:order-2 lg:block">
-        <SpineNode icon={icon} label={`${String(index).padStart(2, "0")} ${step}`} side={side} />
+        <SpineNode icon={icon} label={label} side={side} className="mx-auto" />
       </div>
       <div className={side === "left" ? "lg:order-3" : "lg:order-1"}>{ghost}</div>
     </div>

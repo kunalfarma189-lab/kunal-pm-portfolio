@@ -3,19 +3,50 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useEffect, useRef, useState } from "react";
+import { useReducedMotion } from "motion/react";
 import { capabilities, hero, profile } from "@/lib/content";
 import { ArrowRight, capabilityIcons } from "./Icons";
+import { Parallax } from "./Motion";
 
 /*
- * Hero: headline + one line on the left, portrait on the right with six
- * static capability icons around it, joined in a loop by dotted arrows.
- * Nothing here animates on scroll — the picture reads at a glance.
- * (The page-level journey line lives in JourneyRail.)
+ * Hero. The headline comes first on every screen.
+ *
+ * Desktop (xl+): the portrait sits beside it inside an orbit; a comet
+ * circles the orbit, six capability icons float around the photo and take
+ * turns lighting up, and dotted arrows join them in a loop.
+ *
+ * Phones/tablets: a smaller portrait below the headline with four floating
+ * icon orbs, then the six capabilities as a swipeable row of chips.
+ *
+ * The portrait pops in once on load and drifts slower than the page
+ * (parallax). Nothing else is driven by scroll.
  */
 
 type Pt = { x: number; y: number };
 
+const ellipsePath = (c: Pt, rx: number, ry: number) =>
+  `M ${c.x - rx} ${c.y} A ${rx} ${ry} 0 1 0 ${c.x + rx} ${c.y} A ${rx} ${ry} 0 1 0 ${c.x - rx} ${c.y}`;
+
+/* A glowing dot that circles an invisible path (native SVG motion, no JS). */
+function Comet({ id, d, dur }: { id: string; d: string; dur: string }) {
+  return (
+    <>
+      <path id={id} d={d} fill="none" stroke="none" />
+      <circle
+        r="3.5"
+        fill="#fff"
+        style={{ filter: "drop-shadow(0 0 6px #a9bcff) drop-shadow(0 0 14px rgba(169,188,255,0.8))" }}
+      >
+        <animateMotion dur={dur} repeatCount="indefinite">
+          <mpath href={`#${id}`} />
+        </animateMotion>
+      </circle>
+    </>
+  );
+}
+
 export default function Hero() {
+  const reduce = useReducedMotion();
   return (
     <section id="top" aria-label="Introduction" className="relative scroll-mt-16">
       <div aria-hidden className="pointer-events-none absolute inset-0 overflow-hidden">
@@ -23,13 +54,13 @@ export default function Hero() {
         <div className="absolute bottom-[-12rem] right-[30%] h-[30rem] w-[30rem] rounded-full bg-[#8a5cff]/[0.12] blur-[120px]" />
       </div>
 
-      <div className="relative mx-auto grid max-w-[1360px] grid-cols-1 items-center gap-10 px-5 pb-20 pt-8 sm:px-8 lg:px-24 xl:min-h-[calc(100svh-4rem)] xl:grid-cols-[minmax(0,40%)_minmax(0,1fr)] xl:gap-6 xl:py-0 xl:pr-8">
-        {/* text */}
-        <div className="relative z-10 order-2 xl:order-1">
+      <div className="relative mx-auto grid max-w-[1360px] grid-cols-1 items-center gap-12 px-5 pb-16 pt-10 sm:px-8 lg:px-24 xl:min-h-[calc(100svh-4rem)] xl:grid-cols-[minmax(0,40%)_minmax(0,1fr)] xl:gap-6 xl:py-0 xl:pr-8">
+        {/* text — first on every screen */}
+        <div className="relative z-10">
           <p className="hero-in text-[13px] font-medium uppercase tracking-[0.22em] text-zinc-400 sm:text-sm">
             {hero.eyebrow}
           </p>
-          <h1 className="hero-in hero-in-2 mt-6 text-[clamp(3.1rem,11vw,4.6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white xl:text-[clamp(4.25rem,5.6vw,6rem)]">
+          <h1 className="hero-in hero-in-2 mt-6 text-[clamp(3rem,11vw,4.6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white xl:text-[clamp(4.25rem,5.6vw,6rem)]">
             From problems
             <br />
             to{" "}
@@ -37,10 +68,10 @@ export default function Hero() {
               products.
             </span>
           </h1>
-          <p className="hero-in hero-in-3 mt-7 max-w-[30rem] text-pretty text-xl leading-9 text-zinc-300">
+          <p className="hero-in hero-in-3 mt-6 max-w-[30rem] text-pretty text-lg leading-8 text-zinc-300 sm:text-xl sm:leading-9">
             {hero.subtitle}
           </p>
-          <div className="hero-in hero-in-4 mt-10 flex flex-wrap gap-3">
+          <div className="hero-in hero-in-4 mt-8 flex flex-wrap gap-3 sm:mt-10">
             <Link
               href="#case-studies"
               className="group inline-flex items-center gap-2.5 rounded-full bg-white px-6 py-3.5 text-[15px] font-semibold text-[#05070c] transition-transform duration-300 ease-out hover:-translate-y-0.5"
@@ -56,22 +87,10 @@ export default function Hero() {
               Download resume
             </a>
           </div>
-
-          {/* below xl the six capabilities sit under the CTAs */}
-          <ul className="mt-12 grid grid-cols-2 gap-x-4 gap-y-5 sm:grid-cols-3 xl:hidden">
-            {capabilities.map((cap) => (
-              <li key={cap.key} className="flex items-center gap-3">
-                <span className="grid size-10 shrink-0 place-items-center rounded-full border border-white/25 text-zinc-100">
-                  {capabilityIcons[cap.key]({ className: "size-5" })}
-                </span>
-                <span className="text-[15px] font-medium text-zinc-200">{cap.label}</span>
-              </li>
-            ))}
-          </ul>
         </div>
 
-        <MobilePortrait />
-        <Stage />
+        <MobileVisual reduce={!!reduce} />
+        <Stage reduce={!!reduce} />
       </div>
     </section>
   );
@@ -91,20 +110,59 @@ function Portrait({ sizes }: { sizes: string }) {
   );
 }
 
-function MobilePortrait() {
+/* ------------------------------ below xl ------------------------------ */
+
+function MobileVisual({ reduce }: { reduce: boolean }) {
+  const orbs = [
+    { icon: "research", pos: "-left-2 top-[14%]", delay: 0 },
+    { icon: "ai", pos: "-right-2 top-[9%]", delay: 1.3 },
+    { icon: "data", pos: "left-0 bottom-[17%]", delay: 2.4 },
+    { icon: "execution", pos: "right-0 bottom-[10%]", delay: 0.7 },
+  ];
   return (
-    <div className="relative order-1 mx-auto aspect-[4/5] w-full max-w-[440px] xl:hidden">
-      <div aria-hidden className="absolute inset-[8%] rounded-full bg-[#5b6bff]/20 blur-3xl" />
-      <svg aria-hidden viewBox="0 0 400 500" className="absolute inset-0 h-full w-full overflow-visible">
-        <ellipse cx="200" cy="225" rx="188" ry="214" className="fill-none stroke-white/25" strokeWidth="1" />
-        <ellipse cx="200" cy="225" rx="205" ry="168" className="fill-none stroke-white/10" strokeDasharray="2 6" transform="rotate(-14 200 225)" />
-      </svg>
-      <div className="absolute inset-0">
-        <Portrait sizes="(max-width: 1279px) 440px, 1px" />
-      </div>
+    <div className="xl:hidden">
+      <Parallax speed={-0.12} className="relative mx-auto aspect-[4/5] w-[min(76vw,330px)]">
+        <div className="hero-pop relative h-full w-full">
+          <div aria-hidden className="absolute inset-[10%] rounded-full bg-[#5b6bff]/25 blur-3xl" />
+          <svg aria-hidden viewBox="0 0 400 500" className="absolute inset-0 h-full w-full overflow-visible">
+            <ellipse cx="200" cy="225" rx="188" ry="214" className="fill-none stroke-white/25" strokeWidth="1" />
+            <ellipse cx="200" cy="225" rx="205" ry="168" className="fill-none stroke-white/10" strokeDasharray="2 6" transform="rotate(-14 200 225)" />
+            {!reduce && <Comet id="orbit-m" d={ellipsePath({ x: 200, y: 225 }, 188, 214)} dur="16s" />}
+          </svg>
+          <div className="absolute inset-0">
+            <Portrait sizes="(max-width: 1279px) 330px, 1px" />
+          </div>
+          {orbs.map((o) => (
+            <span
+              key={o.icon}
+              style={{ animationDelay: `${o.delay}s` }}
+              className={`float absolute ${o.pos} grid size-11 place-items-center rounded-full border border-white/30 bg-[#06080f]/85 text-zinc-100 shadow-[0_0_30px_-6px_rgba(120,140,255,0.6)] backdrop-blur-md`}
+            >
+              {capabilityIcons[o.icon]({ className: "size-5" })}
+            </span>
+          ))}
+        </div>
+      </Parallax>
+
+      {/* the six capabilities, swipeable */}
+      <ul className="no-scrollbar -mx-5 mt-8 flex snap-x gap-2.5 overflow-x-auto px-5 pb-1 sm:-mx-8 sm:px-8">
+        {capabilities.map((cap) => (
+          <li
+            key={cap.key}
+            className="flex shrink-0 snap-start items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.03] py-2 pl-2 pr-4 text-[15px] font-medium text-zinc-100"
+          >
+            <span className="grid size-8 place-items-center rounded-full bg-white/[0.07]">
+              {capabilityIcons[cap.key]({ className: "size-4" })}
+            </span>
+            {cap.label}
+          </li>
+        ))}
+      </ul>
     </div>
   );
 }
+
+/* -------------------------------- xl+ -------------------------------- */
 
 function useSize(ref: React.RefObject<HTMLElement | null>) {
   const [size, setSize] = useState({ w: 0, h: 0 });
@@ -120,7 +178,7 @@ function useSize(ref: React.RefObject<HTMLElement | null>) {
   return size;
 }
 
-function Stage() {
+function Stage({ reduce }: { reduce: boolean }) {
   const ref = useRef<HTMLDivElement>(null);
   const { w, h } = useSize(ref);
 
@@ -130,14 +188,18 @@ function Stage() {
   const pts: Pt[] = capabilities.map((cap) => ({ x: (cap.x / 100) * w, y: (cap.y / 100) * h }));
 
   return (
-    <div ref={ref} className="relative order-3 hidden h-[84vh] max-h-[860px] min-h-[560px] xl:block">
+    <div ref={ref} className="relative hidden h-[84vh] max-h-[860px] min-h-[560px] xl:block">
       <div aria-hidden className="dot-grid absolute inset-[-4%]" />
       <div
         aria-hidden
         className="absolute left-1/2 top-[44%] h-[70%] w-[52%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(110,120,255,0.3),rgba(140,100,255,0.12)_55%,transparent)] blur-2xl"
       />
       <div className="absolute left-1/2 top-0 aspect-[3/4] h-full -translate-x-1/2">
-        <Portrait sizes="(min-width: 1280px) 600px, 1px" />
+        <Parallax speed={-0.1} className="h-full w-full">
+          <div className="hero-pop relative h-full w-full">
+            <Portrait sizes="(min-width: 1280px) 600px, 1px" />
+          </div>
+        </Parallax>
       </div>
 
       {w > 0 && (
@@ -156,6 +218,7 @@ function Stage() {
           {pts.map((p, i) => (
             <DottedArrow key={i} from={p} to={pts[(i + 1) % pts.length]} c={c} />
           ))}
+          {!reduce && <Comet id="orbit-d" d={ellipsePath(c, rx, ry)} dur="22s" />}
         </svg>
       )}
 
@@ -165,7 +228,10 @@ function Stage() {
           style={{ left: `${cap.x}%`, top: `${cap.y}%`, animationDelay: `${i * 0.9}s` }}
           className="float absolute flex w-40 -translate-x-1/2 -translate-y-7 flex-col items-center text-center"
         >
-          <span className="grid size-14 place-items-center rounded-full border border-white/35 bg-[#06080f]/85 text-zinc-100 shadow-[0_0_40px_-8px_rgba(120,140,255,0.5)] backdrop-blur-md">
+          <span
+            style={{ animationDelay: `${i * 2}s` }}
+            className="glow-cycle grid size-14 place-items-center rounded-full border border-white/35 bg-[#06080f]/85 text-zinc-100 shadow-[0_0_40px_-8px_rgba(120,140,255,0.5)] backdrop-blur-md transition-transform duration-300 hover:scale-110"
+          >
             {capabilityIcons[cap.key]({ className: "size-6" })}
           </span>
           <span className="mt-3 text-base font-semibold tracking-[-0.01em] text-white [text-shadow:0_0_14px_#05070c,0_0_4px_#05070c]">

@@ -1,7 +1,14 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
-import { animate, motion, useInView, useReducedMotion } from "motion/react";
+import { useEffect, useRef, useState, useSyncExternalStore, type ReactNode } from "react";
+import {
+  animate,
+  motion,
+  useInView,
+  useMotionValue,
+  useReducedMotion,
+  useSpring,
+} from "motion/react";
 import { capabilityIcons } from "./Icons";
 
 /* Count-up for stats like "+11%", "~15%", "4+": the number climbs from 0
@@ -95,5 +102,117 @@ export function GravityChips({
         </motion.span>
       ))}
     </motion.div>
+  );
+}
+
+/* Parallax: the wrapped element drifts at `speed` × scroll (negative =
+   slower than the page). One passive listener, one read per frame. */
+export function Parallax({
+  speed = -0.15,
+  max = 700,
+  className = "",
+  children,
+}: {
+  speed?: number;
+  max?: number;
+  className?: string;
+  children: ReactNode;
+}) {
+  const reduce = useReducedMotion();
+  const y = useMotionValue(0);
+  useEffect(() => {
+    if (reduce) return;
+    let raf = 0;
+    const measure = () => {
+      raf = 0;
+      y.set(Math.min(window.scrollY, max) * speed);
+    };
+    const onScroll = () => {
+      if (!raf) raf = requestAnimationFrame(measure);
+    };
+    measure();
+    window.addEventListener("scroll", onScroll, { passive: true });
+    return () => {
+      window.removeEventListener("scroll", onScroll);
+      if (raf) cancelAnimationFrame(raf);
+    };
+  }, [reduce, speed, max, y]);
+  return (
+    <motion.div style={{ y }} className={className}>
+      {children}
+    </motion.div>
+  );
+}
+
+/* Tilt: on devices with a mouse, the card leans toward the pointer and
+   springs back on leave. No-op on touch screens and under reduced motion. */
+const FINE = "(pointer: fine)";
+const subscribeFine = (cb: () => void) => {
+  const mq = window.matchMedia(FINE);
+  mq.addEventListener("change", cb);
+  return () => mq.removeEventListener("change", cb);
+};
+export function useFinePointer() {
+  return useSyncExternalStore(subscribeFine, () => window.matchMedia(FINE).matches, () => false);
+}
+
+export function Tilt({
+  children,
+  className = "",
+  max = 6,
+}: {
+  children: ReactNode;
+  className?: string;
+  max?: number;
+}) {
+  const reduce = useReducedMotion();
+  const fine = useFinePointer();
+  const rx = useMotionValue(0);
+  const ry = useMotionValue(0);
+  const sx = useSpring(rx, { stiffness: 220, damping: 20 });
+  const sy = useSpring(ry, { stiffness: 220, damping: 20 });
+  const active = fine && !reduce;
+
+  return (
+    <motion.div
+      style={active ? { rotateX: sx, rotateY: sy, transformPerspective: 1000 } : undefined}
+      onPointerMove={
+        active
+          ? (e) => {
+              const r = e.currentTarget.getBoundingClientRect();
+              const px = (e.clientX - r.left) / r.width - 0.5;
+              const py = (e.clientY - r.top) / r.height - 0.5;
+              rx.set(-py * max * 2);
+              ry.set(px * max * 2);
+            }
+          : undefined
+      }
+      onPointerLeave={
+        active
+          ? () => {
+              rx.set(0);
+              ry.set(0);
+            }
+          : undefined
+      }
+      className={className}
+    >
+      {children}
+    </motion.div>
+  );
+}
+
+/* Aurora: three soft colour blobs that drift behind the whole page.
+   Transforms only, so it stays cheap; stops under reduced motion. */
+export function Aurora() {
+  return (
+    <div aria-hidden className="pointer-events-none fixed inset-0 -z-10 overflow-hidden">
+      <div className="aurora-a absolute -left-[10%] -top-[20%] h-[60vh] w-[60vw] rounded-full bg-[#3b5bff]/[0.11] blur-[120px]" />
+      <div className="aurora-b absolute -right-[10%] top-[30%] h-[55vh] w-[50vw] rounded-full bg-[#8a5cff]/[0.11] blur-[120px]" />
+      <div
+        className="aurora-a absolute bottom-[-20%] left-[30%] h-[50vh] w-[50vw] rounded-full bg-[#2dd4bf]/[0.05] blur-[120px]"
+        style={{ animationDelay: "-12s" }}
+      />
+    </div>
   );
 }

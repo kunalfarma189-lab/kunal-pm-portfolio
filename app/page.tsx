@@ -3,7 +3,8 @@ import Reveal from "@/components/Reveal";
 import Hero from "@/components/home/Hero";
 import JourneyPath from "@/components/home/JourneyPath";
 import FlowPreview from "@/components/home/FlowPreview";
-import { CountUp, GravityChips } from "@/components/home/Motion";
+import Spotlight from "@/components/home/Spotlight";
+import { Aurora, CountUp, GravityChips, Tilt } from "@/components/home/Motion";
 import { SpineNode, StationRow } from "@/components/home/Story";
 import { ArrowRight, capabilityIcons, contactIcons } from "@/components/home/Icons";
 import {
@@ -20,22 +21,23 @@ import {
 /*
  * The homepage is one journey: a zig-zag spine (JourneyPath) runs from the
  * hero to contact through every SpineNode. First the four "how I work"
- * stations — Find → Prototype → Ship → Measure — then the proof: case
- * studies, experience, toolkit. Sections alternate sides of the spine.
+ * stations — Discover → Define → Deliver → Measure — then the proof: case
+ * studies, experience, toolkit. On lg+ the stations alternate sides of the
+ * spine; on phones everything is full width and the spine becomes a
+ * progress bar under the navbar.
  */
 
 const serifAccent = "font-serif font-normal italic tracking-[-0.01em] text-[#c3cfff]";
 const wrap = "mx-auto max-w-[1240px] px-5 sm:px-8";
-// On small screens the spine runs down a left gutter; content sits right of it.
-const gut = "pl-16 lg:pl-0";
+const h2 = "mx-auto mt-4 max-w-3xl text-balance text-[clamp(2.2rem,4.6vw,3.9rem)] font-semibold leading-[1.02] tracking-[-0.04em] text-white";
 
 function CenterHead({ eyebrow, title }: { eyebrow: string; title: React.ReactNode }) {
   return (
-    <Reveal className={`mt-8 text-left lg:text-center ${gut}`}>
+    <Reveal className="mt-8 text-center">
       <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-zinc-500">{eyebrow}</p>
-      <h2 className="mt-4 max-w-3xl text-balance text-[clamp(2.3rem,4.6vw,3.9rem)] lg:mx-auto font-semibold leading-[1.02] tracking-[-0.04em] text-white">
-        {title}
-      </h2>
+      <div className="mask">
+        <h2 className={h2}>{title}</h2>
+      </div>
     </Reveal>
   );
 }
@@ -47,20 +49,22 @@ function HowIWork() {
   return (
     <section id="how" className="scroll-mt-16 pb-10 pt-20 sm:pt-28">
       <div className={wrap}>
-        <Reveal className={`mb-16 text-left sm:mb-20 lg:text-center ${gut}`}>
+        <Reveal className="mb-14 text-center sm:mb-20">
           <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-zinc-500">How I work</p>
-          <h2 className="mt-4 max-w-3xl text-balance text-[clamp(2.3rem,4.6vw,3.9rem)] lg:mx-auto font-semibold leading-[1.02] tracking-[-0.04em] text-white">
-            From insight <span className={serifAccent}>to impact.</span>
-          </h2>
+          <div className="mask">
+            <h2 className={h2}>
+              From insight <span className={serifAccent}>to impact.</span>
+            </h2>
+          </div>
         </Reveal>
 
-        <div className="space-y-16 sm:space-y-24">
+        <div className="space-y-10 sm:space-y-24">
           {stations.map((st, i) => (
             <StationRow key={st.id} index={i + 1} step={st.step} icon={st.icon} side={i % 2 ? "right" : "left"}>
-              <h3 className="mt-4 text-[clamp(1.6rem,2.6vw,2.2rem)] font-semibold leading-tight tracking-[-0.03em] text-white">
+              <h3 className="mt-4 text-[clamp(1.5rem,2.6vw,2.2rem)] font-semibold leading-tight tracking-[-0.03em] text-white">
                 {st.title}
               </h3>
-              <p className="mt-3 text-lg leading-8 text-zinc-400">{st.line}</p>
+              <p className="mt-3 text-[17px] leading-7 text-zinc-400 sm:text-lg sm:leading-8">{st.line}</p>
               {st.proof ? (
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {st.proof.map((p) => (
@@ -77,7 +81,7 @@ function HowIWork() {
                       <dd>
                         <CountUp
                           value={s.value}
-                          className="bg-[linear-gradient(95deg,#ffffff,#c3cfff)] bg-clip-text text-[2.6rem] font-semibold leading-none tracking-[-0.04em] text-transparent"
+                          className="bg-[linear-gradient(95deg,#ffffff,#c3cfff)] bg-clip-text text-[2.4rem] font-semibold leading-none tracking-[-0.04em] text-transparent sm:text-[2.6rem]"
                         />
                       </dd>
                       <dd className="mt-2 text-[15px] text-zinc-300">{s.label}</dd>
@@ -102,9 +106,9 @@ function Work() {
   const practiceBadge = caseStudiesAreDemo ? "Demo" : "Practice";
 
   return (
-    <section id="case-studies" className="scroll-mt-16 pt-28 sm:pt-36">
+    <section id="case-studies" className="scroll-mt-16 pt-24 sm:pt-36">
       <div className={wrap}>
-        <SpineNode icon="doc" label="Case studies" side="right" size="md" />
+        <SpineNode icon="doc" label="Case studies" side="right" size="md" className="mx-auto" />
         <CenterHead
           eyebrow="Case studies"
           title={
@@ -116,36 +120,38 @@ function Work() {
 
         {/* real work, featured */}
         {featured && (
-          <Reveal className={`mt-14 ${gut}`}>
-            <Link
-              href={`/case-studies/${featured.slug}`}
-              className="group grid gap-8 rounded-[1.75rem] border border-[#a9bcff]/25 bg-[linear-gradient(160deg,rgba(169,188,255,0.08),rgba(255,255,255,0.01))] p-7 transition-[border-color,transform] duration-500 hover:-translate-y-1.5 hover:border-[#a9bcff]/50 sm:p-9 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-12"
-            >
-              <span className="block">
-                <span className="flex items-center gap-3">
-                  <span className="text-[15px] font-semibold text-white">{featured.company}</span>
-                  <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-200">
-                    Real work
+          <Reveal className="mt-12 sm:mt-14">
+            <Tilt max={3}>
+              <Link
+                href={`/case-studies/${featured.slug}`}
+                className="group grid gap-8 rounded-[1.75rem] border border-[#a9bcff]/25 bg-[linear-gradient(160deg,rgba(169,188,255,0.08),rgba(255,255,255,0.01))] p-6 transition-colors duration-500 hover:border-[#a9bcff]/50 sm:p-9 lg:grid-cols-[minmax(0,1.1fr)_minmax(0,1fr)] lg:items-center lg:gap-12"
+              >
+                <span className="block">
+                  <span className="flex items-center gap-3">
+                    <span className="text-[15px] font-semibold text-white">{featured.company}</span>
+                    <span className="rounded-full border border-emerald-300/30 bg-emerald-300/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-emerald-200">
+                      Real work
+                    </span>
+                  </span>
+                  <span className="mt-5 block text-balance text-[clamp(1.5rem,2.8vw,2.3rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white">
+                    {featured.title.replace(/-/g, "‑")}
+                  </span>
+                  <span className="mt-4 block text-[17px] leading-7 text-zinc-400 sm:text-lg sm:leading-8">{featured.oneLiner}</span>
+                  <span className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-white">
+                    Read the case study
+                    <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
                   </span>
                 </span>
-                <span className="mt-5 block text-balance text-[clamp(1.6rem,2.8vw,2.3rem)] font-semibold leading-[1.1] tracking-[-0.03em] text-white">
-                  {featured.title}
+                <span className="block">
+                  <FlowPreview steps={featured.deliver.flow} />
                 </span>
-                <span className="mt-4 block text-lg leading-8 text-zinc-400">{featured.oneLiner}</span>
-                <span className="mt-6 inline-flex items-center gap-2 text-[15px] font-semibold text-white">
-                  Read the case study
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </span>
-              <span className="block">
-                <FlowPreview steps={featured.deliver.flow} />
-              </span>
-            </Link>
+              </Link>
+            </Tilt>
           </Reveal>
         )}
 
         {/* practice studies */}
-        <Reveal className={`mt-12 flex flex-wrap items-center gap-x-4 gap-y-2 ${gut}`}>
+        <Reveal className="mt-12 flex flex-wrap items-center gap-x-4 gap-y-2">
           <span className="text-[13px] font-medium uppercase tracking-[0.22em] text-zinc-500">
             Practice studies
           </span>
@@ -156,31 +162,33 @@ function Work() {
           </span>
         </Reveal>
 
-        <div className={`mt-6 grid gap-6 lg:grid-cols-3 ${gut}`}>
+        <div className="mt-6 grid gap-5 lg:grid-cols-3">
           {practice.map((cs, i) => (
             <Reveal key={cs.slug} delay={i * 100} className="h-full">
-              <Link
-                href={`/case-studies/${cs.slug}`}
-                className="group flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[#090c14] p-7 transition-[border-color,transform] duration-500 hover:-translate-y-1.5 hover:border-white/30 sm:p-8"
-              >
-                <span className="flex items-center justify-between gap-3">
-                  <span className="text-[15px] font-semibold text-white">{cs.company}</span>
-                  <span className="rounded-full border border-amber-300/30 bg-amber-300/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-200">
-                    {practiceBadge}
+              <Tilt className="h-full">
+                <Link
+                  href={`/case-studies/${cs.slug}`}
+                  className="group flex h-full flex-col rounded-[1.75rem] border border-white/10 bg-[#090c14] p-6 transition-colors duration-500 hover:border-white/30 sm:p-8"
+                >
+                  <span className="flex items-center justify-between gap-3">
+                    <span className="text-[15px] font-semibold text-white">{cs.company}</span>
+                    <span className="rounded-full border border-amber-300/30 bg-amber-300/10 px-2.5 py-0.5 text-[11px] font-semibold uppercase tracking-[0.12em] text-amber-200">
+                      {practiceBadge}
+                    </span>
                   </span>
-                </span>
-                <h3 className="mt-5 text-balance text-[1.45rem] font-semibold leading-[1.15] tracking-[-0.025em] text-white">
-                  {/* non-breaking hyphens keep "drop-off" on one line */}
-                  {cs.title.replace(/-/g, "\u2011")}
-                </h3>
-                <div className="mt-8 flex-1">
-                  <FlowPreview steps={cs.deliver.flow} />
-                </div>
-                <span className="mt-8 inline-flex items-center gap-2 text-[15px] font-semibold text-white">
-                  Read case study
-                  <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                </span>
-              </Link>
+                  <h3 className="mt-5 text-balance text-[1.4rem] font-semibold leading-[1.15] tracking-[-0.025em] text-white">
+                    {/* non-breaking hyphens keep "drop-off" on one line */}
+                    {cs.title.replace(/-/g, "‑")}
+                  </h3>
+                  <div className="mt-8 flex-1">
+                    <FlowPreview steps={cs.deliver.flow} />
+                  </div>
+                  <span className="mt-8 inline-flex items-center gap-2 text-[15px] font-semibold text-white">
+                    Read case study
+                    <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
+                  </span>
+                </Link>
+              </Tilt>
             </Reveal>
           ))}
         </div>
@@ -193,9 +201,9 @@ function Work() {
 
 function Experience() {
   return (
-    <section id="experience" className="scroll-mt-16 pt-28 sm:pt-36">
+    <section id="experience" className="scroll-mt-16 pt-24 sm:pt-36">
       <div className={wrap}>
-        <SpineNode icon="roadmap" label="Experience" side="left" size="md" />
+        <SpineNode icon="roadmap" label="Experience" side="left" size="md" className="mx-auto" />
         <CenterHead
           eyebrow="Experience"
           title={
@@ -205,12 +213,12 @@ function Experience() {
           }
         />
 
-        <Reveal className={`mx-auto mt-14 max-w-4xl ${gut}`}>
+        <Reveal className="mx-auto mt-12 max-w-4xl sm:mt-14">
           <ol className="divide-y divide-white/10 rounded-[1.75rem] border border-white/10 bg-[#090c14]">
             {experience.map((job) => (
-              <li key={job.company} className="p-6 sm:p-8">
-                <div className="flex items-start gap-5">
-                  <span className="grid size-12 shrink-0 place-items-center rounded-2xl border border-white/20 text-zinc-100">
+              <li key={job.company} className="p-5 sm:p-8">
+                <div className="flex items-start gap-4 sm:gap-5">
+                  <span className="grid size-11 shrink-0 place-items-center rounded-2xl border border-white/20 text-zinc-100 sm:size-12">
                     {capabilityIcons[job.icon]({ className: "size-5" })}
                   </span>
                   <div className="min-w-0 flex-1">
@@ -278,9 +286,9 @@ function Experience() {
 
 function Toolkit() {
   return (
-    <section id="skills" className="scroll-mt-16 pt-28 sm:pt-36">
+    <section id="skills" className="scroll-mt-16 pt-24 sm:pt-36">
       <div className={wrap}>
-        <SpineNode icon="chart" label="Toolkit" side="right" size="md" />
+        <SpineNode icon="chart" label="Toolkit" side="right" size="md" className="mx-auto" />
         <CenterHead
           eyebrow="Toolkit"
           title={
@@ -289,7 +297,7 @@ function Toolkit() {
             </>
           }
         />
-        <div className={`mx-auto mt-14 grid max-w-5xl gap-5 sm:grid-cols-2 ${gut}`}>
+        <div className="mx-auto mt-12 grid max-w-5xl gap-4 sm:mt-14 sm:grid-cols-2 sm:gap-5">
           {toolkit.map((g, i) => (
             <GravityChips key={g.title} title={g.title} icon={g.icon} items={g.items} delay={i * 0.15} />
           ))}
@@ -310,19 +318,21 @@ function Contact() {
   ];
 
   return (
-    <section id="contact" className="relative scroll-mt-16 overflow-hidden pb-28 pt-28 sm:pb-36 sm:pt-36">
+    <section id="contact" className="relative scroll-mt-16 overflow-hidden pb-24 pt-24 sm:pb-36 sm:pt-36">
       <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-[32rem] w-[60rem] -translate-x-1/2 rounded-full bg-[#5b6bff]/[0.14] blur-[120px]" />
       <div className={`relative ${wrap}`}>
-        <SpineNode icon="send" label="Contact" side="left" size="md" />
-        <Reveal className={`mt-8 text-left lg:text-center ${gut}`}>
-          <h2 className="text-[clamp(3rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white">
-            Got a problem
-            <br />
-            to <span className={serifAccent}>solve?</span>
-          </h2>
+        <SpineNode icon="send" label="Contact" side="left" size="md" className="mx-auto" />
+        <Reveal className="mt-8 text-center">
+          <div className="mask">
+            <h2 className="text-[clamp(2.8rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white">
+              Got a problem
+              <br />
+              to <span className={serifAccent}>solve?</span>
+            </h2>
+          </div>
           <p className="mt-6 text-lg text-zinc-400">Open to Product Manager roles. Let&apos;s talk.</p>
         </Reveal>
-        <Reveal delay={120} className={`mx-auto mt-12 max-w-2xl ${gut}`}>
+        <Reveal delay={120} className="mx-auto mt-10 max-w-2xl sm:mt-12">
           <ul className="grid gap-3 sm:grid-cols-2">
             {rows.map((r) => (
               <li key={r.key}>
@@ -353,6 +363,8 @@ function Contact() {
 export default function Home() {
   return (
     <>
+      <Aurora />
+      <Spotlight />
       <Hero />
       <JourneyPath>
         <HowIWork />

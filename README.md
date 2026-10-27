@@ -4,24 +4,27 @@
 
 ## How the site is built
 
-The whole site is one Next.js app (TypeScript, React, Tailwind, [Motion](https://motion.dev) for the scroll-linked animation).
+One Next.js app (TypeScript, React, Tailwind, [Motion](https://motion.dev) for the spring-driven animation).
 
 | URL | File |
 | --- | --- |
-| `/` (homepage) | `app/page.tsx` — sections: hero, why me, case studies, experience, skills, contact |
-| `/case-studies`, `/case-studies/<slug>` | `app/case-studies/` |
+| `/` (homepage) | `app/page.tsx` — hero, "how I work" stations, case studies, experience, toolkit, contact |
+| `/case-studies` | `app/case-studies/page.tsx` |
+| `/case-studies/<slug>` | `app/case-studies/[slug]/page.tsx` — one study in four chapters |
 
-Shared pieces: `app/layout.tsx` (fonts, search + link-preview metadata), `components/Navbar.tsx`, `components/Footer.tsx`, `components/ScrollTopButton.tsx`.
+Shared pieces: `app/layout.tsx` (fonts, search + link-preview metadata), `components/Navbar.tsx`, `components/Footer.tsx`, `components/Reveal.tsx` (scroll reveal), `components/ScrollTopButton.tsx` (case-study pages only).
 
 Homepage components live in `components/home/`:
 
-- `HeroStory.tsx` — the hero and its scroll-linked visual. On wide screens (1280px+) the hero is 210vh tall with a sticky stage; scrolling through it draws the orbit, the six capability nodes, their connectors and arrowheads. Nothing autoplays or loops, and scrolling is never captured. Below 1280px the hero stacks and the six capabilities become a vertical list drawn by its own scroll (`MobileCapabilities`).
-- `useScrollProgress.ts` — measures an element’s 0→1 progress through the viewport and feeds it to Motion. (Motion’s own `useScroll` hands element-targeted progress to the browser’s native ScrollTimeline, which mis-mapped in testing.)
-- `FlowPreview.tsx` — the schematic “proposed flow” beside each case study, built from that study’s `flow` steps.
-- `ScrollLine.tsx` — the experience timeline rule that draws as you scroll.
-- `Icons.tsx` — thin outline icons.
+- `Hero.tsx` — headline first on every screen. On xl+ the portrait sits beside it with six floating capability icons that take turns lighting up, dotted arrows joining them, and a comet circling the orbit. Below xl: a smaller portrait with four floating icon orbs and a swipeable row of capability chips. The portrait pops in on load and drifts with parallax.
+- `JourneyPath.tsx` — the journey. It measures every element marked `data-jp-node`. On lg+ it draws a zig-zag dotted path through them; a glowing arrow (with a softer comet trail) rides the path with scroll on a spring, and the travelled part lights up. Below lg it is a progress bar under the navbar with the current stop's name. Nodes the reader has passed get `data-reached`.
+- `Story.tsx` — `SpineNode` (an icon on the journey: drops in, floats, glows and pulses once reached) and `StationRow` (a "how I work" step: the card slides in from its side of the spine; on lg+ a big outlined step word fills the other side).
+- `Motion.tsx` — `CountUp` (stats), `GravityChips` (toolkit chips fall into their tray), `Parallax`, `Tilt` (cards lean toward the mouse on desktop) and `Aurora` (colour blobs drifting behind the page).
+- `Spotlight.tsx` — a soft light that follows the mouse (desktop only).
+- `FlowPreview.tsx` — the small zig-zag flow diagram on case-study cards.
+- `Icons.tsx` — thin outline icons, looked up by key.
 
-`prefers-reduced-motion`: the hero collapses to normal height and every scroll-linked element is shown in its finished state.
+`prefers-reduced-motion`: every animation is gated — CSS keyframes live inside a `no-preference` media block, and the Motion-driven pieces check `useReducedMotion`. Content is always visible without JavaScript.
 
 Files in `public/`:
 
@@ -30,10 +33,17 @@ Files in `public/`:
 
 ## Editing the content
 
-- **All text** — profile and contact details, hero copy, the six capabilities (labels, one-liners and their positions around the portrait), “why me”, stats, experience, education, certifications, skills and case studies — lives in `lib/content.ts`.
-- **Section ids** used by the navbar: `#top`, `#why`, `#case-studies`, `#experience`, `#skills`, `#contact`. If you rename one in `app/page.tsx`, update `components/Navbar.tsx` too.
+Everything lives in `lib/content.ts`:
 
-Content is sourced from the master resume — don't add claims that aren't already resume-backed. The Amazon / Flipkart / Myntra case studies are **hypothetical independent analyses, not client work**. The badge on each card, the index-page note, the detail-page banner and the footer disclaimer keep this explicit — please keep them.
+- `profile` — name, contact details, links.
+- `hero` and `capabilities` — the headline strap and the six icons around the portrait (`x`/`y` are % positions on desktop).
+- `stations` — the four "how I work" steps (Discover → Define → Deliver → Measure).
+- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `toolkit`.
+- `caseStudies` — each has `kind` (`"work"` for real work, `"practice"` for a thinking exercise) and four chapters: `discover`, `define`, `deliver`, `measure`. The homepage features the `work` study above the practice ones. `caseStudiesAreDemo` swaps the practice badge to "Demo".
+
+Section ids used by the navbar: `#top`, `#how`, `#case-studies`, `#experience`, `#skills`, `#contact`. If you rename one in `app/page.tsx`, update `components/Navbar.tsx` too.
+
+Content comes from the master resume and from Kunal's own account of his work — don't add claims or numbers that aren't backed by one of those. The Amazon / Flipkart / Myntra studies are **practice exercises, not client work**; the badge on each card, the index note and the detail-page banner keep this explicit — please keep them.
 
 ## Run it locally
 

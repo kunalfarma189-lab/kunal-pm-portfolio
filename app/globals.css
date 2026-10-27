@@ -42,6 +42,21 @@ body {
   background-size: 1px 8px;
 }
 
+/* Horizontal snap rows on phones: scroll, but no scrollbar. */
+.no-scrollbar {
+  scrollbar-width: none;
+}
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Mask reveal: a heading slides up from behind an invisible line. The
+   wrapper clips; the motion itself is gated with the other reveals below. */
+.mask {
+  overflow: hidden;
+  padding-bottom: 0.15em;
+}
+
 /* Faint scientific dot grid, fading out toward the edges. */
 .dot-grid {
   background-image: radial-gradient(rgba(255, 255, 255, 0.09) 1px, transparent 1.2px);
@@ -158,5 +173,96 @@ body {
   }
   html.js .hero-in-5 {
     animation-delay: 0.32s;
+  }
+
+  /* Hero portrait pops in once with a glow bloom */
+  @keyframes hero-pop {
+    from {
+      opacity: 0;
+      transform: scale(0.92) translateY(10px);
+      filter: blur(8px);
+    }
+    to {
+      opacity: 1;
+      transform: none;
+      filter: blur(0);
+    }
+  }
+  html.js .hero-pop {
+    animation: hero-pop 1.1s cubic-bezier(0.2, 0.8, 0.2, 1) 0.15s both;
+  }
+
+  /* Mask reveal motion (wrapper defined above) */
+  .mask > * {
+    transition: transform 0.9s cubic-bezier(0.2, 0.8, 0.2, 1);
+  }
+  html.js .reveal:not(.reveal-visible) .mask > * {
+    transform: translateY(110%);
+  }
+
+  /* A ring pulses out of a node when the journey arrow reaches it */
+  @keyframes pulse-ring {
+    from {
+      transform: scale(1);
+      opacity: 0.8;
+    }
+    to {
+      transform: scale(2.1);
+      opacity: 0;
+    }
+  }
+  [data-reached] .node-ring::after {
+    content: "";
+    position: absolute;
+    inset: -2px;
+    border-radius: 9999px;
+    border: 1px solid #a9bcff;
+    animation: pulse-ring 1.1s ease-out 1 both;
+  }
+
+  /* Hero icons take turns lighting up (stagger with animation-delay) */
+  @keyframes glow-cycle {
+    0%,
+    14%,
+    100% {
+      border-color: rgba(255, 255, 255, 0.35);
+      box-shadow: 0 0 40px -8px rgba(120, 140, 255, 0.5);
+    }
+    5%,
+    9% {
+      border-color: #a9bcff;
+      box-shadow:
+        0 0 40px -4px rgba(169, 188, 255, 0.95),
+        0 0 0 6px rgba(169, 188, 255, 0.12);
+    }
+  }
+  .glow-cycle {
+    animation: glow-cycle 12s ease-in-out infinite;
+  }
+
+  /* Aurora: colour blobs drifting behind the page */
+  @keyframes aurora-a {
+    0%,
+    100% {
+      transform: translate(-10%, -10%) scale(1);
+    }
+    50% {
+      transform: translate(15%, 10%) scale(1.15);
+    }
+  }
+  @keyframes aurora-b {
+    0%,
+    100% {
+      transform: translate(10%, 5%) scale(1.1);
+    }
+    50% {
+      transform: translate(-12%, -8%) scale(0.95);
+    }
+  }
+  .aurora-a {
+    animation: aurora-a 26s ease-in-out infinite;
+  }
+  .aurora-b {
+    animation: aurora-b 32s ease-in-out infinite;
   }
 }

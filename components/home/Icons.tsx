@@ -135,6 +135,20 @@ export const capabilityIcons: Record<string, (p: SVGProps<SVGSVGElement>) => Rea
       <path d="M12 3.5v6" />
     </Icon>
   ),
+  // bulb — a guess / hypothesis
+  bulb: (p) => (
+    <Icon {...p}>
+      <path d="M9 18h6M10 21h4" />
+      <path d="M12 3a6 6 0 0 0-3.5 10.9c.6.5 1 1.2 1 2.1h5c0-.9.4-1.6 1-2.1A6 6 0 0 0 12 3Z" />
+    </Icon>
+  ),
+  // alert — a risk
+  alert: (p) => (
+    <Icon {...p}>
+      <path d="M12 3.5 21 19.5H3z" />
+      <path d="M12 9.5v4.5M12 17v.5" />
+    </Icon>
+  ),
   // paper plane — contact
   send: (p) => (
     <Icon {...p}>
