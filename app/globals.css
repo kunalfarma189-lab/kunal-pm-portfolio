@@ -27,12 +27,12 @@ body {
    lit from within the page rather than a pasted rectangle. */
 .portrait-mask {
   -webkit-mask-image:
-    radial-gradient(ellipse 52% 56% at 50% 40%, #000 42%, rgba(0, 0, 0, 0.6) 64%, transparent 88%),
-    linear-gradient(to bottom, transparent 0%, #000 14%, #000 62%, transparent 96%);
+    radial-gradient(ellipse 64% 60% at 50% 38%, #000 50%, rgba(0, 0, 0, 0.6) 72%, transparent 92%),
+    linear-gradient(to bottom, transparent 0%, #000 2.5%, #000 64%, transparent 97%);
   -webkit-mask-composite: source-in;
   mask-image:
-    radial-gradient(ellipse 52% 56% at 50% 40%, #000 42%, rgba(0, 0, 0, 0.6) 64%, transparent 88%),
-    linear-gradient(to bottom, transparent 0%, #000 14%, #000 62%, transparent 96%);
+    radial-gradient(ellipse 64% 60% at 50% 38%, #000 50%, rgba(0, 0, 0, 0.6) 72%, transparent 92%),
+    linear-gradient(to bottom, transparent 0%, #000 2.5%, #000 64%, transparent 97%);
   mask-composite: intersect;
 }
 

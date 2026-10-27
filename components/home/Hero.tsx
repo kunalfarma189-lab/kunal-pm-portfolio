@@ -131,7 +131,7 @@ function Portrait({ sizes }: { sizes: string }) {
       fill
       sizes={sizes}
       priority
-      className="portrait-mask object-cover object-[50%_20%]"
+      className="portrait-mask object-cover object-[50%_8%]"
     />
   );
 }
@@ -147,13 +147,13 @@ function MobileVisual({ reduce }: { reduce: boolean }) {
   ];
   return (
     <div className="xl:hidden">
-      <Parallax speed={-0.12} className="relative mx-auto aspect-[4/5] w-[min(76vw,330px)]">
+      <Parallax speed={-0.12} className="relative mx-auto aspect-[3/4] w-[min(78vw,340px)]">
         <div className="hero-pop relative h-full w-full">
           <div aria-hidden className="absolute inset-[10%] rounded-full bg-[#5b6bff]/25 blur-3xl" />
-          <svg aria-hidden viewBox="0 0 400 500" className="absolute inset-0 h-full w-full overflow-visible">
-            <ellipse cx="200" cy="225" rx="188" ry="214" className="fill-none stroke-white/25" strokeWidth="1" />
-            <ellipse cx="200" cy="225" rx="205" ry="168" className="fill-none stroke-white/10" strokeDasharray="2 6" transform="rotate(-14 200 225)" />
-            {!reduce && <Comet id="orbit-m" d={ellipsePath({ x: 200, y: 225 }, 188, 214)} dur="16s" />}
+          <svg aria-hidden viewBox="0 0 400 533" className="absolute inset-0 h-full w-full overflow-visible">
+            <ellipse cx="200" cy="255" rx="196" ry="238" className="fill-none stroke-white/25" strokeWidth="1" />
+            <ellipse cx="200" cy="255" rx="212" ry="180" className="fill-none stroke-white/10" strokeDasharray="2 6" transform="rotate(-14 200 255)" />
+            {!reduce && <Comet id="orbit-m" d={ellipsePath({ x: 200, y: 255 }, 196, 238)} dur="16s" />}
           </svg>
           <div className="absolute inset-0">
             <Portrait sizes="(max-width: 1279px) 330px, 1px" />
@@ -261,8 +261,8 @@ function Stage({ reduce }: { reduce: boolean }) {
   const { w, h } = useSize(ref);
 
   const c: Pt = { x: w / 2, y: h * 0.47 };
-  const rx = w * 0.33;
-  const ry = h * 0.43;
+  const rx = w * 0.36;
+  const ry = h * 0.46;
   const pts: Pt[] = capabilities.map((cap) => ({ x: (cap.x / 100) * w, y: (cap.y / 100) * h }));
 
   return (
@@ -272,7 +272,7 @@ function Stage({ reduce }: { reduce: boolean }) {
         aria-hidden
         className="absolute left-1/2 top-[44%] h-[70%] w-[52%] -translate-x-1/2 -translate-y-1/2 rounded-full bg-[radial-gradient(closest-side,rgba(110,120,255,0.3),rgba(140,100,255,0.12)_55%,transparent)] blur-2xl"
       />
-      <div className="absolute left-1/2 top-0 aspect-[3/4] h-full -translate-x-1/2">
+      <div className="absolute left-1/2 top-[3%] aspect-[3/4] h-[94%] -translate-x-1/2">
         <Parallax speed={-0.1} className="h-full w-full">
           <div className="hero-pop relative h-full w-full">
             <Portrait sizes="(min-width: 1280px) 600px, 1px" />
