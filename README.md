@@ -29,7 +29,7 @@ Performance notes: the aurora blobs only drift on screens 1024px and wider, the 
 Files in `public/`:
 
 - `Kunal_Farma_Resume.pdf` — the resume every download button serves. Replace this file to update the resume.
-- `kunal-farma.jpg` — the portrait (hero) and the link-preview image (`og:image`).
+- `kunal-farma.jpg` — the portrait (hero) and the link-preview image (`og:image`), 900×1200 JPG.
 
 ## Editing the content
 

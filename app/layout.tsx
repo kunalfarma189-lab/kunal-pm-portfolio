@@ -38,7 +38,7 @@ export const metadata: Metadata = {
     title: "Kunal Farma — Product Specialist",
     description:
       "4+ years in product and e-commerce: finding the problem, prototyping the fix with AI, shipping it, and measuring it.",
-    images: [{ url: "/kunal-farma.jpg", width: 720, height: 960, alt: "Portrait of Kunal Farma" }],
+    images: [{ url: "/kunal-farma.jpg", width: 900, height: 1200, alt: "Portrait of Kunal Farma" }],
   },
   twitter: { card: "summary" },
 };
