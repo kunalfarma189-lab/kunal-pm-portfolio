@@ -68,10 +68,10 @@ export function GravityChips({
       initial={reduce ? false : "up"}
       whileInView="down"
       viewport={{ once: true, margin: "0px 0px -15% 0px" }}
-      className="relative flex h-full min-h-[13rem] flex-wrap content-end items-end gap-2.5 overflow-hidden rounded-[1.75rem] border border-white/10 bg-[#090c14] p-5 pt-16 sm:p-6 sm:pt-16"
+      className="relative flex h-full flex-wrap content-end items-end gap-2 overflow-hidden rounded-[1.5rem] border border-white/10 bg-[#090c14] p-4 pt-13 sm:min-h-[13rem] sm:gap-2.5 sm:rounded-[1.75rem] sm:p-6 sm:pt-16"
     >
       {title && (
-        <span className="absolute left-5 top-5 flex items-center gap-2.5 text-sm font-semibold uppercase tracking-[0.16em] text-zinc-400 sm:left-6">
+        <span className="absolute left-4 top-4 flex items-center gap-2.5 text-[13px] font-semibold uppercase tracking-[0.16em] text-zinc-400 sm:left-6 sm:top-5 sm:text-sm">
           {icon && capabilityIcons[icon]({ className: "size-4 text-[#a9bcff]" })}
           {title}
         </span>
@@ -97,7 +97,7 @@ export function GravityChips({
             },
           }}
           whileHover={{ y: -6 }}
-          className="relative flex items-center gap-2 rounded-full border border-white/15 bg-[#0e1220] py-1.5 pl-1.5 pr-4 text-[15px] text-zinc-100 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)]"
+          className="relative flex items-center gap-2 rounded-full border border-white/15 bg-[#0e1220] py-1.5 pl-1.5 pr-3.5 text-[14px] text-zinc-100 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)] sm:pr-4 sm:text-[15px]"
         >
           <span className="grid size-7 place-items-center rounded-full bg-white/[0.07]">
             {capabilityIcons[s.icon]({ className: "size-3.5" })}

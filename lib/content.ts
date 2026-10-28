@@ -370,7 +370,12 @@ export const stations = [
     icon: "research",
     step: "Discover",
     title: "Understand the user and the business.",
-    line: "Pull the funnel in SQL and GA4 to see exactly where users drop and what it costs. Talk to 5–8 of those users to learn why. Write it as one testable hypothesis: “X users drop at Y because Z.” No build until the problem has a number.",
+    points: [
+      "Pull the funnel in SQL and GA4: where users drop, and what it costs.",
+      "Talk to 5–8 of those users to learn why.",
+      "Write one testable hypothesis: “X users drop at Y because Z.”",
+      "No build until the problem has a number.",
+    ],
     proof: ["Funnel in SQL + GA4", "5–8 user interviews", "One problem hypothesis"],
   },
   {
@@ -378,7 +383,11 @@ export const stations = [
     icon: "strategy",
     step: "Define",
     title: "Decide what to build — and why.",
-    line: "Score every fix on reach, impact, confidence and effort (RICE) and do the top one first. Write a one-page PRD: the hypothesis, the success metric, today’s baseline and the target. The smallest version that can prove or kill the hypothesis ships first.",
+    points: [
+      "Score every fix on reach, impact, confidence, effort (RICE). Top one first.",
+      "One-page PRD: hypothesis, success metric, today’s baseline, target.",
+      "Ship the smallest version that can prove or kill the hypothesis.",
+    ],
     proof: ["RICE prioritisation", "One-page PRD", "Metric · baseline · target"],
   },
   {
@@ -386,7 +395,10 @@ export const stations = [
     icon: "execution",
     step: "Deliver",
     title: "Ship it with the team.",
-    line: "Agile sprints with engineering and business. AI prototypes to test ideas early.",
+    points: [
+      "Two-week sprints in Jira with engineering and business in the same room.",
+      "A working AI prototype (Claude, Cursor) before the first sprint, so we test the idea, not a slide.",
+    ],
     proof: ["Agile / Jira", "Stakeholders", "AI prototypes (Claude, Cursor)"],
   },
   {
@@ -394,7 +406,10 @@ export const stations = [
     icon: "data",
     step: "Measure",
     title: "Prove the impact.",
-    line: "Every launch gets a success metric, a baseline and tracking before it ships. Then the numbers decide.",
+    points: [
+      "Success metric, baseline and tracking go in before launch.",
+      "A/B test where possible. Then the numbers decide, not opinions.",
+    ],
   },
 ];
 

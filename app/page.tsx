@@ -49,9 +49,9 @@ function CenterHead({ eyebrow, title }: { eyebrow: string; title: React.ReactNod
 function HowIWork() {
   const measured = proofStats.filter((s) => s.source);
   return (
-    <section id="how" className="scroll-mt-16 pb-10 pt-20 sm:pt-28">
+    <section id="how" className="scroll-mt-16 pb-6 pt-14 sm:pb-10 sm:pt-28">
       <div className={wrap}>
-        <Reveal className="mb-14 text-center sm:mb-20">
+        <Reveal className="mb-10 text-center sm:mb-20">
           <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-zinc-500">How I work</p>
           <div className="mask">
             <h2 className={h2}>
@@ -60,13 +60,22 @@ function HowIWork() {
           </div>
         </Reveal>
 
-        <div className="space-y-10 sm:space-y-24">
+        <div className="space-y-8 sm:space-y-24">
           {stations.map((st, i) => (
             <StationRow key={st.id} index={i + 1} step={st.step} icon={st.icon} side={i % 2 ? "right" : "left"}>
               <h3 className="mt-4 text-[clamp(1.5rem,2.6vw,2.2rem)] font-semibold leading-tight tracking-[-0.03em] text-white">
                 {st.title}
               </h3>
-              <p className="mt-3 text-[17px] leading-7 text-zinc-400 sm:text-lg sm:leading-8">{st.line}</p>
+              <ul className="mt-4 space-y-2.5">
+                {st.points.map((pt, j) => (
+                  <li key={pt} className="flex gap-3 text-[16px] leading-6 text-zinc-300 sm:text-[17px] sm:leading-7">
+                    <span className="mt-1 grid size-5 shrink-0 place-items-center rounded-full border border-[#a9bcff]/40 font-mono text-[11px] text-[#a9bcff]">
+                      {j + 1}
+                    </span>
+                    {pt}
+                  </li>
+                ))}
+              </ul>
               {st.proof ? (
                 <ul className="mt-6 flex flex-wrap gap-2">
                   {st.proof.map((p) => (
@@ -110,7 +119,7 @@ function Work() {
   const practiceBadge = caseStudiesAreDemo ? "Demo" : "Practice";
 
   return (
-    <section id="case-studies" className="scroll-mt-16 pt-24 sm:pt-36">
+    <section id="case-studies" className="scroll-mt-16 pt-16 sm:pt-36">
       <div className={wrap}>
         <SpineNode icon="doc" label="Case studies" side="right" size="md" className="-ml-7 lg:mx-auto" />
         <CenterHead
@@ -205,7 +214,7 @@ function Work() {
 
 function Experience() {
   return (
-    <section id="experience" className="scroll-mt-16 pt-24 sm:pt-36">
+    <section id="experience" className="scroll-mt-16 pt-16 sm:pt-36">
       <div className={wrap}>
         <SpineNode icon="roadmap" label="Experience" side="left" size="md" className="-ml-7 lg:mx-auto" />
         <CenterHead
@@ -325,7 +334,7 @@ function Experience() {
 
 function Toolkit() {
   return (
-    <section id="skills" className="scroll-mt-16 pt-24 sm:pt-36">
+    <section id="skills" className="scroll-mt-16 pt-16 sm:pt-36">
       <div className={wrap}>
         <SpineNode icon="chart" label="Toolkit" side="right" size="md" className="-ml-7 lg:mx-auto" />
         <CenterHead
@@ -357,7 +366,7 @@ function Contact() {
   ];
 
   return (
-    <section id="contact" className="relative scroll-mt-16 overflow-hidden pb-24 pt-24 sm:pb-36 sm:pt-36">
+    <section id="contact" className="relative scroll-mt-16 overflow-hidden pb-20 pt-16 sm:pb-36 sm:pt-36">
       <div aria-hidden className="pointer-events-none absolute -bottom-40 left-1/2 h-[32rem] w-[60rem] -translate-x-1/2 rounded-full bg-[#5b6bff]/[0.14] blur-[120px]" />
       <div className={`relative ${wrap}`}>
         <SpineNode icon="send" label="Contact" side="left" size="md" className="-ml-7 lg:mx-auto" />

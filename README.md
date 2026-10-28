@@ -16,7 +16,7 @@ Shared pieces: `app/layout.tsx` (fonts, search + link-preview metadata, theme co
 
 Homepage components live in `components/home/`:
 
-- `Hero.tsx` — headline first on every screen. On xl+ the portrait sits beside it with six floating capability icons that take turns lighting up, dotted arrows joining them, and a comet circling the orbit. Below xl: a smaller portrait with four floating icon orbs, a swipeable row of capability chips, then a roadmap card — the four "how I work" stops on a dotted road (each a link to its step) and the three proof sections. The portrait pops in on load and drifts with parallax.
+- `Hero.tsx` — headline first on every screen. On xl+ the portrait sits beside it with six floating capability icons that take turns lighting up, dotted arrows joining them, and a comet circling the orbit. Below xl: a smaller portrait with four floating icon orbs, then the pitch, buttons, proof and a roadmap card — the four "how I work" stops on a dotted road (each a link to its step) and the three proof sections. The portrait pops in on load and drifts with parallax.
 - `JourneyPath.tsx` — the journey. It measures every element marked `data-jp-node`. On lg+ it draws a zig-zag dotted path through them; a glowing arrow (with a softer comet trail) rides the path with scroll on a spring, and the travelled part lights up. Below lg the content is indented and every node sits on a rail at the cards' left edge, so the road is a straight timeline the arrow rides without crossing text; a strip under the navbar mirrors it as a progress bar with a dot per stop and the current stop's name. Nodes the reader has passed get `data-reached`.
 - `Story.tsx` — `SpineNode` (an icon on the journey: drops in, floats, glows and pulses once reached) and `StationRow` (a "how I work" step: the card slides in from its side of the spine; on lg+ a big outlined step word fills the other side).
 - `Motion.tsx` — `CountUp` (stats), `GravityChips` (toolkit chips fall into their tray), `Parallax`, `Tilt` (cards lean toward the mouse on desktop) and `Aurora` (colour blobs drifting behind the page).
@@ -37,7 +37,7 @@ Everything lives in `lib/content.ts`:
 
 - `profile` — name, contact details, links.
 - `hero` and `capabilities` — the headline strap and the six icons around the portrait (`x`/`y` are % positions on desktop).
-- `stations` — the four "how I work" steps (Discover → Define → Deliver → Measure).
+- `stations` — the four "how I work" steps (Discover → Define → Deliver → Measure); each has `points` (short numbered lines) and `proof` chips.
 - `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `certifications` (named ones; `moreCertifications` counts the rest), `toolkit`.
 - `caseStudies` — each has `kind` (`"work"` for real work, `"practice"` for a thinking exercise) and four chapters: `discover`, `define`, `deliver`, `measure`. The homepage features the `work` study above the practice ones. `caseStudiesAreDemo` swaps the practice badge to "Demo".
 

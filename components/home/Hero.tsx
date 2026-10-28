@@ -15,11 +15,11 @@ import { Parallax } from "./Motion";
  * circles the orbit, six capability icons float around the photo and take
  * turns lighting up, and dotted arrows join them in a loop.
  *
- * Phones/tablets: a smaller portrait below the headline with four floating
- * icon orbs, the six capabilities as a swipeable row of chips, then a
- * roadmap card — the four "how I work" stops on a dotted road (tap to
- * jump) and the three proof sections — so the whole page is clear before
- * the first scroll.
+ * Phones/tablets, in reading order: headline, the portrait (with four
+ * floating icon orbs) right under it so the first screen is face +
+ * headline, then the one-line pitch, buttons, proof, and a roadmap card —
+ * the four "how I work" stops on a dotted road (tap to jump) and the
+ * three proof sections — so the whole page is clear before the first scroll.
  *
  * The portrait pops in once on load and drifts slower than the page
  * (parallax). Nothing else is driven by scroll.
@@ -71,6 +71,7 @@ export default function Hero() {
               products.
             </span>
           </h1>
+          <MobilePortrait reduce={!!reduce} />
           <p className="hero-in hero-in-3 mt-6 max-w-[30rem] text-pretty text-lg leading-8 text-zinc-300 sm:text-xl sm:leading-9">
             {hero.subtitle}
           </p>
@@ -92,7 +93,7 @@ export default function Hero() {
           <Proof />
         </div>
 
-        <MobileVisual reduce={!!reduce} />
+        <Roadmap />
         <Stage reduce={!!reduce} />
       </div>
     </section>
@@ -138,7 +139,7 @@ function Portrait({ sizes }: { sizes: string }) {
 
 /* ------------------------------ below xl ------------------------------ */
 
-function MobileVisual({ reduce }: { reduce: boolean }) {
+function MobilePortrait({ reduce }: { reduce: boolean }) {
   const orbs = [
     { icon: "research", pos: "-left-2 top-[14%]", delay: 0 },
     { icon: "ai", pos: "-right-2 top-[9%]", delay: 1.3 },
@@ -146,8 +147,8 @@ function MobileVisual({ reduce }: { reduce: boolean }) {
     { icon: "execution", pos: "right-0 bottom-[10%]", delay: 0.7 },
   ];
   return (
-    <div className="xl:hidden">
-      <Parallax speed={-0.12} className="relative mx-auto aspect-[3/4] w-[min(78vw,340px)]">
+    <div className="hero-in hero-in-2 mt-6 xl:hidden">
+      <Parallax speed={-0.12} className="relative mx-auto aspect-[3/4] w-[min(64vw,290px)]">
         <div className="hero-pop relative h-full w-full">
           <div aria-hidden className="absolute inset-[10%] rounded-full bg-[#5b6bff]/25 blur-3xl" />
           <svg aria-hidden viewBox="0 0 400 533" className="absolute inset-0 h-full w-full overflow-visible">
@@ -156,7 +157,7 @@ function MobileVisual({ reduce }: { reduce: boolean }) {
             {!reduce && <Comet id="orbit-m" d={ellipsePath({ x: 200, y: 255 }, 196, 238)} dur="16s" />}
           </svg>
           <div className="absolute inset-0">
-            <Portrait sizes="(max-width: 1279px) 330px, 1px" />
+            <Portrait sizes="(max-width: 1279px) 290px, 1px" />
           </div>
           {orbs.map((o) => (
             <span
@@ -170,22 +171,6 @@ function MobileVisual({ reduce }: { reduce: boolean }) {
         </div>
       </Parallax>
 
-      {/* the six capabilities, swipeable */}
-      <ul className="no-scrollbar -mx-5 mt-8 flex snap-x gap-2.5 overflow-x-auto px-5 pb-1 sm:-mx-8 sm:px-8">
-        {capabilities.map((cap) => (
-          <li
-            key={cap.key}
-            className="flex shrink-0 snap-start items-center gap-2.5 rounded-full border border-white/15 bg-white/[0.03] py-2 pl-2 pr-4 text-[15px] font-medium text-zinc-100"
-          >
-            <span className="grid size-8 place-items-center rounded-full bg-white/[0.07]">
-              {capabilityIcons[cap.key]({ className: "size-4" })}
-            </span>
-            {cap.label}
-          </li>
-        ))}
-      </ul>
-
-      <Roadmap />
     </div>
   );
 }
@@ -199,7 +184,7 @@ function Roadmap() {
     { href: "#skills", icon: "chart", label: "Toolkit" },
   ];
   return (
-    <nav aria-label="Page roadmap" className="hero-in hero-in-5 mt-8 rounded-[1.5rem] border border-white/10 bg-[#090c14] p-4 sm:p-5">
+    <nav aria-label="Page roadmap" className="hero-in hero-in-5 -mt-2 rounded-[1.5rem] xl:hidden border border-white/10 bg-[#090c14] p-4 sm:p-5">
       <p className="flex items-center justify-between text-[12px] font-medium uppercase tracking-[0.2em] text-zinc-500">
         How I work
         <span className="font-mono normal-case tracking-normal text-[#a9bcff]">4 steps</span>
