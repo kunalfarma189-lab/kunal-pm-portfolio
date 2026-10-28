@@ -148,23 +148,15 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            <div className="mt-4 grid grid-cols-2 gap-2.5">
-              <Link
-                href="/#contact"
-                onClick={() => setOpen(false)}
-                className="rounded-full bg-white py-3 text-center text-[15px] font-semibold text-[#05070c]"
-              >
-                Get in touch
-              </Link>
-              <a
-                href={profile.resumeUrl}
-                download="Kunal_Farma_PM_Resume.pdf"
-                onClick={() => setOpen(false)}
-                className="rounded-full border border-white/20 py-3 text-center text-[15px] font-semibold text-white"
-              >
-                Resume (PDF)
-              </a>
-            </div>
+            {/* No resume link up here on purpose: the resume lives only at the
+                bottom (Contact + footer) so a visitor reads the story first. */}
+            <Link
+              href="/#contact"
+              onClick={() => setOpen(false)}
+              className="mt-4 block rounded-full bg-white py-3 text-center text-[15px] font-semibold text-[#05070c]"
+            >
+              Get in touch
+            </Link>
             <p className="mt-4 flex items-center gap-2 text-[13px] text-zinc-500">
               <span aria-hidden className="size-2 rounded-full bg-emerald-400" />
               Open to PM roles · {profile.location}
