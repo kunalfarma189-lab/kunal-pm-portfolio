@@ -17,7 +17,9 @@ import {
  * lg and up: one dotted path zig-zags down the page through the nodes. A
  * glowing arrow rides it with scroll — spring-driven, so it swings through
  * each diagonal, overshoots a touch and settles — with a softer comet
- * trail behind it. The travelled part lights up.
+ * trail behind it. The travelled part lights up (a dash length on two
+ * plain strokes: no SVG mask or filter, which were the main source of
+ * scroll jank on phones).
  *
  * Below lg: the same road as a straight timeline. Content is indented and
  * every node sits on a rail at the cards' left edge, so the arrow rides
@@ -171,7 +173,7 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
 
   const ready = geo.pts.length > 1;
   const pill =
-    "whitespace-nowrap rounded-full border border-white/15 bg-[#05070c]/90 px-3 py-1 text-[13px] font-medium text-white backdrop-blur transition-opacity duration-300";
+    "whitespace-nowrap rounded-full border border-white/15 bg-[#05070c] px-3 py-1 text-[13px] font-medium text-white transition-opacity duration-300";
 
   return (
     <div ref={wrapRef} className="relative overflow-x-clip">
@@ -184,22 +186,14 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
               <stop offset="0.5" stopColor="#a9bcff" />
               <stop offset="1" stopColor="#c4a8ff" />
             </linearGradient>
-            <mask id="jp-travelled" maskUnits="userSpaceOnUse" x="0" y="0" width={geo.w} height={geo.h}>
-              <m.path d={geo.d} fill="none" stroke="#fff" strokeWidth={10} style={{ strokeDasharray: dash }} />
-            </mask>
           </defs>
+          {/* the dotted road */}
           <path ref={pathRef} d={geo.d} fill="none" className="stroke-white/20" strokeWidth={1.5} strokeDasharray="1 8" strokeLinecap="round" strokeLinejoin="round" />
-          <path
-            d={geo.d}
-            fill="none"
-            stroke="url(#jp-glow)"
-            strokeWidth={2.2}
-            strokeDasharray="1 8"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            mask="url(#jp-travelled)"
-            style={{ filter: "drop-shadow(0 0 5px rgba(169,188,255,0.8))" }}
-          />
+          {/* the travelled part: a soft halo plus a solid lit line, both just
+              a dash length that follows the spring — no mask, no filter, so
+              a frame costs almost nothing even on a 10,000px page */}
+          <m.path d={geo.d} fill="none" stroke="#a9bcff" strokeOpacity={0.22} strokeWidth={7} strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: dash }} />
+          <m.path d={geo.d} fill="none" stroke="url(#jp-glow)" strokeWidth={2} strokeLinecap="round" strokeLinejoin="round" style={{ strokeDasharray: dash }} />
         </svg>
       )}
 
@@ -211,10 +205,10 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
           there is room beside the road; phones show it in the top strip) */}
       {ready && (
         <>
-          <m.div aria-hidden style={{ x: tx, y: ty }} className="pointer-events-none absolute left-0 top-0 z-20">
+          <m.div aria-hidden style={{ x: tx, y: ty }} className="pointer-events-none absolute left-0 top-0 z-20 will-change-transform">
             <span className="absolute size-5 -translate-x-1/2 -translate-y-1/2 rounded-full bg-[#a9bcff]/40 blur-[6px]" />
           </m.div>
-          <m.div aria-hidden style={{ x: ax, y: ay }} className="pointer-events-none absolute left-0 top-0 z-30">
+          <m.div aria-hidden style={{ x: ax, y: ay }} className="pointer-events-none absolute left-0 top-0 z-30 will-change-transform">
             <m.span
               style={{ rotate: ar }}
               className="absolute grid size-9 -translate-x-1/2 -translate-y-1/2 place-items-center rounded-full border border-[#a9bcff] bg-[#05070c] text-white shadow-[0_0_28px_rgba(140,160,255,0.8)]"

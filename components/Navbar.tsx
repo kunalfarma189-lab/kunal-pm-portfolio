@@ -1,49 +1,98 @@
 "use client";
 
 import Link from "next/link";
-import { useState } from "react";
+import { useEffect, useState } from "react";
 import { profile } from "@/lib/content";
 
 // Section ids match app/page.tsx.
 const links = [
-  { href: "/#how", label: "How I work" },
-  { href: "/#case-studies", label: "Case studies" },
-  { href: "/#experience", label: "Experience" },
-  { href: "/#skills", label: "Toolkit" },
+  { id: "how", href: "/#how", label: "How I work" },
+  { id: "case-studies", href: "/#case-studies", label: "Case studies" },
+  { id: "experience", href: "/#experience", label: "Experience" },
+  { id: "skills", href: "/#skills", label: "Toolkit" },
 ];
+
+/* Monogram, same mark as the app icon. */
+function Mark() {
+  return (
+    <span
+      aria-hidden
+      className="grid size-8 place-items-center rounded-[9px] border border-white/15 bg-[#0b0f1a] font-serif text-[19px] italic leading-none text-[#c3cfff] shadow-[0_0_18px_-6px_rgba(169,188,255,0.9)]"
+    >
+      K
+    </span>
+  );
+}
 
 export default function Navbar() {
   const [open, setOpen] = useState(false);
+  const [active, setActive] = useState("");
+
+  // Scroll spy: the link for the section under the top of the viewport
+  // lights up. Only the homepage has these sections; elsewhere nothing
+  // is observed and no link is highlighted.
+  useEffect(() => {
+    const targets = links
+      .map((l) => document.getElementById(l.id))
+      .filter((el): el is HTMLElement => !!el);
+    if (!targets.length) return;
+    const io = new IntersectionObserver(
+      (entries) => {
+        for (const e of entries) if (e.isIntersecting) setActive(e.target.id);
+      },
+      { rootMargin: "-40% 0px -55% 0px" },
+    );
+    targets.forEach((t) => io.observe(t));
+    return () => io.disconnect();
+  }, []);
 
   return (
-    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#05070c]/75 backdrop-blur-xl">
+    <header className="sticky top-0 z-50 border-b border-white/10 bg-[#05070c]/85 backdrop-blur-md">
       <nav className="mx-auto grid h-16 max-w-[1360px] grid-cols-[1fr_auto_1fr] items-center px-5 sm:px-8">
         <Link
           href="/#top"
           className="flex items-center gap-2.5 justify-self-start rounded-md text-[17px] font-semibold tracking-[-0.02em] text-white focus-visible:outline-2 focus-visible:outline-indigo-400"
         >
-          <span aria-hidden className="size-1.5 rounded-full bg-[#a9bcff] shadow-[0_0_10px_#a9bcff]" />
-          Kunal Farma
+          <Mark />
+          <span className="leading-tight">
+            Kunal Farma
+            <span className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500 sm:block">
+              Product Manager
+            </span>
+          </span>
         </Link>
 
         {/* Desktop navigation — centered */}
-        <ul className="hidden items-center gap-9 lg:flex">
-          {links.map((link) => (
-            <li key={link.href}>
-              <Link
-                href={link.href}
-                className="relative rounded-md text-[15px] font-medium text-zinc-400 transition-colors after:absolute after:bottom-0 after:left-1/2 after:h-px after:w-0 after:-translate-x-1/2 after:bg-white/70 after:transition-all after:duration-300 hover:text-white hover:after:w-full focus-visible:outline-2 focus-visible:outline-indigo-400"
-              >
-                {link.label}
-              </Link>
-            </li>
-          ))}
+        <ul className="hidden items-center gap-8 lg:flex">
+          {links.map((link) => {
+            const on = active === link.id;
+            return (
+              <li key={link.href}>
+                <Link
+                  href={link.href}
+                  aria-current={on ? "location" : undefined}
+                  className={`relative rounded-md text-[15px] font-medium transition-colors after:absolute after:-bottom-1 after:left-1/2 after:h-px after:-translate-x-1/2 after:bg-[#a9bcff] after:transition-all after:duration-300 hover:text-white hover:after:w-full focus-visible:outline-2 focus-visible:outline-indigo-400 ${
+                    on ? "text-white after:w-full" : "text-zinc-400 after:w-0"
+                  }`}
+                >
+                  {link.label}
+                </Link>
+              </li>
+            );
+          })}
         </ul>
 
-        <div className="justify-self-end hidden lg:block">
+        <div className="hidden items-center gap-3 justify-self-end lg:flex">
+          <span className="flex items-center gap-2 text-[13px] text-zinc-400">
+            <span aria-hidden className="relative flex size-2">
+              <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
+              <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
+            </span>
+            Open to PM roles
+          </span>
           <Link
             href="/#contact"
-            className="rounded-full border border-white/20 px-5 py-2.5 text-sm font-semibold text-white transition-colors duration-300 hover:border-white/50 hover:bg-white/[0.04] focus-visible:outline-2 focus-visible:outline-indigo-400"
+            className="rounded-full bg-white px-5 py-2.5 text-sm font-semibold text-[#05070c] transition-transform duration-300 hover:-translate-y-0.5 focus-visible:outline-2 focus-visible:outline-indigo-400"
           >
             Get in touch
           </Link>
@@ -82,38 +131,45 @@ export default function Navbar() {
         }`}
       >
         <div className="min-h-0 overflow-hidden">
-          <ul className="border-t border-white/10 bg-[#05070c] px-5 pb-5 pt-2 sm:px-8">
-            {links.map((link) => (
-              <li key={link.href}>
-                <Link
-                  href={link.href}
-                  onClick={() => setOpen(false)}
-                  className="block rounded-md px-3 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
-                >
-                  {link.label}
-                </Link>
-              </li>
-            ))}
-            <li>
+          <div className="border-t border-white/10 bg-[#05070c] px-5 pb-6 pt-3 sm:px-8">
+            <ul className="divide-y divide-white/[0.06]">
+              {links.map((link, i) => (
+                <li key={link.href}>
+                  <Link
+                    href={link.href}
+                    onClick={() => setOpen(false)}
+                    className={`flex items-center gap-3 py-3 text-[17px] font-medium transition-colors ${
+                      active === link.id ? "text-white" : "text-zinc-300"
+                    }`}
+                  >
+                    <span className="w-6 font-mono text-[12px] text-zinc-600">0{i + 1}</span>
+                    {link.label}
+                  </Link>
+                </li>
+              ))}
+            </ul>
+            <div className="mt-4 grid grid-cols-2 gap-2.5">
               <Link
                 href="/#contact"
                 onClick={() => setOpen(false)}
-                className="block rounded-md px-3 py-2.5 text-sm font-medium text-zinc-300 transition-colors hover:bg-white/5 hover:text-white"
+                className="rounded-full bg-white py-3 text-center text-[15px] font-semibold text-[#05070c]"
               >
-                Contact
+                Get in touch
               </Link>
-            </li>
-            <li>
               <a
                 href={profile.resumeUrl}
-                download
+                download="Kunal_Farma_PM_Resume.pdf"
                 onClick={() => setOpen(false)}
-                className="block rounded-md px-3 py-2.5 text-sm font-medium text-indigo-300 transition-colors hover:bg-white/5"
+                className="rounded-full border border-white/20 py-3 text-center text-[15px] font-semibold text-white"
               >
-                ↓ Download Resume
+                Resume (PDF)
               </a>
-            </li>
-          </ul>
+            </div>
+            <p className="mt-4 flex items-center gap-2 text-[13px] text-zinc-500">
+              <span aria-hidden className="size-2 rounded-full bg-emerald-400" />
+              Open to PM roles · {profile.location}
+            </p>
+          </div>
         </div>
       </div>
     </header>

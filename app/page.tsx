@@ -12,7 +12,6 @@ import {
   caseStudiesAreDemo,
   certifications,
   credentials,
-  moreCertifications,
   experience,
   profile,
   proofStats,
@@ -311,17 +310,18 @@ function Experience() {
               <span className="grid size-9 shrink-0 place-items-center rounded-xl border border-white/15 text-[#a9bcff]">
                 {capabilityIcons.checklist({ className: "size-4" })}
               </span>
-              {certifications.length + moreCertifications} certifications
+              {certifications.length} certifications
             </p>
-            <ul className="mt-3 flex flex-wrap gap-2">
-              {certifications.map((name) => (
-                <li key={name} className="rounded-full border border-white/15 px-3 py-1.5 text-sm text-zinc-200">
-                  {name}
+            <ul className="mt-3 grid gap-2 sm:grid-cols-2">
+              {certifications.map((cert) => (
+                <li key={cert.name} className="flex items-start gap-2.5 rounded-xl border border-white/10 px-3 py-2.5 text-sm leading-5 text-zinc-200">
+                  <span aria-hidden className="mt-1.5 size-1.5 shrink-0 rounded-full bg-[#a9bcff]" />
+                  <span>
+                    {cert.name}
+                    <span className="block text-[12px] text-zinc-500">{cert.issuer}</span>
+                  </span>
                 </li>
               ))}
-              <li className="rounded-full border border-dashed border-white/15 px-3 py-1.5 text-sm text-zinc-500">
-                +{moreCertifications} more
-              </li>
             </ul>
           </div>
         </Reveal>

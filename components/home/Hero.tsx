@@ -140,11 +140,12 @@ function Portrait({ sizes }: { sizes: string }) {
 /* ------------------------------ below xl ------------------------------ */
 
 function MobilePortrait({ reduce }: { reduce: boolean }) {
+  // four of the capabilities, with a one-word label so the icons read
   const orbs = [
-    { icon: "research", pos: "-left-2 top-[14%]", delay: 0 },
-    { icon: "ai", pos: "-right-2 top-[9%]", delay: 1.3 },
-    { icon: "data", pos: "left-0 bottom-[17%]", delay: 2.4 },
-    { icon: "execution", pos: "right-0 bottom-[10%]", delay: 0.7 },
+    { icon: "research", label: "Research", pos: "-left-3 top-[12%]", delay: 0 },
+    { icon: "ai", label: "AI", pos: "-right-3 top-[7%]", delay: 1.3 },
+    { icon: "data", label: "Data", pos: "-left-1 bottom-[14%]", delay: 2.4 },
+    { icon: "execution", label: "Delivery", pos: "-right-1 bottom-[8%]", delay: 0.7 },
   ];
   return (
     <div className="hero-in hero-in-2 mt-6 xl:hidden">
@@ -163,9 +164,14 @@ function MobilePortrait({ reduce }: { reduce: boolean }) {
             <span
               key={o.icon}
               style={{ animationDelay: `${o.delay}s` }}
-              className={`float absolute ${o.pos} grid size-11 place-items-center rounded-full border border-white/30 bg-[#06080f]/85 text-zinc-100 shadow-[0_0_30px_-6px_rgba(120,140,255,0.6)] backdrop-blur-md`}
+              className={`float absolute ${o.pos} flex flex-col items-center gap-1`}
             >
-              {capabilityIcons[o.icon]({ className: "size-5" })}
+              <span className="grid size-11 place-items-center rounded-full border border-white/30 bg-[#06080f] text-zinc-100 shadow-[0_0_30px_-6px_rgba(120,140,255,0.6)]">
+                {capabilityIcons[o.icon]({ className: "size-5" })}
+              </span>
+              <span className="rounded-full bg-[#05070c]/90 px-2 py-0.5 text-[11px] font-semibold tracking-[0.02em] text-white">
+                {o.label}
+              </span>
             </span>
           ))}
         </div>
@@ -293,7 +299,7 @@ function Stage({ reduce }: { reduce: boolean }) {
         >
           <span
             style={{ animationDelay: `${i * 2}s` }}
-            className="glow-cycle grid size-14 place-items-center rounded-full border border-white/35 bg-[#06080f]/85 text-zinc-100 shadow-[0_0_40px_-8px_rgba(120,140,255,0.5)] backdrop-blur-md transition-transform duration-300 hover:scale-110"
+            className="glow-cycle grid size-14 place-items-center rounded-full border border-white/35 bg-[#06080f] text-zinc-100 shadow-[0_0_40px_-8px_rgba(120,140,255,0.5)] transition-transform duration-300 hover:scale-110"
           >
             {capabilityIcons[cap.key]({ className: "size-6" })}
           </span>

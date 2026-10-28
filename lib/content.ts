@@ -7,7 +7,7 @@
 
 export const profile = {
   name: "Kunal Farma",
-  headline: "Product Specialist",
+  headline: "Product Manager",
   focus: "Product Management · Product Analytics · Product Delivery",
   location: "New Delhi, India",
   email: "kunalfarma189@gmail.com",
@@ -346,9 +346,9 @@ export const caseStudies: CaseStudy[] = [
 // ------------------------------------------------------------------
 
 export const hero = {
-  eyebrow: "Product Management · 4+ years",
+  eyebrow: "Kunal Farma · Product Manager",
   subtitle:
-    "I turn customer problems into products that move business numbers.",
+    "I’m a Product Manager with 4+ years in e-commerce. I find the real customer problem, decide what to build, ship it with the team, and prove it with numbers.",
 };
 
 // Static icons around the portrait. x/y = % position in the portrait
@@ -502,16 +502,17 @@ export const credentials = [
   "8 certifications · IBM · Microsoft · Google · UVA",
 ];
 
-// Certifications named on the resume. Five are listed by name; the
-// remaining three are counted but not named there, so they stay "+3".
+// All eight certifications, exactly as listed on the resume.
 export const certifications = [
-  "IBM Product Manager",
-  "Microsoft AI Product Manager",
-  "Google Data Analytics",
-  "Google PM",
-  "UVA Digital Product Management",
+  { name: "IBM Product Manager Professional Certificate", issuer: "IBM" },
+  { name: "Microsoft AI Product Manager", issuer: "Microsoft" },
+  { name: "Google Project Management Professional Certificate", issuer: "Google" },
+  { name: "Google Data Analytics", issuer: "Google" },
+  { name: "Digital Product Management: Modern Fundamentals", issuer: "University of Virginia" },
+  { name: "Generative AI for Product Strategy, UX & Launch", issuer: "SkillUp" },
+  { name: "Microsoft Business Analyst", issuer: "Microsoft" },
+  { name: "IBM UI/UX Designer", issuer: "IBM" },
 ];
-export const moreCertifications = 3;
 
 // Toolkit, grouped. AI and PM tools confirmed by Kunal; the rest come
 // from the resume and earlier site.

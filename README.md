@@ -38,7 +38,7 @@ Everything lives in `lib/content.ts`:
 - `profile` — name, contact details, links.
 - `hero` and `capabilities` — the headline strap and the six icons around the portrait (`x`/`y` are % positions on desktop).
 - `stations` — the four "how I work" steps (Discover → Define → Deliver → Measure); each has `points` (short numbered lines) and `proof` chips.
-- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `certifications` (named ones; `moreCertifications` counts the rest), `toolkit`.
+- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `certifications` (all eight, with issuer), `toolkit`.
 - `caseStudies` — each has `kind` (`"work"` for real work, `"practice"` for a thinking exercise) and four chapters: `discover`, `define`, `deliver`, `measure`. The homepage features the `work` study above the practice ones. `caseStudiesAreDemo` swaps the practice badge to "Demo".
 
 Section ids used by the navbar: `#top`, `#how`, `#case-studies`, `#experience`, `#skills`, `#contact`. If you rename one in `app/page.tsx`, update `components/Navbar.tsx` too.

@@ -24,18 +24,18 @@ const instrumentSerif = Instrument_Serif({
 });
 
 const description =
-  "Kunal Farma — Product Specialist in New Delhi with 4+ years in product and e-commerce. PRDs and Jira delivery, SQL and GA4 analytics, A/B tests, and working prototypes built with AI.";
+  "Kunal Farma is a Product Manager in New Delhi with 4+ years in e-commerce: finding the real customer problem, deciding what to build, shipping it with the team and proving it with numbers (SQL, GA4, A/B tests, AI prototypes).";
 
 export const metadata: Metadata = {
   metadataBase: new URL("https://kunal-pm-portfolio.vercel.app"),
-  title: "Kunal Farma — Product Specialist",
+  title: "Kunal Farma — Product Manager",
   description,
   alternates: { canonical: "/" },
   openGraph: {
     type: "website",
     siteName: "Kunal Farma",
     url: "/",
-    title: "Kunal Farma — Product Specialist",
+    title: "Kunal Farma — Product Manager",
     description:
       "4+ years in product and e-commerce: finding the problem, prototyping the fix with AI, shipping it, and measuring it.",
     images: [{ url: "/kunal-farma.jpg", width: 900, height: 1200, alt: "Portrait of Kunal Farma" }],
