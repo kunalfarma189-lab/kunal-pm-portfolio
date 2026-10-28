@@ -16,7 +16,6 @@ export default function Footer() {
     { key: "email", label: profile.email, short: "Email", href: `mailto:${profile.email}` },
     { key: "phone", label: profile.phone, short: "Call", href: profile.phoneHref },
     { key: "linkedin", label: "LinkedIn", href: profile.linkedin, external: true },
-    { key: "resume", label: "Resume (PDF)", href: profile.resumeUrl, download: true },
   ];
 
   return (
@@ -72,7 +71,6 @@ export default function Footer() {
                   <a
                     href={c.href}
                     {...(c.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                    {...(c.download ? { download: "Kunal_Farma_PM_Resume.pdf" } : {})}
                     className="group inline-flex items-center gap-2.5 text-[15px] text-zinc-300 transition-colors hover:text-white"
                   >
                     <span className="grid size-7 place-items-center rounded-full border border-white/15 text-zinc-400 transition-colors group-hover:border-white/40 group-hover:text-white">
