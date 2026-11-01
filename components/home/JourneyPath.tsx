@@ -15,9 +15,8 @@ import {
  * node can have a desktop copy and a phone copy.
  *
  * lg and up: one dotted path zig-zags down the page through the nodes. A
- * glowing arrow rides it with scroll — spring-driven, so it swings through
- * each diagonal, overshoots a touch and settles — with a softer comet
- * trail behind it. The travelled part lights up (a dash length on two
+ * glowing arrow rides it with scroll on a smooth, well-damped spring (it
+ * eases, never overshoots) with a softer comet trail behind it. The travelled part lights up (a dash length on two
  * plain strokes: no SVG mask or filter, which were the main source of
  * scroll jank on phones).
  *
@@ -56,8 +55,8 @@ export default function JourneyPath({ children }: { children: ReactNode }) {
   const [onRight, setOnRight] = useState(false);
 
   const target = useMotionValue(0);
-  const sprung = useSpring(target, { stiffness: 110, damping: 11, mass: 1.15 });
-  const trailing = useSpring(target, { stiffness: 50, damping: 12, mass: 1.2 });
+  const sprung = useSpring(target, { stiffness: 140, damping: 24, mass: 1 });
+  const trailing = useSpring(target, { stiffness: 70, damping: 20, mass: 1 });
   const L = reduce ? target : sprung;
   const T = reduce ? target : trailing;
 

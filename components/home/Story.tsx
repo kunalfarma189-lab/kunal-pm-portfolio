@@ -10,18 +10,18 @@ import { Tilt } from "./Motion";
  *
  * SpineNode — an icon on the journey. The outer element carries
  * `data-jp-node` and never moves (JourneyPath measures it); inside, the
- * icon drops in with a gravity bounce, then floats. Once the journey
+ * icon fades up into place, then floats gently. Once the journey
  * arrow reaches it (`data-reached`, set by JourneyPath) it glows and a
  * ring pulses out of it.
  *
- * StationRow — one "how I work" step. The card slides in from its side
- * of the spine and settles with a bounce, and tilts toward the pointer on
- * desktop. On lg+ the node sits in a centre column and a big outlined
+ * StationRow — one "how I work" step. The card fades up into place and
+ * tilts a little toward the pointer on desktop. On lg+ the node sits in a centre column and a big outlined
  * step word fills the opposite side; below lg the node sits on a rail at
  * the card's left edge (a straight timeline) and the card fills the rest.
  */
 
-const spring = { type: "spring", stiffness: 210, damping: 14, mass: 1 } as const;
+// one calm easing for every entrance: short, no overshoot
+const ease = { type: "tween", duration: 0.6, ease: [0.2, 0.7, 0.2, 1] } as const;
 
 export function SpineNode({
   icon,
@@ -51,8 +51,8 @@ export function SpineNode({
     >
       <m.div
         variants={{
-          up: { y: -120, opacity: 0, scale: 0.8 },
-          down: { y: 0, opacity: 1, scale: 1, transition: { ...spring, opacity: { duration: 0.25 } } },
+          up: { y: 16, opacity: 0, scale: 0.92 },
+          down: { y: 0, opacity: 1, scale: 1, transition: ease },
         }}
       >
         <span className="float block" style={{ animationDelay: side === "left" ? "0s" : "1.6s" }}>
@@ -83,9 +83,6 @@ export function StationRow({
   const reduce = useReducedMotion();
   const n = String(index).padStart(2, "0");
   const label = `${n} ${step}`;
-  // arrive from the card's own side, slightly tilted, and settle
-  const fromX = side === "left" ? -80 : 80;
-  const tilt = side === "left" ? -2.5 : 2.5;
 
   const card = (
     <m.div
@@ -95,13 +92,8 @@ export function StationRow({
     >
       <m.div
         variants={{
-          up: { x: fromX, rotate: tilt, opacity: 0 },
-          down: {
-            x: 0,
-            rotate: 0,
-            opacity: 1,
-            transition: { ...spring, delay: 0.1, opacity: { duration: 0.4, delay: 0.1 } },
-          },
+          up: { y: 24, opacity: 0 },
+          down: { y: 0, opacity: 1, transition: { ...ease, delay: 0.05 } },
         }}
       >
         <Tilt className="rounded-[1.75rem] border border-white/10 bg-[linear-gradient(160deg,rgba(255,255,255,0.06),rgba(255,255,255,0.015))] p-6 shadow-[0_40px_80px_-50px_rgba(100,110,255,0.6)] sm:p-9 lg:backdrop-blur-md">

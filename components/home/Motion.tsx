@@ -43,9 +43,8 @@ export function CountUp({ value, className = "" }: { value: string; className?: 
   );
 }
 
-/* Gravity chips: each chip drops in from above with a little spin, lands
-   with a spring bounce, and they pile up at the bottom of their tray —
-   like things falling into a box. Runs once per visit.
+/* Chips: each chip fades up into its tray in a quick stagger. Runs once
+   per visit.
    The tray (which never moves) decides when to drop: a chip that starts
    clipped above the tray can never be seen by an IntersectionObserver
    itself, so per-chip triggers would leave it stuck out of view. */
@@ -61,8 +60,6 @@ export function GravityChips({
   delay?: number;
 }) {
   const reduce = useReducedMotion();
-  // fixed pseudo-random tilt/drop per chip so SSR and client agree
-  const tilt = [-14, 9, -6, 12, -10, 7, -4, 11];
   return (
     <m.div
       initial={reduce ? false : "up"}
@@ -81,22 +78,14 @@ export function GravityChips({
         <m.span
           key={s.label}
           variants={{
-            up: { y: -180, opacity: 0, rotate: tilt[i % tilt.length] },
+            up: { y: 14, opacity: 0 },
             down: {
               y: 0,
               opacity: 1,
-              rotate: 0,
-              transition: {
-                type: "spring",
-                stiffness: 260,
-                damping: 13,
-                mass: 1.1,
-                delay: delay + 0.08 * i,
-                opacity: { duration: 0.2, delay: delay + 0.08 * i },
-              },
+              transition: { type: "tween", duration: 0.45, ease: [0.2, 0.7, 0.2, 1], delay: delay + 0.05 * i },
             },
           }}
-          whileHover={{ y: -6 }}
+          whileHover={{ y: -3 }}
           className="relative flex items-center gap-2 rounded-full border border-white/15 bg-[#0e1220] py-1.5 pl-1.5 pr-3.5 text-[14px] text-zinc-100 shadow-[0_10px_30px_-12px_rgba(0,0,0,0.8)] sm:pr-4 sm:text-[15px]"
         >
           <span className="grid size-7 place-items-center rounded-full bg-white/[0.07]">
@@ -163,7 +152,7 @@ export function useFinePointer() {
 export function Tilt({
   children,
   className = "",
-  max = 6,
+  max = 3,
 }: {
   children: ReactNode;
   className?: string;
