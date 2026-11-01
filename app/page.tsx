@@ -362,7 +362,6 @@ function Contact() {
     { key: "email", label: "Email", value: profile.email, href: `mailto:${profile.email}` },
     { key: "phone", label: "Phone", value: profile.phone, href: profile.phoneHref },
     { key: "linkedin", label: "LinkedIn", value: "in/kunal-farma", href: profile.linkedin, external: true },
-    { key: "resume", label: "Resume", value: "Download PDF", href: profile.resumeUrl, download: true },
   ];
 
   return (
@@ -389,7 +388,6 @@ function Contact() {
                 <a
                   href={r.href}
                   {...(r.external ? { target: "_blank", rel: "noopener noreferrer" } : {})}
-                  {...(r.download ? { download: "Kunal_Farma_PM_Resume.pdf" } : {})}
                   className="group flex items-center gap-4 rounded-2xl border border-white/10 bg-[#090c14] p-4 transition-[border-color,transform] duration-300 hover:-translate-y-1 hover:border-white/30"
                 >
                   <span className="grid size-11 shrink-0 place-items-center rounded-full border border-white/20 text-zinc-200">

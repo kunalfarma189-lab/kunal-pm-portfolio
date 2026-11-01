@@ -148,8 +148,7 @@ export default function Navbar() {
                 </li>
               ))}
             </ul>
-            {/* No resume link up here on purpose: the resume lives only at the
-                bottom (Contact + footer) so a visitor reads the story first. */}
+            {/* No resume link anywhere on the site, by Kunal's choice. */}
             <Link
               href="/#contact"
               onClick={() => setOpen(false)}

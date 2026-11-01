@@ -15,7 +15,6 @@ export const profile = {
   github: "https://github.com/kunalfarma189-lab",
   phone: "+91 85058 78277",
   phoneHref: "tel:+918505878277",
-  resumeUrl: "/Kunal_Farma_Resume.pdf",
   portrait: "/kunal-farma.jpg",
 };
 
