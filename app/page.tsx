@@ -250,31 +250,46 @@ function Experience() {
                           </svg>
                         </summary>
                         <ul className="drop-in mt-4 space-y-3">
-                          {job.solved.map((p) => (
-                            <li key={p.title} className="flex gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4">
-                              <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/15 text-zinc-100">
-                                {capabilityIcons[p.icon]({ className: "size-5" })}
-                              </span>
-                              <span className="min-w-0">
-                                <span className="block text-base font-semibold text-white">{p.title}</span>
-                                <span className="mt-1 block text-[15px] leading-6 text-zinc-400">{p.body}</span>
-                              </span>
-                            </li>
-                          ))}
+                          {job.solved.map((p) => {
+                            const inner = (
+                              <>
+                                <span className="grid size-10 shrink-0 place-items-center rounded-xl border border-white/15 text-zinc-100">
+                                  {capabilityIcons[p.icon]({ className: "size-5" })}
+                                </span>
+                                <span className="min-w-0 flex-1">
+                                  <span className="block text-base font-semibold text-white">{p.title}</span>
+                                  <span className="mt-1 block text-[15px] leading-6 text-zinc-400">{p.body}</span>
+                                  {job.caseStudy && (
+                                    <span className="mt-2 inline-flex items-center gap-1.5 text-[13px] font-semibold text-[#a9bcff]">
+                                      Read the case study
+                                      <ArrowRight className="size-3.5 transition-transform duration-300 group-hover/tile:translate-x-1" />
+                                    </span>
+                                  )}
+                                </span>
+                              </>
+                            );
+                            const tile = "flex gap-4 rounded-2xl border border-white/10 bg-white/[0.02] p-4";
+                            return (
+                              <li key={p.title}>
+                                {/* the whole tile opens the case study when there is one */}
+                                {job.caseStudy ? (
+                                  <Link
+                                    href={`/case-studies/${job.caseStudy}`}
+                                    className={`group/tile ${tile} transition-colors hover:border-[#a9bcff]/50 hover:bg-white/[0.04]`}
+                                  >
+                                    {inner}
+                                  </Link>
+                                ) : (
+                                  <div className={tile}>{inner}</div>
+                                )}
+                              </li>
+                            );
+                          })}
                         </ul>
                         {job.focus && (
                           <p className="mt-3 text-sm text-zinc-500">
                             <span className="text-zinc-400">Focus:</span> {job.focus}
                           </p>
-                        )}
-                        {job.caseStudy && (
-                          <Link
-                            href={`/case-studies/${job.caseStudy}`}
-                            className="group mt-4 inline-flex items-center gap-2 text-sm font-semibold text-white"
-                          >
-                            Read the case study
-                            <ArrowRight className="size-4 transition-transform duration-300 group-hover:translate-x-1" />
-                          </Link>
                         )}
                       </details>
                     )}
