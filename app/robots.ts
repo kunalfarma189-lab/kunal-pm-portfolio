@@ -4,6 +4,6 @@ import type { MetadataRoute } from "next";
 export default function robots(): MetadataRoute.Robots {
   return {
     rules: { userAgent: "*", allow: "/" },
-    sitemap: "https://kunal-farma.vercel.app/sitemap.xml",
+    sitemap: "https://kunal-pm-portfolio.vercel.app/sitemap.xml",
   };
 }
