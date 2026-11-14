@@ -64,11 +64,15 @@ export default function Hero() {
             {hero.eyebrow}
           </p>
           <h1 className="hero-in hero-in-2 mt-6 text-[clamp(3rem,11vw,4.6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white xl:text-[clamp(4.25rem,5.6vw,6rem)]">
-            From problems
+            {/* read by search engines and screen readers, not shown */}
+            <span className="sr-only">
+              {profile.name}, {profile.headline} in {profile.location}:{" "}
+            </span>
+            From ad clicks
             <br />
             to{" "}
             <span className="bg-[linear-gradient(95deg,#d6e0ff_0%,#9fb7ff_45%,#b9a4ff_100%)] bg-clip-text pr-[0.08em] font-serif text-[1.08em] font-normal italic tracking-[-0.02em] text-transparent">
-              products.
+              orders.
             </span>
           </h1>
           <MobilePortrait reduce={!!reduce} />
@@ -142,10 +146,10 @@ function Portrait({ sizes }: { sizes: string }) {
 function MobilePortrait({ reduce }: { reduce: boolean }) {
   // four of the capabilities, with a one-word label so the icons read
   const orbs = [
-    { icon: "research", label: "Research", pos: "-left-3 top-[12%]", delay: 0 },
-    { icon: "ai", label: "AI", pos: "-right-3 top-[7%]", delay: 1.3 },
-    { icon: "data", label: "Data", pos: "-left-1 bottom-[14%]", delay: 2.4 },
-    { icon: "execution", label: "Delivery", pos: "-right-1 bottom-[8%]", delay: 0.7 },
+    { icon: "send", label: "Meta Ads", pos: "-left-3 top-[12%]", delay: 0 },
+    { icon: "research", label: "Google Ads", pos: "-right-3 top-[7%]", delay: 1.3 },
+    { icon: "chart", label: "GA4", pos: "-left-1 bottom-[14%]", delay: 2.4 },
+    { icon: "split", label: "A/B tests", pos: "-right-1 bottom-[8%]", delay: 0.7 },
   ];
   return (
     <div className="hero-in hero-in-2 mt-6 xl:hidden">

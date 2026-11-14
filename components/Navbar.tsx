@@ -57,7 +57,7 @@ export default function Navbar() {
           <span className="leading-tight">
             Kunal Farma
             <span className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500 sm:block">
-              Product Manager
+              Growth Marketer
             </span>
           </span>
         </Link>
@@ -88,7 +88,7 @@ export default function Navbar() {
               <span className="absolute inline-flex h-full w-full animate-ping rounded-full bg-emerald-400 opacity-60" />
               <span className="relative inline-flex size-2 rounded-full bg-emerald-400" />
             </span>
-            Open to PM roles
+            Open to growth roles
           </span>
           <Link
             href="/#contact"
@@ -158,7 +158,7 @@ export default function Navbar() {
             </Link>
             <p className="mt-4 flex items-center gap-2 text-[13px] text-zinc-500">
               <span aria-hidden className="size-2 rounded-full bg-emerald-400" />
-              Open to PM roles · {profile.location}
+              Open to growth roles · {profile.location}
             </p>
           </div>
         </div>

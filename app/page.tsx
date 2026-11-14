@@ -22,7 +22,7 @@ import {
 /*
  * The homepage is one journey: a zig-zag spine (JourneyPath) runs from the
  * hero to contact through every SpineNode. First the four "how I work"
- * stations — Discover → Define → Deliver → Measure — then the proof: case
+ * stations — Find → Plan → Run → Measure — then the proof: case
  * studies, experience, toolkit. On lg+ the stations alternate sides of the
  * spine; on phones every node sits on a left rail (a straight timeline)
  * mirrored by a progress strip under the navbar.
@@ -54,7 +54,7 @@ function HowIWork() {
           <p className="text-[13px] font-medium uppercase tracking-[0.22em] text-zinc-500">How I work</p>
           <div className="mask">
             <h2 className={h2}>
-              From insight <span className={serifAccent}>to impact.</span>
+              From traffic <span className={serifAccent}>to revenue.</span>
             </h2>
           </div>
         </Reveal>
@@ -125,7 +125,7 @@ function Work() {
           eyebrow="Case studies"
           title={
             <>
-              How I solve <span className={serifAccent}>problems.</span>
+              How I grow <span className={serifAccent}>revenue.</span>
             </>
           }
         />
@@ -387,13 +387,13 @@ function Contact() {
         <Reveal className="mt-8 text-center">
           <div className="mask">
             <h2 className="text-[clamp(2.8rem,7vw,6rem)] font-semibold leading-[0.95] tracking-[-0.045em] text-white">
-              Got a problem
+              Got traffic
               <br />
-              to <span className={serifAccent}>solve?</span>
+              to <span className={serifAccent}>convert?</span>
             </h2>
           </div>
           <p className="mt-6 text-lg text-zinc-400">
-            Open to Product Manager roles · {profile.location}. Let&apos;s talk.
+            Open to Growth / Performance Marketing roles · {profile.location}. Let&apos;s talk.
           </p>
         </Reveal>
         <Reveal delay={120} className="mx-auto mt-10 max-w-2xl sm:mt-12">

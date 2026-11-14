@@ -35,11 +35,11 @@ export default function Footer() {
               {profile.name}
             </Link>
             <p className="mt-3 max-w-xs text-[15px] leading-6 text-zinc-400 sm:mt-4">
-              Product Manager. I turn customer problems into products that move business numbers.
+              Growth Marketer. Meta and Google Ads, GA4 tracking and A/B tests that turn traffic into orders.
             </p>
             <p className="mt-4 flex items-center gap-2 text-[13px] text-zinc-500">
               <span aria-hidden className="size-2 rounded-full bg-emerald-400" />
-              Open to PM roles · {profile.location}
+              Open to growth roles · {profile.location}
             </p>
           </div>
 
@@ -107,8 +107,8 @@ export default function Footer() {
         <div className="mt-8 flex flex-col gap-1.5 border-t border-white/10 pt-5 text-[13px] text-zinc-500 sm:mt-10 sm:flex-row sm:items-center sm:justify-between sm:pt-6">
           <p>© 2026 {profile.name}</p>
           <p className="max-w-xl sm:text-right">
-            Mahattaart is real work; Amazon, FinBridge and CareLoop are practice studies
-            <span className="hidden sm:inline"> (FinBridge and CareLoop are illustrative companies)</span>.
+            Mahattaart is real work; StepKart, FinBridge and CareLoop are practice studies
+            <span className="hidden sm:inline"> (all three are illustrative companies)</span>.
           </p>
         </div>
       </div>

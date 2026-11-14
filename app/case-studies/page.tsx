@@ -4,9 +4,10 @@ import Reveal from "@/components/Reveal";
 import { caseStudies } from "@/lib/content";
 
 export const metadata: Metadata = {
-  title: "Case Studies — Kunal Farma",
+  title: "Growth Marketing Case Studies — Meta Ads, Google Ads, CRO",
+  alternates: { canonical: "/case-studies" },
   description:
-    "One real case study (Mahattaart) and three practice studies across e-commerce, banking (NBFC loans, payments, insurance) and healthcare — problem to learnings, clearly labelled.",
+    "One real growth case study (Mahattaart) and three practice studies across e-commerce ads, NBFC lending and a healthcare app — from the leak in the funnel to the numbers, clearly labelled.",
 };
 
 export default function CaseStudiesIndex() {
@@ -17,21 +18,21 @@ export default function CaseStudiesIndex() {
           Case Studies
         </p>
         <h1 className="mt-2 text-balance text-[38px] font-bold leading-tight tracking-tight text-white sm:text-5xl">
-          How I solve problems.
+          How I grow revenue.
         </h1>
         <p className="mt-5 max-w-2xl text-pretty text-lg leading-8 text-zinc-400">
-          Each one follows the same four steps as my work: Discover, Define,
-          Deliver, Measure.
+          Each one follows the same four steps as my work: Find the leak, Plan
+          the test, Run the ads and experiments, Measure in revenue.
         </p>
       </Reveal>
 
       <Reveal delay={120} className="mt-8 max-w-3xl">
         <div className="rounded-xl border border-white/10 bg-white/[0.03] p-4 text-sm leading-6 text-zinc-300">
           <strong className="text-white">One real, three practice — same method.</strong>{" "}
-          Mahattaart is work I shipped. For e-commerce, banking and healthcare I took a
-          real-world problem and worked it the same way, so you can see how I think before
-          you share your data. Practice studies use public reports and my own reasoning;
-          FinBridge and CareLoop are illustrative companies.
+          Mahattaart is work I did. For e-commerce ads, NBFC lending and a healthcare app I
+          took a real-world growth problem and worked it the same way, so you can see how I
+          think before you share your data. Practice studies use public reports and my own
+          reasoning; StepKart, FinBridge and CareLoop are illustrative companies.
         </div>
       </Reveal>
 

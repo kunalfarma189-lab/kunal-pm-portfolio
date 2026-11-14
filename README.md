@@ -1,4 +1,4 @@
-# Kunal Farma — Product Manager Portfolio
+# Kunal Farma — Growth Marketer Portfolio
 
 **Live site:** https://kunal-pm-portfolio.vercel.app/ (auto-deploys from `main` via Vercel — free Hobby plan, no cold starts). The older Render service at https://kunal-pm-portfolio.onrender.com/ still deploys from `main` too, but its free tier sleeps when idle.
 
@@ -36,13 +36,13 @@ Everything lives in `lib/content.ts`:
 
 - `profile` — name, contact details, links.
 - `hero` and `capabilities` — the headline strap and the six icons around the portrait (`x`/`y` are % positions on desktop).
-- `stations` — the four "how I work" steps (Discover → Define → Deliver → Measure); each has `points` (short numbered lines) and `proof` chips.
-- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `certifications` (all eight, with issuer), `toolkit`.
+- `stations` — the four "how I work" steps (Find → Plan → Run → Measure; the case-study data keys are still `discover` / `define` / `deliver` / `measure`); each has `points` (short numbered lines) and `proof` chips.
+- `proofStats`, `experience` (with each job's optional `solved` problems and `caseStudy` link), `credentials`, `certifications` (name and issuer), `toolkit`.
 - `caseStudies` — each has `kind` (`"work"` for real work, `"practice"` for a thinking exercise) and four chapters: `discover`, `define`, `deliver`, `measure`. The homepage features the `work` study above the practice ones. `caseStudiesAreDemo` swaps the practice badge to "Demo".
 
 Section ids used by the navbar: `#top`, `#how`, `#case-studies`, `#experience`, `#skills`, `#contact`. If you rename one in `app/page.tsx`, update `components/Navbar.tsx` too.
 
-Content comes from the master resume and from Kunal's own account of his work — don't add claims or numbers that aren't backed by one of those. The Amazon / FinBridge / CareLoop studies (e-commerce, banking, healthcare) are **practice exercises, not client work** — FinBridge and CareLoop are illustrative, made-up companies; the badge on each card, the index note and the detail-page banner keep this explicit — please keep them.
+Content comes from the growth-marketing resume (Kunal_Farma_Growth_Marketing_Resume) and from Kunal’s own account of his work — don't add claims or numbers that aren't backed by one of those. The StepKart / FinBridge / CareLoop studies (e-commerce ads, NBFC lending, a healthcare app) are **practice exercises, not client work** — all three are illustrative, made-up companies; the badge on each card, the index note and the detail-page banner keep this explicit — please keep them.
 
 ## Run it locally
 

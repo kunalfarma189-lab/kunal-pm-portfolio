@@ -17,9 +17,12 @@ export async function generateMetadata({
   const { slug } = await params;
   const cs = caseStudies.find((c) => c.slug === slug);
   if (!cs) return {};
+  const title = `${cs.title} — ${cs.company.split(" (")[0]} growth case study${cs.kind === "work" ? "" : " (practice)"}`;
   return {
-    title: `${cs.company} case study${cs.kind === "work" ? "" : " (practice)"} — Kunal Farma`,
+    title,
     description: cs.oneLiner,
+    alternates: { canonical: `/case-studies/${cs.slug}` },
+    openGraph: { type: "article", title, description: cs.oneLiner, url: `/case-studies/${cs.slug}` },
   };
 }
 
@@ -33,9 +36,9 @@ const serifAccent = "font-serif font-normal italic tracking-[-0.01em] text-[#c3c
 const card = "rounded-2xl border border-white/10 bg-[#090c14]";
 
 const chapters = [
-  { id: "discover", n: "01", label: "Discover", icon: "research", title: "What is the problem?" },
-  { id: "define", n: "02", label: "Define", icon: "strategy", title: "What should we build, and why?" },
-  { id: "deliver", n: "03", label: "Deliver", icon: "execution", title: "How do we build it?" },
+  { id: "find", n: "01", label: "Find", icon: "research", title: "Where does growth leak?" },
+  { id: "plan", n: "02", label: "Plan", icon: "strategy", title: "What do we test, and why?" },
+  { id: "run", n: "03", label: "Run", icon: "send", title: "How do we run it?" },
   { id: "measure", n: "04", label: "Measure", icon: "data", title: "Did it work?" },
 ] as const;
 
@@ -142,8 +145,8 @@ export default async function CaseStudyPage({
         {cs.kind === "work" ? (
           <p className="rounded-2xl border border-emerald-300/25 bg-emerald-300/[0.06] p-4 text-[15px] leading-6 text-emerald-100/90">
             <strong className="font-semibold text-emerald-200">From my work at {cs.company}.</strong>{" "}
-            Written from the problem I was given. Details are kept general and no internal
-            numbers are shared.
+            Written from the work on my resume. Details are kept general; the only number is
+            the resume&apos;s own estimate, no internal data is shared.
           </p>
         ) : (
           <p className="rounded-2xl border border-white/10 bg-white/[0.03] p-4 text-[15px] leading-6 text-zinc-300">
@@ -265,7 +268,7 @@ export default async function CaseStudyPage({
           </div>
 
           <div>
-            <Label>Build in this order</Label>
+            <Label>Fix in this order</Label>
             <ol className="space-y-3">
               {cs.define.bets.map((b, i) => {
                 const first = i === 0;
@@ -308,8 +311,8 @@ export default async function CaseStudyPage({
 
           <div className="grid gap-3 sm:grid-cols-2">
             {[
-              ["Build first", cs.deliver.now, true],
-              ["Build later", cs.deliver.later, false],
+              ["Do first", cs.deliver.now, true],
+              ["Do next", cs.deliver.later, false],
             ].map(([k, items, accent]) => (
               <div key={k as string} className={`rounded-2xl border p-5 ${accent ? "border-[#a9bcff]/30 bg-[#a9bcff]/[0.04]" : "border-white/10 bg-[#090c14]"}`}>
                 <h3 className="text-[13px] font-medium uppercase tracking-[0.2em] text-zinc-500">{k as string}</h3>
