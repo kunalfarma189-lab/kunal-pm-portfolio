@@ -1,6 +1,6 @@
 # Kunal Farma — Growth Marketer Portfolio
 
-**Live site:** https://kunal-pm-portfolio.vercel.app/ (auto-deploys from `main` via Vercel — free Hobby plan, no cold starts). The older Render service at https://kunal-pm-portfolio.onrender.com/ still deploys from `main` too, but its free tier sleeps when idle.
+**Live site:** https://kunal-farma.vercel.app/ (auto-deploys from `main` via Vercel — free Hobby plan, no cold starts). The older Render service at https://kunal-pm-portfolio.onrender.com/ still deploys from `main` too, but its free tier sleeps when idle.
 
 ## How the site is built
 

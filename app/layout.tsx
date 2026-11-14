@@ -30,7 +30,7 @@ const description =
 // The title carries the terms a recruiter types: name, role, channels,
 // city. Child pages set their own title; the template adds the name.
 export const metadata: Metadata = {
-  metadataBase: new URL("https://kunal-pm-portfolio.vercel.app"),
+  metadataBase: new URL("https://kunal-farma.vercel.app"),
   title: {
     default: "Kunal Farma — Growth Marketer | Meta Ads, Google Ads & E-commerce CRO, New Delhi",
     template: "%s | Kunal Farma",

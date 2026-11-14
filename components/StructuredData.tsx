@@ -8,7 +8,7 @@ import { certifications, experience, profile } from "@/lib/content";
  * "Growth Marketer · New Delhi" facts count for ranking.
  */
 
-const base = "https://kunal-pm-portfolio.vercel.app";
+const base = "https://kunal-farma.vercel.app";
 
 export default function StructuredData() {
   const person = {

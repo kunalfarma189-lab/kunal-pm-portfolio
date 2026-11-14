@@ -1,7 +1,7 @@
 import type { MetadataRoute } from "next";
 import { caseStudies } from "@/lib/content";
 
-const base = "https://kunal-pm-portfolio.vercel.app";
+const base = "https://kunal-farma.vercel.app";
 
 // Every page, with the homepage first so crawlers rank it as the entry.
 export default function sitemap(): MetadataRoute.Sitemap {
