@@ -4,6 +4,7 @@ import Hero from "@/components/home/Hero";
 import JourneyPath from "@/components/home/JourneyPath";
 import FlowPreview from "@/components/home/FlowPreview";
 import Spotlight from "@/components/home/Spotlight";
+import Portfolio from "@/components/home/Portfolio";
 import { Aurora, CountUp, GravityChips, Tilt } from "@/components/home/Motion";
 import { SpineNode, StationRow } from "@/components/home/Story";
 import { ArrowRight, capabilityIcons, contactIcons } from "@/components/home/Icons";
@@ -228,7 +229,7 @@ function Experience() {
         <Reveal className="mx-auto mt-12 max-w-4xl sm:mt-14">
           <ol className="divide-y divide-white/10 rounded-[1.75rem] border border-white/10 bg-[#090c14]">
             {experience.map((job) => (
-              <li key={job.company} className="p-5 sm:p-8">
+              <li key={`${job.company} ${job.period}`} className="p-5 sm:p-8">
                 <div className="flex items-start gap-4 sm:gap-5">
                   <span className="grid size-11 shrink-0 place-items-center rounded-2xl border border-white/20 text-zinc-100 sm:size-12">
                     {capabilityIcons[job.icon]({ className: "size-5" })}
@@ -393,7 +394,7 @@ function Contact() {
             </h2>
           </div>
           <p className="mt-6 text-lg text-zinc-400">
-            Open to Growth / Performance Marketing roles · {profile.location}. Let&apos;s talk.
+            Open to Performance / Growth Marketing roles · {profile.location}. Let&apos;s talk.
           </p>
         </Reveal>
         <Reveal delay={120} className="mx-auto mt-10 max-w-2xl sm:mt-12">
@@ -432,6 +433,7 @@ export default function Home() {
       <JourneyPath>
         <HowIWork />
         <Work />
+        <Portfolio />
         <Experience />
         <Toolkit />
         <Contact />

@@ -7,8 +7,8 @@
 
 export const profile = {
   name: "Kunal Farma",
-  headline: "Growth Marketer",
-  focus: "Meta Ads · Google Ads · E-commerce CRO · GA4 Analytics",
+  headline: "Performance Marketer",
+  focus: "E-commerce · Paid Media · Meta Ads & Google Ads · GA4 · GTM · CRO",
   location: "New Delhi, India",
   email: "kunalfarma189@gmail.com",
   linkedin: "https://www.linkedin.com/in/kunal-farma/",
@@ -356,9 +356,9 @@ export const caseStudies: CaseStudy[] = [
 // ------------------------------------------------------------------
 
 export const hero = {
-  eyebrow: "Kunal Farma · Growth Marketer",
+  eyebrow: "Kunal Farma · Performance Marketer",
   subtitle:
-    "I’m a Growth Marketer with 4+ years in e-commerce. I run Meta and Google Ads, bring the right traffic, and fix the funnel so more visitors buy — tracked in GA4, proven with A/B tests.",
+    "I’m a Performance Marketer with 4+ years in e-commerce. I run Meta and Google Ads end to end, own the tracking in GA4 and GTM, and fix landing pages, product pages and checkout so more of that traffic buys.",
 };
 
 // Static icons around the portrait. x/y = % position in the portrait
@@ -438,54 +438,84 @@ export const proofStats = [
 export const experience = [
   {
     icon: "send",
-    company: "Mahattaart",
-    role: "Growth Marketer",
-    period: "Jan 2024 — now",
-    highlight: "Meta & Google Ads · funnel tracking in GA4/GTM · A/B tests on Statsig",
+    company: "MahattaArt Private Limited",
+    role: "Performance Marketer",
+    period: "Nov 2025 — now",
+    highlight: "Meta & Google Ads end to end · GA4 and GTM tracking · sales campaigns · CRO on landing, product and checkout",
     solved: [
       {
         icon: "send",
-        title: "Ads with no link to purchases",
-        body: "Meta and Google campaigns for custom wallpapers and frames: structure, audience and lookalike targeting, creative tests, retargeting — ROAS and CPA tracked against GA4 conversions.",
+        title: "Campaigns from setup to reporting",
+        body: "Run Meta Ads and Google Ads for the e-commerce store: setup, targeting, optimisation and reporting, with ROAS and CPA read against GA4 purchases.",
       },
       {
         icon: "chart",
-        title: "A funnel nobody could see",
-        body: "Built the full tracking layer in GA4 and GTM: filters, mockup changes, wall-size input, preview, pricing updates, purchase. Funnel visibility for the first time.",
+        title: "Tracking nobody owned",
+        body: "Own campaign and conversion tracking in GA4 and Google Tag Manager, so every ad rupee is judged on real orders.",
+      },
+      {
+        icon: "roadmap",
+        title: "Promotions across paid and owned channels",
+        body: "Plan and execute sales campaigns and promotions across ads, email and the website.",
       },
       {
         icon: "split",
-        title: "A drop at the customisation step",
-        body: "Found the biggest drop at customisation and quote; tested pricing display, wall-size input and preview flow on Statsig. Estimated 12% lift in customisation-to-checkout.",
+        title: "Drops on the way to checkout",
+        body: "Analyse user journeys and drive landing page, product page and checkout improvements to raise conversion; tested on Statsig.",
       },
     ],
-    focus: "ROAS · CPA · add-to-cart and checkout rate",
+    focus: "ROAS · CPA · conversion rate · checkout rate",
     caseStudy: "mahattaart-custom-wall-decor",
+  },
+  {
+    icon: "box",
+    company: "MahattaArt Private Limited",
+    role: "Product Operations · E-commerce",
+    period: "Jan 2024 — Oct 2025",
+    highlight: "Website operations · product updates · GA4/GTM tracking requirements · funnel and customer journey improvements",
+    solved: [
+      {
+        icon: "box",
+        title: "A store that needed running",
+        body: "Managed e-commerce website operations, product updates and customer journey improvements.",
+      },
+      {
+        icon: "support",
+        title: "Website and checkout issues",
+        body: "Coordinated with developers and business teams to find and resolve website and checkout problems.",
+      },
+      {
+        icon: "chart",
+        title: "Analytics requirements",
+        body: "Worked with GA4 and Google Tag Manager for website analytics and tracking requirements; spotted opportunities in product pages and conversion funnels.",
+      },
+    ],
+    focus: "Checkout issues closed · product pages · conversion funnel",
   },
   {
     icon: "research",
     company: "VLE Bazaar",
-    role: "Growth Specialist (Product Catalog)",
+    role: "Catalog Operations",
     period: "Sep — Dec 2023",
-    highlight: "Meta & Google Ads · +11% website traffic · +8% conversion",
+    highlight: "Product catalog operations · listings and content · +11% traffic · +8% conversion",
     solved: [
       {
-        icon: "send",
-        title: "Campaigns across Meta and Google",
-        body: "Facebook, Instagram, Google Search and Shopping campaigns for the website: keyword and audience targeting, bid and budget management, ROAS tracking.",
+        icon: "checklist",
+        title: "A catalog that had to sell",
+        body: "Managed product catalog operations for the VLE Bazaar website: product listings, content and updates.",
       },
       {
         icon: "data",
         title: "Traffic that had to convert",
-        body: "Contributed to about 11% website traffic growth and an 8% conversion improvement over the engagement.",
+        body: "Contributed to about 11% website traffic growth and an 8% conversion improvement over the engagement, tracked in GA4 and GTM.",
       },
     ],
-    focus: "Traffic · conversion rate · ROAS",
+    focus: "Traffic · conversion rate · catalog quality",
   },
   {
     icon: "doc",
     company: "Homafy",
-    role: "E-commerce Executive",
+    role: "SEO Executive",
     period: "Jan 2022 — Aug 2023",
     highlight: "On-page SEO for product and category pages · +9% sales",
     solved: [
@@ -588,3 +618,179 @@ export const toolkit = [
 // Set to true to show a "Demo" badge on the homepage cards instead of
 // "Hypothetical" (e.g. while swapping in new studies).
 export const caseStudiesAreDemo = false;
+
+// ------------------------------------------------------------------
+// BUILD PORTFOLIO — the six things a performance-marketing hiring
+// manager asks to see. Every item is tagged honestly: "Real work" is
+// something I did, "Practice" is my own exercise, "Sample" is a
+// template I use, "On request" means I share it in a conversation
+// (client assets are not published). `icon` keys map to Icons.tsx.
+// ------------------------------------------------------------------
+
+export type PortfolioTag = "Real work" | "Practice" | "Sample" | "On request";
+
+export interface PortfolioItem {
+  title: string;
+  body: string;
+  tag: PortfolioTag;
+  href?: string;
+}
+
+export interface PortfolioGroup {
+  key: string;
+  title: string;
+  icon: string;
+  blurb: string;
+  items: PortfolioItem[];
+}
+
+export const portfolio: PortfolioGroup[] = [
+  {
+    key: "campaigns",
+    title: "Real Campaigns",
+    icon: "send",
+    blurb: "Paid campaigns I have set up, run and reported on.",
+    items: [
+      {
+        title: "Meta Ads for custom wall décor · MahattaArt",
+        body: "Prospecting and retargeting for custom wallpapers and frames: campaign structure, audience and lookalike targeting, creative and copy tests, ROAS and CPA read against GA4 purchases.",
+        tag: "Real work",
+        href: "/case-studies/mahattaart-custom-wall-decor",
+      },
+      {
+        title: "Google Search & Shopping · MahattaArt and VLE Bazaar",
+        body: "Keyword and audience targeting, bid and budget management, conversion tracking through GTM.",
+        tag: "Real work",
+      },
+      {
+        title: "Sales campaigns and promotions · MahattaArt",
+        body: "Seasonal offers planned and run across paid and owned channels: ads, email and the website.",
+        tag: "Real work",
+      },
+      {
+        title: "Account screenshots and numbers",
+        body: "Ads Manager views and campaign-level results are client data; I walk through them in a call.",
+        tag: "On request",
+      },
+    ],
+  },
+  {
+    key: "projects",
+    title: "Real Projects",
+    icon: "roadmap",
+    blurb: "Bigger pieces of work with a start, an end and a result.",
+    items: [
+      {
+        title: "Full-funnel tracking layer in GA4 and GTM · MahattaArt",
+        body: "Events on every customisation step (filters, mockup, wall size, preview, pricing, purchase). The funnel became visible for the first time; the biggest drop became obvious.",
+        tag: "Real work",
+        href: "/case-studies/mahattaart-custom-wall-decor",
+      },
+      {
+        title: "Izhaara · D2C personalised gifting store",
+        body: "A brand and e-commerce platform I am building from scratch: product personalisation, hampers, Razorpay checkout, admin panel and analytics, designed for repeat purchase and SEO from day one.",
+        tag: "Real work",
+      },
+      {
+        title: "Catalog operations · VLE Bazaar",
+        body: "Product listings, content and updates for the website; about 11% traffic growth and 8% conversion improvement during the engagement.",
+        tag: "Real work",
+      },
+      {
+        title: "On-page SEO for product and category pages · Homafy",
+        body: "Keyword research, metadata, product content, indexing and crawl fixes through Search Console and sitemaps; about 9% sales growth.",
+        tag: "Real work",
+      },
+    ],
+  },
+  {
+    key: "case-studies",
+    title: "Case Studies",
+    icon: "doc",
+    blurb: "Find → Plan → Run → Measure, written in plain words.",
+    items: [
+      {
+        title: "Finding where custom wallpaper buyers drop, and fixing it",
+        body: "The one real study: tracking first, then the biggest drop, then the test.",
+        tag: "Real work",
+        href: "/case-studies/mahattaart-custom-wall-decor",
+      },
+      {
+        title: "Three practice studies: footwear ads, NBFC lending, healthcare app",
+        body: "My own thinking exercises on made-up companies, clearly labelled, every number a public benchmark or a stated guess.",
+        tag: "Practice",
+        href: "/case-studies",
+      },
+    ],
+  },
+  {
+    key: "landing-pages",
+    title: "Landing Pages",
+    icon: "design",
+    blurb: "Pages built or improved so paid traffic converts.",
+    items: [
+      {
+        title: "Landing, product and checkout improvements · MahattaArt",
+        body: "Pricing display, wall-size input and preview flow tested on Statsig at the step where visitors dropped.",
+        tag: "Real work",
+        href: "/case-studies/mahattaart-custom-wall-decor",
+      },
+      {
+        title: "Izhaara storefront",
+        body: "Homepage, collection pages and a product page with live personalisation preview, built mobile-first with conversion in mind.",
+        tag: "Real work",
+      },
+      {
+        title: "Ad-to-page match checklist",
+        body: "What every paid landing page must have above the fold: the product the ad showed, price, trust, one action.",
+        tag: "Sample",
+      },
+    ],
+  },
+  {
+    key: "ad-creatives",
+    title: "Ad Creatives",
+    icon: "bulb",
+    blurb: "Hooks, formats and the tests behind them.",
+    items: [
+      {
+        title: "Creative and copy testing · MahattaArt",
+        body: "Weekly hook and format tests for Meta: same offer, new angle, paused below the account average CTR after enough spend.",
+        tag: "Real work",
+      },
+      {
+        title: "Creative test framework",
+        body: "One variable per test: hook, visual, offer or format. A kill rule, a winner rule and a refresh cadence to avoid fatigue.",
+        tag: "Sample",
+      },
+      {
+        title: "Creative samples",
+        body: "Client creatives are not published here; I share examples and results in a conversation.",
+        tag: "On request",
+      },
+    ],
+  },
+  {
+    key: "media-plans",
+    title: "Media Plans",
+    icon: "chart",
+    blurb: "How I split a budget and what I expect back.",
+    items: [
+      {
+        title: "Budget split by funnel stage",
+        body: "Prospecting, retargeting and retention with their own budgets, so each layer's ROAS tells you where the next rupee goes.",
+        tag: "Sample",
+      },
+      {
+        title: "Promotions calendar · MahattaArt",
+        body: "Sales campaigns planned around occasions and stock, with channel, budget and the metric each one is judged on.",
+        tag: "Real work",
+      },
+      {
+        title: "Plan template: goal → channel → budget → target CPA",
+        body: "One sheet: objective, audience, channel mix, monthly budget, expected CPA and ROAS, and the GA4 events that prove it.",
+        tag: "Sample",
+      },
+    ],
+  },
+];

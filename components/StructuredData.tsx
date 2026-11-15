@@ -5,7 +5,7 @@ import { certifications, experience, profile } from "@/lib/content";
  * is about: a Person with a job title, location, employer, skills and
  * profile links, and the site as a ProfilePage for that person. This is
  * what lets a search for the name show a knowledge card and lets the
- * "Growth Marketer · New Delhi" facts count for ranking.
+ * "Performance Marketer · New Delhi" facts count for ranking.
  */
 
 const base = "https://kunal-pm-portfolio.vercel.app";
@@ -17,7 +17,7 @@ export default function StructuredData() {
     name: profile.name,
     jobTitle: profile.headline,
     description:
-      "Growth Marketer with 4+ years in e-commerce: Meta Ads, Google Ads, conversion rate optimisation and GA4 analytics.",
+      "Performance Marketer with 4+ years in e-commerce: Meta Ads, Google Ads, conversion rate optimisation and GA4 analytics.",
     url: base,
     image: `${base}${profile.portrait}`,
     email: `mailto:${profile.email}`,
@@ -27,6 +27,7 @@ export default function StructuredData() {
     alumniOf: { "@type": "CollegeOrUniversity", name: "Guru Gobind Singh Indraprastha University" },
     sameAs: [profile.linkedin, profile.github],
     knowsAbout: [
+      "Performance marketing",
       "Growth marketing",
       "Performance marketing",
       "Meta Ads",

@@ -25,22 +25,22 @@ const instrumentSerif = Instrument_Serif({
 });
 
 const description =
-  "Kunal Farma is a Growth Marketer in New Delhi with 4+ years in e-commerce: Meta Ads, Google Ads, conversion rate optimisation and GA4 analytics — bringing the right traffic and fixing the funnel so more visitors buy.";
+  "Kunal Farma is a Performance Marketer in New Delhi with 4+ years in e-commerce: Meta Ads, Google Ads, conversion rate optimisation and GA4 analytics — bringing the right traffic and fixing the funnel so more visitors buy.";
 
 // The title carries the terms a recruiter types: name, role, channels,
 // city. Child pages set their own title; the template adds the name.
 export const metadata: Metadata = {
   metadataBase: new URL("https://kunal-pm-portfolio.vercel.app"),
   title: {
-    default: "Kunal Farma — Growth Marketer | Meta Ads, Google Ads & E-commerce CRO, New Delhi",
+    default: "Kunal Farma — Performance Marketer | Meta Ads, Google Ads & E-commerce CRO, New Delhi",
     template: "%s | Kunal Farma",
   },
   description,
   keywords: [
     "Kunal Farma",
-    "Growth Marketer",
     "Performance Marketer",
-    "Growth Marketing New Delhi",
+    "Paid Media Specialist",
+    "Performance Marketing New Delhi",
     "Performance Marketing Delhi",
     "Meta Ads specialist",
     "Facebook Ads",
@@ -53,8 +53,8 @@ export const metadata: Metadata = {
     "Google Tag Manager",
     "A/B testing",
     "ROAS",
-    "E-commerce growth marketer India",
-    "Growth marketer portfolio",
+    "E-commerce performance marketer India",
+    "Performance marketer portfolio",
   ],
   authors: [{ name: "Kunal Farma", url: "https://www.linkedin.com/in/kunal-farma/" }],
   creator: "Kunal Farma",
@@ -72,14 +72,14 @@ export const metadata: Metadata = {
     siteName: "Kunal Farma",
     locale: "en_IN",
     url: "/",
-    title: "Kunal Farma — Growth Marketer | Meta Ads, Google Ads & E-commerce CRO",
+    title: "Kunal Farma — Performance Marketer | Meta Ads, Google Ads & E-commerce CRO",
     description:
       "4+ years in e-commerce growth: Meta and Google Ads, GA4 and GTM tracking, A/B tests and CRO, measured in ROAS and revenue. New Delhi, India.",
-    images: [{ url: "/kunal-farma.jpg", width: 900, height: 1200, alt: "Portrait of Kunal Farma, Growth Marketer" }],
+    images: [{ url: "/kunal-farma.jpg", width: 900, height: 1200, alt: "Portrait of Kunal Farma, Performance Marketer" }],
   },
   twitter: {
     card: "summary_large_image",
-    title: "Kunal Farma — Growth Marketer",
+    title: "Kunal Farma — Performance Marketer",
     description: "Meta Ads, Google Ads, GA4 and CRO for e-commerce. 4+ years, New Delhi.",
     images: ["/kunal-farma.jpg"],
   },

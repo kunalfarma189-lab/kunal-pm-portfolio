@@ -5,6 +5,7 @@ import { contactIcons } from "@/components/home/Icons";
 const pages = [
   { href: "/#how", label: "How I work" },
   { href: "/#case-studies", label: "Case studies" },
+  { href: "/#portfolio", label: "Portfolio" },
   { href: "/#experience", label: "Experience" },
   { href: "/#skills", label: "Toolkit" },
   { href: "/#contact", label: "Contact" },
@@ -35,7 +36,7 @@ export default function Footer() {
               {profile.name}
             </Link>
             <p className="mt-3 max-w-xs text-[15px] leading-6 text-zinc-400 sm:mt-4">
-              Growth Marketer. Meta and Google Ads, GA4 tracking and A/B tests that turn traffic into orders.
+              Performance Marketer. Meta and Google Ads, GA4 tracking and A/B tests that turn traffic into orders.
             </p>
             <p className="mt-4 flex items-center gap-2 text-[13px] text-zinc-500">
               <span aria-hidden className="size-2 rounded-full bg-emerald-400" />

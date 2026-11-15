@@ -4,9 +4,9 @@ import type { MetadataRoute } from "next";
 // colours and icon, and opens the site full-screen like an app.
 export default function manifest(): MetadataRoute.Manifest {
   return {
-    name: "Kunal Farma — Growth Marketer",
+    name: "Kunal Farma — Performance Marketer",
     short_name: "Kunal Farma",
-    description: "Growth Marketer portfolio: how I work, case studies, experience and toolkit.",
+    description: "Performance Marketer portfolio: how I work, case studies, portfolio, experience and toolkit.",
     start_url: "/",
     display: "standalone",
     background_color: "#05070c",

@@ -8,6 +8,7 @@ import { profile } from "@/lib/content";
 const links = [
   { id: "how", href: "/#how", label: "How I work" },
   { id: "case-studies", href: "/#case-studies", label: "Case studies" },
+  { id: "portfolio", href: "/#portfolio", label: "Portfolio" },
   { id: "experience", href: "/#experience", label: "Experience" },
   { id: "skills", href: "/#skills", label: "Toolkit" },
 ];
@@ -57,7 +58,7 @@ export default function Navbar() {
           <span className="leading-tight">
             Kunal Farma
             <span className="hidden text-[11px] font-medium uppercase tracking-[0.18em] text-zinc-500 sm:block">
-              Growth Marketer
+              Performance Marketer
             </span>
           </span>
         </Link>
